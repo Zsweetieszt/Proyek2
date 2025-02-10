@@ -1,0 +1,15 @@
+#include <graphics.h>
+#include <conio.h>
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    // Gambar garis dari titik (100, 100) ke (200, 200)
+    line(100, 100, 200, 200);
+
+    // Menunggu input pengguna sebelum menutup layar
+    getch();
+    closegraph();
+    return 0;
+}
