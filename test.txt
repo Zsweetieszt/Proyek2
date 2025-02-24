@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Hallo tes tes 123 saya mau commit guys
+=======
+Hallo ini dinan
+>>>>>>> 8dbfcddcc8c614634d7e66bf7ec12233b221c342
