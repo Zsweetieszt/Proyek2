@@ -13,6 +13,7 @@
 #define MAP_HEIGHT 5
 #define PLAYER_SIZE 20
 #define MONSTER_SIZE 20
+#define SPIKE 6
 
 int playerX = 100, playerY = GROUND_HEIGHT - 30;
 int velocityY = 0;
@@ -26,7 +27,7 @@ int maps[2][MAP_HEIGHT][MAP_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 5, 0, 0, 0},
         {0, 2, 0, 0, 3, 0, 2, 0, 2, 0},
         {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
-        {0, 0, 0, 4, 0, 2, 4, 0, 2, 0},
+        {0, 2, 6, 0, 0, 2, 4, 0, 2, 0},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     },
     {
@@ -68,6 +69,13 @@ void drawCharacter(int x, int y) {
     fillellipse(x, y, PLAYER_SIZE, PLAYER_SIZE);
 }
 
+void drawSpike(int x, int y) {
+    setcolor(DARKGRAY);
+    setfillstyle(SOLID_FILL, DARKGRAY);
+    int points[] = {x, y, x + 10, y - 30, x + 20, y}; // Ubah posisi y duri
+    fillpoly(3, points);
+}
+
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
@@ -91,6 +99,28 @@ void drawMap() {
                 case 5:
                     drawStar(x + 20, y + 20);
                     break;
+                case 6:
+                    drawSpike(x, y + 20);
+                    break;
+            }
+        }
+    }
+}
+
+void checkCollisionWithSpike() {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < MAP_WIDTH; j++) {
+            if (maps[level][i][j] == SPIKE) {
+                int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) + 10; // Pusat duri X
+                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) +10; // Pusat duri Y
+
+                int dx = playerX - spikeX;
+                int dy = playerY - spikeY;
+                int distance = sqrt(dx * dx + dy * dy);
+
+                if (distance < PLAYER_SIZE +10) { // 10 adalah perkiraan radius duri
+                    isAlive = 0;
+                }
             }
         }
     }
@@ -150,6 +180,7 @@ void updateGame() {
     }
     
     checkCollisionWithMonster();
+    checkCollisionWithSpike();
 }
 
 void handleInput() {
