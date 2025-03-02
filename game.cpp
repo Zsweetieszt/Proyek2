@@ -27,7 +27,7 @@ int maps[2][MAP_HEIGHT][MAP_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 5, 0, 0, 0},
         {0, 2, 0, 0, 3, 0, 2, 0, 2, 0},
         {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
-        {0, 2, 6, 0, 0, 2, 4, 0, 2, 0},
+        {0, 2, 6, 0, 0, 2, 4, 6, 2, 0},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     },
     {
@@ -100,7 +100,7 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + 20);
+                    drawSpike(x, y + 100);
                     break;
             }
         }
@@ -112,13 +112,13 @@ void checkCollisionWithSpike() {
         for (int j = 0; j < MAP_WIDTH; j++) {
             if (maps[level][i][j] == SPIKE) {
                 int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) + 10; // Pusat duri X
-                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) +10; // Pusat duri Y
+                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) +100; // Pusat duri Y
 
                 int dx = playerX - spikeX;
                 int dy = playerY - spikeY;
                 int distance = sqrt(dx * dx + dy * dy);
 
-                if (distance < PLAYER_SIZE +10) { // 10 adalah perkiraan radius duri
+                if (distance < PLAYER_SIZE +17) { // 10 adalah perkiraan radius duri
                     isAlive = 0;
                 }
             }
