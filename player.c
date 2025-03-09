@@ -31,13 +31,13 @@ int mario[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK}
 };
 
-void drawMario(int x, int y) {
+void drawCharacter(int x, int y) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             if (mario[i][j] != BLACK) { // Skip drawing black pixels
                 setfillstyle(SOLID_FILL, mario[i][j]);
-                bar(startX + j * PIXEL_SIZE, startY + i * PIXEL_SIZE, 
-                    startX + (j + 1) * PIXEL_SIZE, startY + (i + 1) * PIXEL_SIZE);
+                bar(x + j * PIXEL_SIZE, y + i * PIXEL_SIZE, 
+                    x + (j + 1) * PIXEL_SIZE, y + (i + 1) * PIXEL_SIZE);
             }
         }
     }
