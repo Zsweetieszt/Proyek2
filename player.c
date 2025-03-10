@@ -21,14 +21,6 @@ void handleInput() {
         } else if (key == 'w' && !isJumping) {
             velocityY = JUMP_STRENGTH;
             isJumping = 1;
-        } else if (key == 'w' && key == 'd' && !isJumping) {
-            playerX += MOVE_SPEED; // Move right
-            velocityY = JUMP_STRENGTH; // Move up
-            isJumping = 1; // Set jumping state
-        } else if (key == 'w' && key == 'a' && !isJumping){
-            playerX -= MOVE_SPEED;
-            velocityY = JUMP_STRENGTH;
-            isJumping = 1;
         }
     }
 }
