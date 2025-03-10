@@ -73,6 +73,5 @@ void displayGameOver() {
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     outtextxy(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2, (char*)"GAME OVER");
     getch();
-    closegraph();
-    exit(0);
+    showMainMenu();
 }
