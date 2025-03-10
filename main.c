@@ -7,6 +7,7 @@ int main() {
     int gd = DETECT, gm;
     initgraph(&gd, &gm, (char*)"");  // Inisialisasi mode grafik
 
+
     while (isAlive) {  // Loop utama game
         cleardevice();  // Bersihkan layar
         drawMap();  // Gambar peta level
