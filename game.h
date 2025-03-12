@@ -13,11 +13,15 @@
 #define GRAVITY 1
 #define JUMP_STRENGTH -15
 #define MOVE_SPEED 5
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 5
+#define MAP_WIDTH 20
+#define MAP_HEIGHT 10
+#define TOTAL_MAP_WIDTH 40
 #define PLAYER_SIZE 20
 #define MONSTER_SIZE 20
+#define SPIKE_SIZE 17
 #define SPIKE 6
+#define SCROLL_SPEED 5
+
 
 // Variabel global (hanya deklarasi, definisi di game.c)
 extern int playerX, playerY;
@@ -25,10 +29,12 @@ extern int velocityY;
 extern int isJumping;
 extern int level;
 extern int isAlive;
-extern int maps[2][MAP_HEIGHT][MAP_WIDTH];
+extern int maps[2][MAP_HEIGHT][TOTAL_MAP_WIDTH];
+extern int cameraX;
+extern int cameraOffset;
 
 // Prototipe fungsi umum
 void updateGame();
 void displayGameOver();
 
-#endif // GAME_H
+#endif

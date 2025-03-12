@@ -15,9 +15,25 @@ void handleInput() {
     if (kbhit()) {
         char key = getch();
         if (key == 'a' && playerX > 0) {
-            playerX -= MOVE_SPEED;
+            if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
+                cameraOffset -= SCROLL_SPEED;
+                if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX -= 2; // Geser kamera per 2 kolom
+                }
+            } else {
+                playerX -= MOVE_SPEED;
+            }
         } else if (key == 'd' && playerX < SCREEN_WIDTH) {
-            playerX += MOVE_SPEED;
+            if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
+                cameraOffset += SCROLL_SPEED;
+                if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX += 4; // Geser kamera per 2 kolom
+                }
+            } else {
+                playerX += MOVE_SPEED;
+            }
         } else if (key == 'w' && !isJumping) {
             velocityY = JUMP_STRENGTH;
             isJumping = 1;

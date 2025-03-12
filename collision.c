@@ -4,10 +4,10 @@
 // Fungsi untuk mendeteksi tabrakan dengan duri
 void checkCollisionWithSpike() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < MAP_WIDTH; j++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[level][i][j] == SPIKE) {
-                int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) + 10;
-                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) + 100;
+                int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) + 10 - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) + 50;
 
                 int dx = playerX - spikeX;
                 int dy = playerY - spikeY;
@@ -24,9 +24,9 @@ void checkCollisionWithSpike() {
 // Fungsi untuk mendeteksi tabrakan dengan monster
 void checkCollisionWithMonster() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < MAP_WIDTH; j++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) { // Iterasi melalui seluruh lebar peta
             if (maps[level][i][j] == 4) {
-                int monsterX = j * (SCREEN_WIDTH / MAP_WIDTH) + 20;
+                int monsterX = j * (SCREEN_WIDTH / MAP_WIDTH) + 20 - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int monsterY = i * (SCREEN_HEIGHT / MAP_HEIGHT) + 20;
 
                 int dx = playerX - monsterX;

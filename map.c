@@ -36,8 +36,11 @@ void drawSpike(int x, int y) {
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            int tile = maps[level][i][j];
-            int x = j * (SCREEN_WIDTH / MAP_WIDTH);
+            int actualX = j + cameraX; // Ambil posisi asli di peta besar
+            if (actualX >= TOTAL_MAP_WIDTH) continue; // Hindari menggambar di luar batas
+
+            int tile = maps[level][i][actualX];
+            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; // Sesuaikan dengan offset kamera
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
             
             switch (tile) {
@@ -57,7 +60,7 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + 100);
+                    drawSpike(x, y + 50);
                     break;
             }
         }

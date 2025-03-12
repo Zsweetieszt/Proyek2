@@ -6,7 +6,7 @@ void drawObstacle(int x, int y);
 void drawStar(int x, int y);
 void drawMonster(int x, int y);
 void drawCharacter(int x, int y);
-void drawSpike(int x, int y);
+void drawSpike();
 void drawMap();
 
 #endif // MAP_H
