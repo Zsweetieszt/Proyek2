@@ -24,6 +24,9 @@ void drawMonster(int x, int y) {
     setcolor(RED);
     setfillstyle(SOLID_FILL, RED);
     fillellipse(x, y, MONSTER_SIZE, MONSTER_SIZE);
+
+    setcolor(YELLOW);
+    rectangle(x - MONSTER_SIZE, y - MONSTER_SIZE, x + MONSTER_SIZE, y + MONSTER_SIZE);
 }
 
 void drawSpike(int x, int y) {
@@ -31,6 +34,7 @@ void drawSpike(int x, int y) {
     setfillstyle(SOLID_FILL, DARKGRAY);
     int points[] = {x, y, x + 10, y - 30, x + 20, y}; // Ubah posisi y duri
     fillpoly(3, points);
+    rectangle(x, y - 30, x + 20, y);
 }
 
 void drawMap() {
