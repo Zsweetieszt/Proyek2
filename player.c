@@ -29,7 +29,7 @@ void handleInput() {
                 cameraOffset += SCROLL_SPEED;
                 if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
                     cameraOffset = 0;
-                    cameraX += 4; // Geser kamera per 2 kolom
+                    cameraX += 2; // Geser kamera per 2 kolom
                 }
             } else {
                 playerX += MOVE_SPEED;
