@@ -1,42 +1,39 @@
 #include "player.h"
 
-// Representasi Mario dalam array 26x18
-int mario[ROWS][COLS] = {
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, RED, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, RED, YELLOW, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, GREEN, GREEN, GREEN, YELLOW, YELLOW, GREEN, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, GREEN, YELLOW, YELLOW, GREEN, YELLOW, YELLOW, GREEN, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, GREEN, YELLOW, YELLOW, GREEN, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, YELLOW, YELLOW, GREEN, GREEN, YELLOW, YELLOW, YELLOW, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, GREEN, GREEN, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, GREEN, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, GREEN, GREEN, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, RED, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, GREEN, RED, GREEN, GREEN, GREEN, GREEN, RED, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, GREEN, GREEN, RED, GREEN, GREEN, GREEN, GREEN, RED, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, GREEN, RED, GREEN, GREEN, GREEN, GREEN, RED, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, GREEN, GREEN, GREEN, GREEN, RED, GREEN, GREEN, GREEN, GREEN, RED, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK},
-    {YELLOW, YELLOW, GREEN, GREEN, RED, YELLOW, RED, RED, RED, RED, YELLOW, RED, GREEN, GREEN, YELLOW, YELLOW, BLACK, BLACK, BLACK},
-    {YELLOW, YELLOW, YELLOW, GREEN, RED, RED, RED, RED, RED, RED, RED, RED, GREEN, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK},
-    {YELLOW, YELLOW, YELLOW, RED, RED, RED, RED, BLACK, BLACK, RED, RED, RED, RED, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK},
-    {BLACK, YELLOW, BLACK, RED, RED, RED, RED, BLACK, BLACK, RED, RED, RED, RED, BLACK, YELLOW, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, RED, RED, RED,  RED, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, GREEN, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK, GREEN, GREEN, GREEN, GREEN, GREEN, BLACK, BLACK, BLACK, BLACK}
-};
-
-void drawCharacter(int x, int y) {
+// Fungsi untuk mencerminkan (mirroring) array
+void mirrorPlayer(int original[ROWS][COLS], int mirrored[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            if (mario[i][j] != BLACK) { // Skip drawing black pixels
-                setfillstyle(SOLID_FILL, mario[i][j]);
-                bar(x + j * PIXEL_SIZE, y + i * PIXEL_SIZE, 
-                    x + (j + 1) * PIXEL_SIZE, y + (i + 1) * PIXEL_SIZE);
+            mirrored[i][j] = original[i][COLS - 1 - j];
+        }
+    }
+}
+
+// Fungsi untuk menggambar player di layar
+void drawCharacter(int player[ROWS][COLS], int x, int y) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (player[i][j] != BLACK) { // Hanya menggambar piksel yang bukan hitam
+                setfillstyle(SOLID_FILL, player[i][j]); // Set warna berdasarkan array
+                bar(
+                    x + j * PIXEL_SIZE,            // Koordinat kiri atas pixel
+                    y + i * PIXEL_SIZE,            // Koordinat atas pixel
+                    x + (j + 1) * PIXEL_SIZE,      // Koordinat kanan bawah pixel
+                    y + (i + 1) * PIXEL_SIZE       // Koordinat bawah pixel
+                );
             }
         }
     }
+}
+
+void drawObstacle(Obstacle obstacle) {
+    setfillstyle(SOLID_FILL, RED);
+    bar(obstacle.x, obstacle.y, obstacle.x + obstacle.width, obstacle.y + obstacle.height);
+}
+
+int checkCollision(int playerX, int playerY, int playerWidth, int playerHeight, Obstacle obstacle) {
+    return (playerX < obstacle.x + obstacle.width &&
+            playerX + playerWidth > obstacle.x &&
+            playerY < obstacle.y + obstacle.height &&
+            playerY + playerHeight > obstacle.y);
 }

@@ -2,22 +2,33 @@
 #define PLAYER_H
 
 #include <graphics.h>
-#include <conio.h>
 
 #define PIXEL_SIZE 3 // Ukuran setiap kotak pixel
-#define ROWS 26 // Jumlah baris dalam array Mario
-#define COLS 19 // Jumlah kolom dalam array Mario
+#define ROWS 26 // Jumlah baris dalam array Player
+#define COLS 19 // Jumlah kolom dalam array Player
 
-// Warna dalam graphics.h
 #define BLACK 0
 #define RED COLOR(173, 58, 42)
 #define GREEN COLOR(106, 107, 27)
 #define YELLOW COLOR(227, 157, 37)
 
-// Deklarasi array Mario
-extern int mario[ROWS][COLS];
+#define SCREEN_WIDTH getmaxwidth()
+#define SCREEN_HEIGHT getmaxheight()
 
-// Deklarasi fungsi
-void drawCharacter(int x, int y);
 
-#endif // MARIO_H
+// Definisi tipe data untuk rintangan
+typedef struct {
+    int x;
+    int y;
+    int width;
+    int height;
+} Obstacle;
+
+// Deklarasi fungsi umum
+void mirrorPlayer(int original[ROWS][COLS], int mirrored[ROWS][COLS]);
+void drawCharacter(int player[ROWS][COLS], int x, int y);
+int checkCollision(int playerX, int playerY, int playerWidth, int playerHeight, Obstacle obstacle);
+void drawObstacle(Obstacle obstacle);
+
+#endif // PLAYER_H
+

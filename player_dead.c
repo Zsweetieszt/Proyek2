@@ -1,7 +1,8 @@
+#include "player.h"
 #include "player_dead.h"
 
 // Representasi Mario dalam array 14x14
-int mario_dead[ROWS][COLS] = {
+int player_dead[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK},
     {BLACK, BLACK, YELLOW, BLACK, RED, RED, RED, RED, RED, RED, BLACK, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK},
     {YELLOW, YELLOW, YELLOW, GREEN, YELLOW, GREEN, YELLOW, YELLOW, GREEN, YELLOW, GREEN, YELLOW, YELLOW, YELLOW},
@@ -16,17 +17,4 @@ int mario_dead[ROWS][COLS] = {
     {BLACK, GREEN, GREEN, GREEN, RED, YELLOW, RED, RED, YELLOW, RED, GREEN, GREEN, GREEN, BLACK},
     {BLACK, GREEN, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, GREEN, BLACK},
     {BLACK, BLACK, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, BLACK, BLACK}
-
 };
-
-void drawCharacter(int x, int y) {
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            if (mario_dead[i][j] != BLACK) { // Skip drawing black pixels
-                setfillstyle(SOLID_FILL, mario_dead[i][j]);
-                bar(x + j * PIXEL_SIZE, y + i * PIXEL_SIZE, 
-                    x + (j + 1) * PIXEL_SIZE, y + (i + 1) * PIXEL_SIZE);
-            }
-        }
-    }
-}
