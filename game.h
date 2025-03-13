@@ -9,13 +9,13 @@
 // Konstanta game
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-#define GROUND_HEIGHT 400
+#define GROUND_HEIGHT 425
 #define GRAVITY 1
 #define JUMP_STRENGTH -15
 #define MOVE_SPEED 5
 #define MAP_WIDTH 20
-#define MAP_HEIGHT 10
-#define TOTAL_MAP_WIDTH 40
+#define MAP_HEIGHT 15
+#define TOTAL_MAP_WIDTH 100
 #define PLAYER_SIZE 20
 #define MONSTER_SIZE 20
 #define SPIKE_SIZE 17

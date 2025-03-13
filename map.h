@@ -8,5 +8,6 @@ void drawMonster(int x, int y);
 void drawCharacter(int x, int y);
 void drawSpike();
 void drawMap();
+void drawGrid();
 
 #endif // MAP_H

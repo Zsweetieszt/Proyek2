@@ -37,6 +37,18 @@ void drawSpike(int x, int y) {
     rectangle(x, y - 30, x + 20, y);
 }
 
+void drawGrid() {
+    setcolor(WHITE);
+    for (int i = 0; i <= MAP_WIDTH; i++) {
+        int x = i * (SCREEN_WIDTH / MAP_WIDTH);
+        line(x, 0, x, SCREEN_HEIGHT);  // Garis vertikal
+    }
+    for (int i = 0; i <= MAP_HEIGHT; i++) {
+        int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+        line(0, y, SCREEN_WIDTH, y);  // Garis horizontal
+    }
+}
+
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
