@@ -5,7 +5,13 @@
 void drawPlatform(int x, int y, int width, int height) {
     setcolor(BLUE);
     setfillstyle(SOLID_FILL, BLUE);
-    bar(x, y, x + width, y + height);
+    bar(x, y, x + 32, y + 32);
+}
+
+void drawGround(int x, int y, int width, int height) {
+    setcolor(BROWN);
+    setfillstyle(SOLID_FILL, BROWN);
+    bar(x, y, x + 32, y + 32);
 }
 
 void drawObstacle(int x, int y) {
@@ -36,6 +42,14 @@ void drawSpike(int x, int y) {
     fillpoly(3, points);
     rectangle(x, y - 30, x + 20, y);
 }
+void drawCloud(int x, int y) {
+    int size = 32; // Ukuran piksel 32
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, LIGHTGRAY);
+    bar(x, y, x + size, y + size * 2 / 3);
+    bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
+    bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
+}
 
 void drawGrid() {
     setcolor(WHITE);
@@ -47,6 +61,68 @@ void drawGrid() {
         int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
         line(0, y, SCREEN_WIDTH, y);  // Garis horizontal
     }
+}
+
+void drawStoneBlock(int x, int y) {
+    setfillstyle(SOLID_FILL, DARKGRAY);
+    bar(x, y, x + 32, y + 32);
+
+    setcolor(LIGHTGRAY);
+    for (int i = 5; i < 32; i += 10) {
+        line(x + i, y, x + i, y + 32);
+    }
+    for (int i = 5; i < 32; i += 10) {
+        line(x, y + i, x + 32, y + i);
+    }
+}
+
+void drawBrickBlock(int x, int y) {
+    setfillstyle(SOLID_FILL, BROWN);
+    bar(x, y, x + 32, y + 32);
+
+    setcolor(DARKGRAY);
+    for (int i = 5; i < 32; i += 10) {
+        line(x, y + i, x + 32, y + i);
+    }
+}
+void drawPipe(int x, int y){
+    setcolor(GREEN);
+    setfillstyle(SOLID_FILL, GREEN);
+    bar(x, y, x + 32, y + 32);   
+}
+
+void drawCloudBlock(int x, int y) {
+    int size = 32;
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, LIGHTGRAY);
+    bar(x, y, x + size, y + size * 2 / 3);
+    bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
+    bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
+}
+void drawCoin(int x, int y) {
+    setcolor(YELLOW);
+    setfillstyle(SOLID_FILL, YELLOW);
+    fillellipse(x, y, 10, 20);
+}
+
+void drawBackground() {
+    // Gambar langit biru
+    setfillstyle(SOLID_FILL, LIGHTBLUE);
+    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT+25);
+
+    // Gambar awan (contoh sederhana)
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, WHITE);
+    fillellipse(100, 100, 30, 20);
+    fillellipse(150, 120, 40, 25);
+    fillellipse(200, 110, 35, 22);
+
+    fillellipse(300, 50, 25, 18);
+    fillellipse(340, 60, 30, 20);
+
+    fillellipse(450, 80, 40, 25);
+    fillellipse(500, 70, 35, 22);
+    fillellipse(550, 90, 45, 28);
 }
 
 void drawMap() {
@@ -61,7 +137,7 @@ void drawMap() {
             
             switch (tile) {
                 case 1:
-                    drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
+                    drawGround(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
                     break;
                 case 2:
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
@@ -76,7 +152,22 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + 50);
+                    drawSpike(x, y + 35);
+                    break;
+                case 7:
+                    drawCloud(x + 20, y + 20);
+                    break;
+                case 8:
+                    drawPipe(x + 20, y + 20);
+                    break;
+                case 9:
+                    drawCloud(x + 20, y + 20);
+                    break;
+                case 10:
+                    drawBrickBlock(x + 20, y + 20);
+                    break;
+                case 11:
+                    drawStoneBlock(x + 20, y + 20);
                     break;
             }
         }

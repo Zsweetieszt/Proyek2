@@ -18,7 +18,7 @@ int maps[2][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+        {0, 8, 9, 10, 11, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
@@ -42,25 +42,53 @@ int maps[2][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
 // Fungsi untuk memperbarui status game
 void updateGame() {
     if (!isAlive) return;
-    
+
+    // Simpan posisi pemain sebelumnya
+    int prevPlayerX = playerX;
+    int prevPlayerY = playerY;
+
     playerY += velocityY;
     velocityY += GRAVITY;
-    
-    // Cek apakah pemain berdiri di platform
+
+    // Cek apakah pemain bertabrakan dengan platform
     for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) { // Iterasi melalui seluruh lebar peta
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[level][i][j] == 2) {
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
+                int platformHeight = 10; // Tinggi platform
+                int bottomCollisionOffset = 5;
 
-                if (playerX + PLAYER_SIZE > platformX && playerX - PLAYER_SIZE < platformX + platformWidth && playerY + PLAYER_SIZE >= platformY && playerY + PLAYER_SIZE <= platformY + 10) {
+                // Cek tabrakan dari atas
+                if (playerX + PLAYER_SIZE > platformX && playerX - PLAYER_SIZE < platformX + platformWidth &&
+                    playerY + PLAYER_SIZE > platformY && playerY < platformY + platformHeight && velocityY >= 0) {
                     playerY = platformY - PLAYER_SIZE;
                     velocityY = 0;
                     isJumping = 0;
                 }
+                // Cek tabrakan dari bawah
+                else if (playerX + PLAYER_SIZE  > platformX && playerX - PLAYER_SIZE < platformX + platformWidth &&
+                    playerY < platformY + 35 && playerY > platformY && velocityY < 0) { // Hitbox 36 piksel
+                    playerY = platformY + 35; // Sesuaikan posisi pemain
+                    velocityY = 0;
+                }
+
+               // Cek tabrakan dari kiri
+                if (playerY + PLAYER_SIZE > platformY && playerY - PLAYER_SIZE < platformY + platformHeight &&
+                    playerX + PLAYER_SIZE > platformX && playerX < platformX) {
+                    playerX = platformX - PLAYER_SIZE;
+                }
+                // Cek tabrakan dari kanan
+                else if (playerY + PLAYER_SIZE > platformY && playerY - PLAYER_SIZE < platformY + platformHeight &&
+                    playerX - PLAYER_SIZE < platformX + platformWidth && playerX > platformX + platformWidth) {
+                    playerX = platformX + platformWidth + PLAYER_SIZE;
+                }
             }
         }
+    }
+
+
     
     if (playerY >= GROUND_HEIGHT + 10) {
         playerY = GROUND_HEIGHT + 10;
@@ -77,7 +105,7 @@ void updateGame() {
     checkCollisionWithMonster();
     checkCollisionWithSpike();
 }
-}
+
 
 // Fungsi untuk menampilkan layar Game Over
 void displayGameOver() {
