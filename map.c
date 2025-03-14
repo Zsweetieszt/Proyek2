@@ -21,9 +21,25 @@ void drawStar(int x, int y) {
 }
 
 void drawMonster(int x, int y) {
-    setcolor(RED);
-    setfillstyle(SOLID_FILL, RED);
-    fillellipse(x, y, MONSTER_SIZE, MONSTER_SIZE);
+// Kepala hantu (lingkaran)
+    setfillstyle(SOLID_FILL, WHITE);
+    fillellipse(x, y, 30, 40);
+
+    // Badan hantu (bagian bawah bergelombang)
+    int body[] = {x - 30, y, x - 35, y + 30, x - 25, y + 40, x - 15, y + 30,
+                x - 5, y + 40, x + 5, y + 30, x + 15, y + 40, x + 25, y + 30,
+                x + 30, y, x - 30, y}; 
+    setfillstyle(SOLID_FILL, WHITE);
+    fillpoly(10, body);
+
+    // Mata hantu
+    setfillstyle(SOLID_FILL, BLACK);
+    fillellipse(x - 10, y - 10, 5, 8);
+    fillellipse(x + 10, y - 10, 5, 8);
+
+    // Mulut hantu
+    arc(x, y + 5, 200, 340, 10); // Mulut berbentuk setengah lingkaran
+
 }
 
 void drawSpike(int x, int y) {
