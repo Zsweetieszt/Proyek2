@@ -3,7 +3,6 @@
 
 // Representasi Mario dalam array 26x18
 
-
 int player_walking2[ROWS][COLS]={
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
     {BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, RED, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
@@ -38,6 +37,3 @@ int player_walking2[ROWS][COLS]={
 };
 
 int player_walking2_mirrored[ROWS][COLS];
-
-// Fungsi untuk membuat mirrored array
-    void mirrorPlayer(player_walking2, player_walking2_mirrored);

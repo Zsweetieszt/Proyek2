@@ -40,6 +40,3 @@ int player_walking1[ROWS][COLS]={
 
 
 int player_walking1_mirrored[ROWS][COLS];
-
-// Fungsi untuk membuat mirrored array
-    void mirrorPlayer(player_walking1, player_walking1_mirrored);

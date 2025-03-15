@@ -5,7 +5,7 @@
 
 // Deklarasi array Mario
 extern int player_walking2[ROWS][COLS];
-extern int mario_walking2_mirrored[ROWS][COLS];
+extern int player_walking2_mirrored[ROWS][COLS];
 
 // Deklarasi fungsi
 void mirrorPlayer();

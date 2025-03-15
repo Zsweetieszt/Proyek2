@@ -4,8 +4,8 @@
 #include <graphics.h>
 
 #define PIXEL_SIZE 3 // Ukuran setiap kotak pixel
-#define ROWS 26 // Jumlah baris dalam array Player
-#define COLS 19 // Jumlah kolom dalam array Player
+#define ROWS 35 // Jumlah baris dalam array Player
+#define COLS 25 // Jumlah kolom dalam array Player
 
 #define BLACK 0
 #define RED COLOR(173, 58, 42)
