@@ -12,23 +12,18 @@
 #define GREEN COLOR(106, 107, 27)
 #define YELLOW COLOR(227, 157, 37)
 
-#define SCREEN_WIDTH getmaxwidth()
-#define SCREEN_HEIGHT getmaxheight()
+// Deklarasi animasi dan array karakter
+extern int player_standing[ROWS][COLS];
+extern int player_walking1[ROWS][COLS];
+extern int player_walking2[ROWS][COLS];
+extern int player_dead[ROWS][COLS];
 
-
-// Definisi tipe data untuk rintangan
-typedef struct {
-    int x;
-    int y;
-    int width;
-    int height;
-} Obstacle;
+extern int player_standing_mirrored[ROWS][COLS];
+extern int player_walking1_mirrored[ROWS][COLS];
+extern int player_walking2_mirrored[ROWS][COLS];
 
 // Deklarasi fungsi umum
 void mirrorPlayer(int original[ROWS][COLS], int mirrored[ROWS][COLS]);
 void drawCharacter(int player[ROWS][COLS], int x, int y);
-int checkCollision(int playerX, int playerY, int playerWidth, int playerHeight, Obstacle obstacle);
-void drawObstacle(Obstacle obstacle);
 
 #endif // PLAYER_H
-
