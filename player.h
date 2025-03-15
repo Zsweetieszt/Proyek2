@@ -16,11 +16,13 @@
 extern int player_standing[ROWS][COLS];
 extern int player_walking1[ROWS][COLS];
 extern int player_walking2[ROWS][COLS];
+extern int player_jumping[ROWS][COLS];
 extern int player_dead[ROWS][COLS];
 
 extern int player_standing_mirrored[ROWS][COLS];
 extern int player_walking1_mirrored[ROWS][COLS];
 extern int player_walking2_mirrored[ROWS][COLS];
+extern int player_jumping_mirrorred[ROWS][COLS];
 
 // Deklarasi fungsi umum
 void mirrorPlayer(int original[ROWS][COLS], int mirrored[ROWS][COLS]);
