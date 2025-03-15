@@ -11,10 +11,10 @@
 #define SCREEN_HEIGHT 480
 #define GROUND_HEIGHT 425
 #define GRAVITY 1
-#define JUMP_STRENGTH -15
-#define MOVE_SPEED 5
-#define MAP_WIDTH 20
-#define MAP_HEIGHT 15
+#define JUMP_STRENGTH -17
+#define MOVE_SPEED 7
+#define MAP_WIDTH 16
+#define MAP_HEIGHT 12
 #define TOTAL_MAP_WIDTH 100
 #define PLAYER_SIZE 15
 #define MONSTER_SIZE 20
@@ -37,4 +37,4 @@ extern int cameraOffset;
 void updateGame();
 void displayGameOver();
 
-#endif
+#endif;

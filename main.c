@@ -11,13 +11,13 @@ int main() {
         cleardevice();  // Bersihkan layar
         //drawBackground();
         drawMap();  // Gambar peta level
-        //drawGrid();// Gambar Grid
+        drawGrid();// Gambar Grid
         drawCharacter(playerX, playerY);  // Gambar pemain
         updateGame();  // Perbarui status game
         handleInput();  // Tangani input pemain
         checkCollisionWithMonster();  // Periksa tabrakan dengan monster
         checkCollisionWithSpike();  // Periksa tabrakan dengan duri
-        delay(10);  // Delay untuk kecepatan game
+        delay(5);  // Delay untuk kecepatan game
     }
 
     displayGameOver();  // Tampilkan layar game over
