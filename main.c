@@ -6,7 +6,7 @@
 
 int main() {
     int gd = DETECT, gm;
-    initwindow(getmaxwidth(), getmaxheight(), "Player Animation with One Obstacle");
+    initgraph(&gd, &gm, (char *)"");
 
     // Hasilkan versi mirrored langsung
     mirrorPlayer(player_walking1, player_walking1_mirrored);
