@@ -23,21 +23,16 @@ void checkCollisionWithSpike() {
 
 // Fungsi untuk mendeteksi tabrakan dengan monster
 void checkCollisionWithMonster() {
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) { // Iterasi melalui seluruh lebar peta
-            if (maps[level][i][j] == 4) {
-                int monsterX = j * (SCREEN_WIDTH / MAP_WIDTH) + 20 - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-                int monsterY = i * (SCREEN_HEIGHT / MAP_HEIGHT) + 20;
+    int screenMonsterX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
 
-                int dx = playerX - monsterX;
-                int dy = playerY - monsterY;
-                int distance = sqrt(dx * dx + dy * dy);
+    int dx = playerX - screenMonsterX;
+    int dy = playerY - monsterY;
+    int distance = sqrt(dx * dx + dy * dy);
 
-                if (distance < PLAYER_SIZE + MONSTER_SIZE) {
-                    isAlive = 0;
-                }
-            }
-        }
+    if (distance < PLAYER_SIZE + MONSTER_SIZE) {
+        isAlive = 0;  // Game over jika kena monster
     }
 }
+
+
 

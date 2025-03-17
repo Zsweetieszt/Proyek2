@@ -15,9 +15,9 @@
 #define MOVE_SPEED 7
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 12
-#define TOTAL_MAP_WIDTH 100
+#define TOTAL_MAP_WIDTH 120
 #define PLAYER_SIZE 15
-#define MONSTER_SIZE 20
+#define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
 #define SPIKE 6
 #define SCROLL_SPEED 5
@@ -32,9 +32,11 @@ extern int isAlive;
 extern int maps[2][MAP_HEIGHT][TOTAL_MAP_WIDTH];
 extern int cameraX;
 extern int cameraOffset;
+extern int monsterX, monsterY, monsterDirection;
+
 
 // Prototipe fungsi umum
 void updateGame();
 void displayGameOver();
 
-#endif;
+#endif

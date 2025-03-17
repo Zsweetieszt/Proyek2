@@ -3,16 +3,22 @@
 
 // Fungsi untuk menggambar peta berdasarkan data di array maps
 void drawPlatform(int x, int y, int width, int height) {
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
+    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
     setcolor(BLUE);
     setfillstyle(SOLID_FILL, BLUE);
-    bar(x, y, x + 32, y + 32);
+    bar(x, y, x + tileSizeX, y + tileSizeY);
 }
 
-void drawGround(int x, int y, int width, int height) {
+
+void drawGround(int x, int y) {
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  // Ukuran block sesuai grid
+    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
     setcolor(BROWN);
     setfillstyle(SOLID_FILL, BROWN);
-    bar(x, y, x + 32, y + 32);
+    bar(x, y, x + tileSizeX, y + tileSizeY);
 }
+
 
 void drawObstacle(int x, int y) {
     setcolor(YELLOW);
@@ -26,22 +32,32 @@ void drawStar(int x, int y) {
     fillellipse(x, y, 10, 10);
 }
 
-void drawMonster(int x, int y) {
+void drawMonster() {
+    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
     setcolor(RED);
     setfillstyle(SOLID_FILL, RED);
-    fillellipse(x, y, MONSTER_SIZE, MONSTER_SIZE);
-
-    setcolor(YELLOW);
-    rectangle(x - MONSTER_SIZE, y - MONSTER_SIZE, x + MONSTER_SIZE, y + MONSTER_SIZE);
+    fillellipse(screenX, monsterY, MONSTER_SIZE, MONSTER_SIZE);
 }
+
+
+
 
 void drawSpike(int x, int y) {
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  
+    int spikeHeight = tileSizeX / 2;  // Setengah dari ukuran tile
+
     setcolor(DARKGRAY);
     setfillstyle(SOLID_FILL, DARKGRAY);
-    int points[] = {x, y, x + 10, y - 30, x + 20, y}; // Ubah posisi y duri
+
+    int points[] = {
+        x, y + spikeHeight,               // Bawah kiri
+        x + tileSizeX / 2, y,             // Ujung atas
+        x + tileSizeX, y + spikeHeight    // Bawah kanan
+    };
     fillpoly(3, points);
-    rectangle(x, y - 30, x + 20, y);
 }
+
+
 void drawCloud(int x, int y) {
     int size = 32; // Ukuran piksel 32
     setcolor(WHITE);
@@ -137,7 +153,7 @@ void drawMap() {
             
             switch (tile) {
                 case 1:
-                    drawGround(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
+                    drawGround(x, y);
                     break;
                 case 2:
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
@@ -146,14 +162,14 @@ void drawMap() {
                     drawObstacle(x, y + 10);
                     break;
                 case 4:
-                    drawMonster(x + 20, y + 20);
+                    drawMonster();
                     break;
                 case 5:
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + 35);
-                    break;
+                    drawSpike(x, y + (SCREEN_HEIGHT / MAP_HEIGHT) - (SCREEN_HEIGHT / MAP_HEIGHT) / 2);
+                    break;                                
                 case 7:
                     drawCloud(x + 20, y + 20);
                     break;
