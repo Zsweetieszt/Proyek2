@@ -11,7 +11,7 @@ int main() {
         cleardevice();  // Bersihkan layar
         //drawBackground();
         drawMap();  // Gambar peta level
-        drawGrid();// Gambar Grid
+        //drawGrid();// Gambar Grid
         drawCharacter(playerX, playerY);  // Gambar pemain
         updateGame();  // Perbarui status game
         handleInput();  // Tangani input pemain

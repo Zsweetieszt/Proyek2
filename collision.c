@@ -1,5 +1,6 @@
 #include "game.h"
 #include "collision.h"
+#include <stdbool.h>
 
 // Fungsi untuk mendeteksi tabrakan dengan duri
 void checkCollisionWithSpike() {
@@ -124,6 +125,67 @@ void checkCollisionWithNextLevel() {
                     playerY = GROUND_HEIGHT - 30;
                     cameraX = 0;  // Reset kamera
                     cameraOffset = 0;
+                }
+            }
+        }
+    }
+}
+
+void cheakCollisionWithBlock(){
+    
+    // Cek apakah pemain bertabrakan dengan platform menggunakan AABB
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[level][i][j] == 1 || maps[level][i][j] == 2 || maps[level][i][j] == 8 || maps[level][i][j] == 11) {
+                int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+                int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
+                int platformHeight = 40; // Tinggi platform diperbarui menjadi 40
+
+                // Bounding box pemain (AABB)
+                int playerLeft = playerX - PLAYER_SIZE;
+                int playerRight = playerX + PLAYER_SIZE;
+                int playerTop = playerY - PLAYER_SIZE;
+                int playerBottom = playerY + PLAYER_SIZE;
+
+                // Bounding box platform (AABB)
+                int platformLeft = platformX;
+                int platformRight = platformX + platformWidth;
+                int platformTop = platformY;
+                int platformBottom = platformY + platformHeight;
+
+                /* Gambar hitbox pemain
+                setcolor(RED);
+                rectangle(playerLeft, playerTop, playerRight, playerBottom);
+
+                // Gambar hitbox platform
+                setcolor(GREEN);
+                rectangle(platformLeft, platformTop, platformRight, platformBottom);
+                    */
+                // Deteksi tabrakan AABB
+                bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
+                bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
+
+                if (collisionX && collisionY) {
+                    // Cek tabrakan dari atas (agar pemain bisa berdiri di platform)
+                    if (playerBottom > platformTop && playerTop < platformTop && velocityY >= 0) {
+                        playerY = platformTop - PLAYER_SIZE;
+                        velocityY = 0;
+                        isJumping = 0;
+                    }
+                    // Cek tabrakan dari bawah
+                    else if (playerTop < platformBottom && playerBottom > platformBottom && velocityY < 0) {
+                        playerY = platformBottom + PLAYER_SIZE;
+                        velocityY = 0;
+                    }
+                    // Cek tabrakan dari kiri (hanya jika pemain tidak sedang berdiri di atas platform)
+                    if (playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformBottom) {
+                        playerX = platformLeft - PLAYER_SIZE;
+                    }
+                    // Cek tabrakan dari kanan (hanya jika pemain tidak sedang berdiri di atas platform)
+                    else if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformBottom) {
+                        playerX = platformRight + PLAYER_SIZE;
+                    }
                 }
             }
         }

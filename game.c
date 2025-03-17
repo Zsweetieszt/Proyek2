@@ -70,54 +70,11 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
 void updateGame() {
     if (!isAlive) return;
 
-    // Simpan posisi pemain sebelumnya
-    int prevPlayerX = playerX;
-    int prevPlayerY = playerY;
 
     playerY += velocityY;
     velocityY += GRAVITY;
 
-    // Cek apakah pemain bertabrakan dengan platform
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
-            if (maps[level][i][j] == 1 || maps[level][i][j] == 2 || maps[level][i][j] == 8 || maps[level][i][j] == 11) {
-                int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-                int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
-                int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
-                int platformHeight = 10; // Tinggi platform
-                int bottomCollisionOffset = 5;
 
-                // Cek tabrakan dari atas
-                if (playerX + PLAYER_SIZE > platformX && playerX - PLAYER_SIZE < platformX + platformWidth &&
-                    playerY + PLAYER_SIZE > platformY && playerY < platformY + platformHeight && velocityY >= 0) {
-                    playerY = platformY - PLAYER_SIZE;
-                    velocityY = 0;
-                    isJumping = 0;
-                }
-                // Cek tabrakan dari bawah
-                else if (playerX + PLAYER_SIZE  > platformX && playerX - PLAYER_SIZE < platformX + platformWidth &&
-                    playerY < platformY + 35 && playerY > platformY && velocityY < 0) { // Hitbox 36 piksel
-                    playerY = platformY + 35; // Sesuaikan posisi pemain
-                    velocityY = 0;
-                }
-
-               // Cek tabrakan dari kiri
-                if (playerY + PLAYER_SIZE > platformY && playerY < platformY + platformHeight &&
-                    playerX + PLAYER_SIZE > platformX && playerX < platformX + platformWidth / 2) { 
-                    playerX = platformX - PLAYER_SIZE;  // Kunci pemain di luar tembok kiri
-                }
-
-                // Cek tabrakan dari kanan
-                else if (playerY + PLAYER_SIZE > platformY && playerY < platformY + platformHeight &&
-                    playerX - PLAYER_SIZE < platformX + platformWidth && playerX > platformX + platformWidth / 2) { 
-                    playerX = platformX + platformWidth + PLAYER_SIZE;  // Kunci pemain di luar tembok kanan
-                }
-            }
-        }
-    }
-
-
-    
     if (playerY >= GROUND_HEIGHT + 10) {
         playerY = GROUND_HEIGHT + 10;
         isJumping = 0;
@@ -129,7 +86,8 @@ void updateGame() {
         playerY = GROUND_HEIGHT + 10;
     }
     
-    // Cek tabrakan dengan musuh, duri, coin, starpower, nextLevel
+    // Cek tabrakan dengan musuh, duri, coin, starpower, nextLevel,Block
+    cheakCollisionWithBlock();
     checkCollisionWithMonster();
     checkCollisionWithSpike();
     checkCollisionWithCoin();

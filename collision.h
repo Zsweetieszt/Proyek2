@@ -6,6 +6,7 @@ void checkCollisionWithMonster();
 void checkCollisionWithCoin();
 void checkCollisionWithStar();
 void checkCollisionWithNextLevel();
+void cheakCollisionWithBlock();
 
 
 
