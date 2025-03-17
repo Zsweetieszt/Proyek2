@@ -25,14 +25,25 @@ void checkCollisionWithSpike() {
 void checkCollisionWithMonster() {
     int screenMonsterX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
 
-    int dx = playerX - screenMonsterX;
-    int dy = playerY - monsterY;
-    int distance = sqrt(dx * dx + dy * dy);
+    int monsterSize = MONSTER_SIZE;
+    int playerSize = PLAYER_SIZE;
 
-    if (distance < PLAYER_SIZE + MONSTER_SIZE) {
-        isAlive = 0;  // Game over jika kena monster
+    // Cek tabrakan antara pemain dan monster
+    if (playerX < screenMonsterX + monsterSize &&
+        playerX + playerSize > screenMonsterX &&
+        playerY < monsterY + monsterSize &&
+        playerY + playerSize > monsterY) {
+        
+        if (hasStarPower) {
+            // Jika dalam mode Star Power, bunuh monster
+            monsterX = -1000;  // Pindahkan monster keluar layar (anggap hilang)
+        } else {
+            // Jika tidak punya Star Power, pemain mati
+            isAlive = 0;
+        }
     }
 }
+
 
 void checkCollisionWithCoin() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -61,3 +72,29 @@ void checkCollisionWithCoin() {
     }
 }
 
+void checkCollisionWithStar() {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[level][i][j] == 5) {  // Jika ada Star Power (kode 5)
+                int starX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int starY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+
+                int starWidth = 40;  // Perbesar hitbox Star Power
+                int starHeight = 40;
+                int playerWidth = PLAYER_SIZE;
+                int playerHeight = PLAYER_SIZE;
+
+                // Cek apakah hitbox pemain bertabrakan dengan hitbox Star Power (AABB Collision)
+                if (playerX < starX + starWidth &&
+                    playerX + playerWidth > starX &&
+                    playerY < starY + starHeight &&
+                    playerY + playerHeight > starY) {
+                    
+                    hasStarPower = 1;  // Aktifkan Star Power
+                    starPowerTimer = 300; // 300 frame (5 detik dalam game)
+                    maps[level][i][j] = 0; // Hapus Star Power dari peta
+                }
+            }
+        }
+    }
+}

@@ -3,10 +3,24 @@
 
 // Fungsi untuk menggambar karakter pemain
 void drawCharacter(int x, int y) {
-    setcolor(GREEN);
-    setfillstyle(SOLID_FILL, GREEN);
-    fillellipse(x, y, PLAYER_SIZE, PLAYER_SIZE);
+    if (hasStarPower) {
+        // Efek aura Star Power
+        setcolor(MAGENTA);
+        setfillstyle(SOLID_FILL, MAGENTA);
+        fillellipse(x, y, PLAYER_SIZE + 5, PLAYER_SIZE + 5); // Aura lebih besar
+
+        // Warna karakter berubah jadi ungu
+        setcolor(MAGENTA);
+        setfillstyle(SOLID_FILL, MAGENTA);
+        fillellipse(x, y, PLAYER_SIZE, PLAYER_SIZE);
+    } else {
+        // Warna normal (hijau)
+        setcolor(GREEN);
+        setfillstyle(SOLID_FILL, GREEN);
+        fillellipse(x, y, PLAYER_SIZE, PLAYER_SIZE);
+    }
 }
+
 
 // Fungsi untuk menangani input dari pemain
 void handleInput() {

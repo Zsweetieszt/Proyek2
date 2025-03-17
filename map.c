@@ -26,12 +26,6 @@ void drawCoin(int x, int y) {
     fillellipse(x + 15, y + 15, 10, 10);  // Gambar lingkaran kecil sebagai koin
 }
 
-void drawStar(int x, int y) {
-    setcolor(WHITE);
-    setfillstyle(SOLID_FILL, WHITE);
-    fillellipse(x, y, 10, 10);
-}
-
 void drawMonster() {
     int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
     setcolor(RED);
@@ -116,6 +110,13 @@ void drawCloudBlock(int x, int y) {
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
 
+void drawStar(int x, int y) {
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, YELLOW);
+    fillellipse(x + 15, y + 15, 12, 12);  // Gambar bintang kecil
+}
+
+
 void drawBackground() {
     // Gambar langit biru
     setfillstyle(SOLID_FILL, LIGHTBLUE);
@@ -166,7 +167,7 @@ void drawMap() {
                     drawSpike(x, y + (SCREEN_HEIGHT / MAP_HEIGHT) - (SCREEN_HEIGHT / MAP_HEIGHT) / 2);
                     break;                                
                 case 7:
-                    drawCloud(x + 20, y + 20);
+                    drawStar(x, y);  // Gambar Star Power di peta
                     break;
                 case 8:
                     drawPipe(x + 20, y + 20);
