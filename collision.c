@@ -34,5 +34,30 @@ void checkCollisionWithMonster() {
     }
 }
 
+void checkCollisionWithCoin() {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[level][i][j] == 3) {  // Jika ada koin di posisi ini
+                int coinX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int coinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
+                int coinWidth = 30;  // Lebarkan hitbox koin
+                int coinHeight = 30; // Tinggikan hitbox koin
+                int playerWidth = PLAYER_SIZE;
+                int playerHeight = PLAYER_SIZE;
+
+                // Cek apakah hitbox pemain bertabrakan dengan hitbox koin (AABB Collision)
+                if (playerX < coinX + coinWidth &&
+                    playerX + playerWidth > coinX &&
+                    playerY < coinY + coinHeight &&
+                    playerY + playerHeight > coinY) {
+                    
+                    coins++;     // Tambah jumlah koin yang dikumpulkan
+                    score += 10; // Tambah skor pemain
+                    maps[level][i][j] = 0;  // Hapus koin dari peta
+                }
+            }
+        }
+    }
+}
 

@@ -2,7 +2,7 @@
 #define MAP_H
 
 void drawPlatform(int x, int y, int width, int height);
-void drawObstacle(int x, int y);
+void drawCoin(int x, int y);
 void drawStar(int x, int y);
 void drawMonster();
 void drawCharacter(int x, int y);

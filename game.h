@@ -34,9 +34,15 @@ extern int cameraX;
 extern int cameraOffset;
 extern int monsterX, monsterY, monsterDirection;
 
+extern int score;  // Skor pemain
+extern int coins;  // Jumlah koin yang dikumpulkan
+
+
 
 // Prototipe fungsi umum
 void updateGame();
 void displayGameOver();
+void displayScore();
+
 
 #endif

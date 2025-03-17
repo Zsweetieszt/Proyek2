@@ -20,10 +20,10 @@ void drawGround(int x, int y) {
 }
 
 
-void drawObstacle(int x, int y) {
+void drawCoin(int x, int y) {
     setcolor(YELLOW);
     setfillstyle(SOLID_FILL, YELLOW);
-    bar(x, y, x + 20, y + 20);
+    fillellipse(x + 15, y + 15, 10, 10);  // Gambar lingkaran kecil sebagai koin
 }
 
 void drawStar(int x, int y) {
@@ -115,11 +115,6 @@ void drawCloudBlock(int x, int y) {
     bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
-void drawCoin(int x, int y) {
-    setcolor(YELLOW);
-    setfillstyle(SOLID_FILL, YELLOW);
-    fillellipse(x, y, 10, 20);
-}
 
 void drawBackground() {
     // Gambar langit biru
@@ -159,8 +154,8 @@ void drawMap() {
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
                     break;
                 case 3:
-                    drawObstacle(x, y + 10);
-                    break;
+                    drawCoin(x, y);  // Sekarang menggambar koin
+                    break;                
                 case 4:
                     drawMonster();
                     break;

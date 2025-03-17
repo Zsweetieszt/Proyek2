@@ -3,5 +3,7 @@
 
 void checkCollisionWithSpike();
 void checkCollisionWithMonster();
+void checkCollisionWithCoin();
+
 
 #endif // COLLISION_H

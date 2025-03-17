@@ -17,6 +17,7 @@ int main() {
         handleInput();  // Tangani input pemain
         checkCollisionWithMonster();  // Periksa tabrakan dengan monster
         checkCollisionWithSpike();  // Periksa tabrakan dengan duri
+        displayScore();  // Tambahkan ini agar skor muncul di layar
         delay(5);  // Delay untuk kecepatan game
     }
 
