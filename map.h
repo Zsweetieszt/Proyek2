@@ -16,6 +16,8 @@ void drawCloud(int x, int y);
 void drawPipe(int x, int y);
 void drawBrickBlock(int x, int y);
 void drawStoneBlock(int x, int y);
+void drawNextLevel(int x, int y);
+
 
 
 #endif // MAP_H

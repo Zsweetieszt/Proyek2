@@ -137,6 +137,13 @@ void drawBackground() {
     fillellipse(550, 90, 45, 28);
 }
 
+void drawNextLevel(int x, int y) {
+    setcolor(CYAN);  // Warna biru muda
+    setfillstyle(SOLID_FILL, CYAN);
+    bar(x, y, x + 32, y + 32);  // Kotak 32x32 sebagai blok teleportasi
+}
+
+
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
@@ -167,7 +174,7 @@ void drawMap() {
                     drawSpike(x, y + (SCREEN_HEIGHT / MAP_HEIGHT) - (SCREEN_HEIGHT / MAP_HEIGHT) / 2);
                     break;                                
                 case 7:
-                    drawStar(x, y);  // Gambar Star Power di peta
+                    drawNextLevel(x, y);
                     break;
                 case 8:
                     drawPipe(x + 20, y + 20);

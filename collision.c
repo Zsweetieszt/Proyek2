@@ -35,15 +35,15 @@ void checkCollisionWithMonster() {
         playerY + playerSize > monsterY) {
         
         if (hasStarPower) {
-            // Jika dalam mode Star Power, bunuh monster
-            monsterX = -1000;  // Pindahkan monster keluar layar (anggap hilang)
+            // Jika dalam mode Star Power, bunuh monster dan tambah skor
+            monsterX = -999999;  // Pindahkan monster keluar layar (anggap hilang)
+            score += 15;       // Tambahkan skor sebanyak 15 poin
         } else {
             // Jika tidak punya Star Power, pemain mati
             isAlive = 0;
         }
     }
 }
-
 
 void checkCollisionWithCoin() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -93,6 +93,37 @@ void checkCollisionWithStar() {
                     hasStarPower = 1;  // Aktifkan Star Power
                     starPowerTimer = 300; // 300 frame (5 detik dalam game)
                     maps[level][i][j] = 0; // Hapus Star Power dari peta
+                }
+            }
+        }
+    }
+}
+
+void checkCollisionWithNextLevel() {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[level][i][j] == 7) { // Jika blok ini adalah "Next Level"
+                int nextX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int nextY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+
+                int playerWidth = PLAYER_SIZE;
+                int playerHeight = PLAYER_SIZE;
+                int nextWidth = 32;
+                int nextHeight = 32;
+
+                if (playerX < nextX + nextWidth &&
+                    playerX + playerWidth > nextX &&
+                    playerY < nextY + nextHeight &&
+                    playerY + playerHeight > nextY) {
+
+                    level++;  // Pindah ke level berikutnya
+                    if (level >= 3) {  // Jika sudah di level terakhir, kembali ke awal
+                        level = 0;
+                    }
+                    playerX = 100; // Atur ulang posisi pemain
+                    playerY = GROUND_HEIGHT - 30;
+                    cameraX = 0;  // Reset kamera
+                    cameraOffset = 0;
                 }
             }
         }

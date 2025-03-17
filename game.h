@@ -29,7 +29,7 @@ extern int velocityY;
 extern int isJumping;
 extern int level;
 extern int isAlive;
-extern int maps[2][MAP_HEIGHT][TOTAL_MAP_WIDTH];
+extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];
 extern int cameraX;
 extern int cameraOffset;
 extern int monsterX, monsterY, monsterDirection;
