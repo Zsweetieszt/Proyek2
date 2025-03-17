@@ -14,7 +14,7 @@ void checkCollisionWithSpike() {
                 int distance = sqrt(dx * dx + dy * dy);
 
                 if (distance < PLAYER_SIZE + 17) {
-                    isAlive = 0;
+                    playerLives = playerLives - 1;
                 }
             }
         }
@@ -34,7 +34,7 @@ void checkCollisionWithMonster() {
                 int distance = sqrt(dx * dx + dy * dy);
 
                 if (distance < PLAYER_SIZE + MONSTER_SIZE) {
-                    isAlive = 0;
+                    playerLives = playerLives - 1;
                 }
             }
         }

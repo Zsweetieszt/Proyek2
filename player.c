@@ -23,4 +23,9 @@ void handleInput() {
             isJumping = 1;
         }
     }
+
+    if (playerLives == 0 ){
+        isAlive = 0;
+    }
 }
+

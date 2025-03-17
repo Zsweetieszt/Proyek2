@@ -1,6 +1,8 @@
 #include "game.h"
 #include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
 #include "map.h"
+#include "main.h"
+#include "Main_menu.h"
 
 // Definisi variabel global
 int playerX = 100, playerY = GROUND_HEIGHT - 30;
@@ -8,6 +10,7 @@ int velocityY = 0;
 int isJumping = 0;
 int level = 0;
 int isAlive = 1;
+int playerLives = 3;
 
 // Peta level
 int maps[2][MAP_HEIGHT][MAP_WIDTH] = {
@@ -73,5 +76,5 @@ void displayGameOver() {
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     outtextxy(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2, (char*)"GAME OVER");
     getch();
-    showMainMenu();
+    displayMainMenu();
 }

@@ -18,6 +18,7 @@
 #define PLAYER_SIZE 20
 #define MONSTER_SIZE 20
 #define SPIKE 6
+#define MAX_LIVES 3
 
 // Variabel global (hanya deklarasi, definisi di game.c)
 extern int playerX, playerY;
@@ -26,9 +27,12 @@ extern int isJumping;
 extern int level;
 extern int isAlive;
 extern int maps[2][MAP_HEIGHT][MAP_WIDTH];
+extern int playerLives; // Declare playerLives to be accessible in other files
+
 
 // Prototipe fungsi umum
 void updateGame();
 void displayGameOver();
+void displaymainmenu();
 
 #endif // GAME_H
