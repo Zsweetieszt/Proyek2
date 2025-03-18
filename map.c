@@ -1,22 +1,77 @@
 #include "game.h"
 #include "map.h"
 
-// Fungsi untuk menggambar peta berdasarkan data di array maps
+void drawRectangle(int x, int y, int width, int height) {
+    int rectColor = COLOR(204, 102, 0); // Warna oranye
+    int gapColor = BLACK; // Warna pemisah
+
+    setfillstyle(SOLID_FILL, rectColor);
+    bar(x, y, x + width, y + height);
+
+    setcolor(gapColor);
+    rectangle(x, y, x + width, y + height);
+}
+
+void drawSquare(int x, int y, int size) {
+    int rectColor = COLOR(204, 102, 0); // Warna oranye
+    int gapColor = BLACK; 
+
+    setfillstyle(SOLID_FILL, rectColor); 
+    bar(x, y, x + size, y + size);
+
+    setcolor(gapColor);
+    rectangle(x, y, x + size, y + size);
+}
+
 void drawPlatform(int x, int y, int width, int height) {
-    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
-    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
-    setcolor(BLUE);
-    setfillstyle(SOLID_FILL, BLUE);
-    bar(x, y, x + tileSizeX, y + tileSizeY);
+    int tileSize = 40;  // Ukuran setiap elemen platform
+    int gap = 5;  // Jarak antar elemen
+
+    // Baris 1: Dua persegi panjang menyamping
+    drawRectangle(x, y, width / 2 - gap / 2, height);
+    drawRectangle(x + width / 2 + gap / 2, y, width / 2 - gap / 2, height);
+
+    // Baris 2: Satu persegi panjang diapit dua kotak
+    drawSquare(x, y + height + gap, tileSize);
+    drawRectangle(x + tileSize + gap, y + height + gap, width - 2 * (tileSize + gap), height);
+    drawSquare(x + width - tileSize, y + height + gap, tileSize);
 }
 
 
+#include <graphics.h>
+
 void drawGround(int x, int y) {
-    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  // Ukuran block sesuai grid
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  
     int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
-    setcolor(BROWN);
-    setfillstyle(SOLID_FILL, BROWN);
+    int borderWidth = 3; // Ketebalan border
+
+    // Warna utama tanah (oranye)
+    int mainColor = COLOR(204, 102, 0); // RGB untuk oranye
+    int borderColor = BLACK; // Warna border
+    int dotColor = BLACK; // Warna titik di sudut
+
+    // Mengisi kotak tanah
+    setfillstyle(SOLID_FILL, mainColor);
     bar(x, y, x + tileSizeX, y + tileSizeY);
+
+    // Menggambar border hitam di sekitar tanah
+    setcolor(borderColor);
+    for (int i = 0; i < borderWidth; i++) {
+        rectangle(x - i, y - i, x + tileSizeX + i, y + tileSizeY + i);
+    }
+
+    // Menggambar titik di sudut blok tanah
+    int dotDistance = 10; // Jarak titik dari sudut
+    int dotRadius = 3; // Ukuran titik
+
+    setcolor(dotColor);
+    setfillstyle(SOLID_FILL, dotColor);
+
+    // Titik di keempat sudut tanah
+    fillellipse(x + dotDistance, y + dotDistance, dotRadius, dotRadius);
+    fillellipse(x + tileSizeX - dotDistance, y + dotDistance, dotRadius, dotRadius);
+    fillellipse(x + dotDistance, y + tileSizeY - dotDistance, dotRadius, dotRadius);
+    fillellipse(x + tileSizeX - dotDistance, y + tileSizeY - dotDistance, dotRadius, dotRadius);
 }
 
 

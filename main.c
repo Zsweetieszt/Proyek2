@@ -13,7 +13,7 @@ int main() {
         setvisualpage(1 - buffer);  // Tampilkan halaman yang sudah digambar
 
         cleardevice();  // Bersihkan buffer sebelum menggambar ulang
-        //drawBackground();
+        drawBackground();
         drawMap();  // Gambar peta level
         //drawGrid();// Gambar Grid
       
@@ -25,7 +25,7 @@ int main() {
         displayScore();  // Tampilkan skor di layar
         
         buffer = 1 - buffer;  // Tukar buffer untuk frame berikutnya
-        delay(20);  // Delay untuk kecepatan game
+        delay(15);  // Delay untuk kecepatan game
     }
 
     displayGameOver();  // Tampilkan layar game over
