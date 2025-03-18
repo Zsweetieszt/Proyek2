@@ -16,7 +16,7 @@
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 12
 #define TOTAL_MAP_WIDTH 120
-#define PLAYER_SIZE 15
+#define PLAYER_SIZE 3
 #define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
 #define SPIKE 6
