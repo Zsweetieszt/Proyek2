@@ -19,18 +19,18 @@ void drawBrick(int x, int y, int width, int height, bool drawHorizontalGap, bool
     // Membuat celah vertikal hanya jika diapit oleh dua bata
     if (drawVerticalGap) {
         setfillstyle(SOLID_FILL, gapColor);
-        bar(x + width, y, x + width + 5, y + height); // Celah vertikal
+        bar(x + width, y, x + width + 7, y + height); // Celah vertikal
     }
 
         // Menambahkan warna untuk sudut celah
     if (drawHorizontalGap && drawVerticalGap) {
         setfillstyle(SOLID_FILL, gapColor);
-        bar(x + width, y + height, x + width + 5, y + height + 5); // Sudut celah
+        bar(x + width, y + height, x + width + 7, y + height + 7); // Sudut celah
     }
     // Menambahkan warna untuk sudut celah
     if (drawHorizontalGap && drawVerticalGap) {
         setfillstyle(SOLID_FILL, gapColor);
-        bar(x + width, y + height, x + width + 5, y + height + 5); // Sudut celah
+        bar(x + width, y + height, x + width + 7, y + height + 7); // Sudut celah
     }    
 }
 
