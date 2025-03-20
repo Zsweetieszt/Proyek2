@@ -1,67 +1,56 @@
-#include <graphics.h>
-
 void drawRectangle(int x, int y, int width, int height) {
-    // Warna persegi panjang
     int rectColor = COLOR(204, 102, 0); // RGB untuk oranye
-    // Warna pemisah
     int gapColor = BLACK;
-    
-    // Mengisi persegi panjang
+
     setfillstyle(SOLID_FILL, rectColor);
     bar(x, y, x + width, y + height);
 
-    // Menggambar pemisah hitam di sekeliling persegi panjang
     setcolor(gapColor);
     rectangle(x, y, x + width, y + height);
 }
 
 void drawSquare(int x, int y, int size) {
-    // Warna kotak
     int rectColor = COLOR(204, 102, 0); // RGB untuk oranye
-    // Warna pemisah
-    int gapColor = BLACK; 
+    int gapColor = BLACK;
 
-    // Mengisi kotak
-    setfillstyle(SOLID_FILL, rectColor); 
+    setfillstyle(SOLID_FILL, rectColor);
     bar(x, y, x + size, y + size);
 
-    // Menggambar pemisah hitam di sekeliling kotak
     setcolor(gapColor);
     rectangle(x, y, x + size, y + size);
 }
 
-int main() {
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, "");
+void drawBackground(int x, int y, int width, int height) {
+    setfillstyle(SOLID_FILL, BLACK);
+    bar(x, y, x + width, y + height);
+}
 
-    // Mengatur background menjadi putih 
-    setbkcolor(WHITE);
-    cleardevice();
+void drawDesign() {
+    int startX = 50, startY = 50;
+    int rectWidth = 85, rectHeight = 40;
+    int boxSize = 40;
+    int gap = 5;
 
-    int startX = 50, startY = 50; // Koordinat awal
-    int rectWidth = 85, rectHeight = 40; // Ukuran persegi panjang
-    int boxSize = 40; // Ukuran kotak
-    int gap = 5; // Ukuran pemisah
+    // Menggambar latar belakang hitam di area desain
+    int totalWidth = 2 * rectWidth + 3 * gap + boxSize;
+    int totalHeight = 4 * (rectHeight + gap) + rectHeight;
+    drawBackground(startX - gap, startY - gap, totalWidth, totalHeight);
 
-    // Baris 1: Dua persegi panjang menyamping
+    // Baris 1
     drawRectangle(startX, startY, rectWidth, rectHeight);
     drawRectangle(startX + rectWidth + gap, startY, rectWidth, rectHeight);
 
-    // Baris 2: Satu persegi panjang diapit oleh dua kotak di samping kanan dan kiri
+    // Baris 2
     drawSquare(startX, startY + rectHeight + gap, boxSize);
     drawRectangle(startX + boxSize + gap, startY + rectHeight + gap, rectWidth, rectHeight);
     drawSquare(startX + boxSize + rectWidth + 2 * gap, startY + rectHeight + gap, boxSize);
 
-    // Baris 3: Dua persegi panjang menyamping
+    // Baris 3
     drawRectangle(startX, startY + 2 * (rectHeight + gap), rectWidth, rectHeight);
     drawRectangle(startX + rectWidth + gap, startY + 2 * (rectHeight + gap), rectWidth, rectHeight);
 
-    // Baris 4: Satu persegi panjang diapit oleh dua kotak di samping kanan dan kiri
+    // Baris 4
     drawSquare(startX, startY + 3 * (rectHeight + gap), boxSize);
     drawRectangle(startX + boxSize + gap, startY + 3 * (rectHeight + gap), rectWidth, rectHeight);
     drawSquare(startX + boxSize + rectWidth + 2 * gap, startY + 3 * (rectHeight + gap), boxSize);
-
-    getch();
-    closegraph();
-    return 0;
 }
