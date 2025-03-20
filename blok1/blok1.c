@@ -25,11 +25,9 @@ void drawBackground(int x, int y, int width, int height) {
     bar(x, y, x + width, y + height);
 }
 
-void drawDesign() {
-    int startX = 50, startY = 50;
-    int rectWidth = 85, rectHeight = 40;
-    int boxSize = 40;
-    int gap = 5;
+void drawPlatform(int startX, int startY, int rectWidth, int gap) {
+    int rectHeight = 40;  // Tetap menjaga tinggi persegi panjang
+    int boxSize = rectHeight;  // Membuat ukuran kotak sama dengan tinggi persegi panjang
 
     // Menggambar latar belakang hitam di area desain
     int totalWidth = 2 * rectWidth + 3 * gap + boxSize;
