@@ -15,3 +15,12 @@ void drawBackground() {
     setfillstyle(SOLID_FILL, YELLOW);  // Set warna isi
     fillellipse(sunX, sunY, sunRadius, sunRadius);  // Gambar matahari
 }
+
+void drawCloudBlock(int x, int y) {
+    int size = 32;
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, LIGHTGRAY);
+    bar(x, y, x + size, y + size * 2 / 3);
+    bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
+    bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
+}
