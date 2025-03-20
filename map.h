@@ -17,6 +17,7 @@ void drawPipe(int x, int y);
 void drawBrickBlock(int x, int y);
 void drawStoneBlock(int x, int y);
 void drawNextLevel(int x, int y);
+void drawFlag(int x, int y);
 
 
 

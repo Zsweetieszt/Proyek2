@@ -40,6 +40,7 @@ extern int monsterX, monsterY, monsterDirection;
 
 extern int score;  // Skor pemain
 extern int coins;  // Jumlah koin yang dikumpulkan
+extern int playerLives;
 
 extern int hasStarPower;   // Apakah pemain memiliki Star Power (0 = tidak, 1 = aktif)
 extern int starPowerTimer; // Waktu tersisa untuk Star Power dalam frame (10 detik)
@@ -51,6 +52,7 @@ extern int starPowerTimer; // Waktu tersisa untuk Star Power dalam frame (10 det
 void updateGame();
 void displayGameOver();
 void displayScore();
+void findMarioStartPosition();
 
 
 #endif

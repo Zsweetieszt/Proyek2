@@ -193,6 +193,20 @@ void drawNextLevel(int x, int y) {
     bar(x, y, x + 32, y + 32);  // Kotak 32x32 sebagai blok teleportasi
 }
 
+void drawFlag(int x, int y) {
+    setcolor(WHITE);
+    line(x, y, x, y + 60);  // Tiang lebih pendek sesuai ukuran bendera
+
+    // Menggambar bagian atas bendera (merah)
+    setfillstyle(SOLID_FILL, RED);
+    rectangle(x, y, x + 40, y + 20);
+    floodfill(x + 20, y + 10, WHITE);
+
+    // Menggambar bagian bawah bendera (putih)
+    setfillstyle(SOLID_FILL, WHITE);
+    rectangle(x, y + 20, x + 40, y + 40);
+    floodfill(x + 20, y + 30, WHITE);
+}
 
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -237,6 +251,9 @@ void drawMap() {
                     break;
                 case 11:
                     drawStoneBlock(x + 20, y + 20);
+                    break;
+                case 12:
+                    drawFlag(x +20, y +20);
                     break;
             }
         }

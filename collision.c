@@ -27,9 +27,21 @@ void checkCollisionWithSpike() {
                 int spikeRight = spikeX + spikeWidth;
 
                 // Deteksi tabrakan menggunakan AABB
-                if (playerRight > spikeLeft && playerLeft < spikeRight &&
-                    playerBottom > spikeTop && playerTop < spikeBottom) {
-                    isAlive = 0; // Mario mati jika menyentuh spike
+                if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH) {
+                    if (playerRight > spikeLeft && playerLeft < spikeRight &&
+                        playerBottom > spikeTop && playerTop < spikeBottom) {
+                        
+                        playerLives--; // Kurangi nyawa Mario
+                        
+                        if (playerLives <= 0) {
+                            isAlive = 0; // Mario benar-benar mati jika nyawa habis
+                        } else {
+                            // Reset posisi Mario ke titik aman setelah kena spike
+                            findMarioStartPosition();
+                        }
+                        
+                        return; // Keluar lebih cepat jika sudah terkena spike
+                    }
                 }
             }
         }
@@ -56,7 +68,7 @@ void checkCollisionWithMonster() {
             score += 15;       // Tambahkan skor sebanyak 15 poin
         } else {
             // Jika tidak punya Star Power, pemain mati
-            isAlive = 0;
+            playerLives = playerLives-1;
         }
     }
 }
