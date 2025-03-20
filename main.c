@@ -2,12 +2,16 @@
 #include "player.h"
 #include "map.h"
 #include "collision.h"
+#include "main_menu.h"
 
 int main() {
     int gd = DETECT, gm;
     initgraph(&gd, &gm, (char*)"");  // Inisialisasi mode grafik
-
+    
+    
     int buffer = 0;
+    showMainMenu();
+    
     while (isAlive) {  // Loop utama game
         setactivepage(buffer);  // Aktifkan buffer
         setvisualpage(1 - buffer);  // Tampilkan halaman yang sudah digambar
@@ -16,6 +20,7 @@ int main() {
         drawBackground();
         drawMap();  // Gambar peta level
         //drawGrid();// Gambar Grid
+        
       
         drawCharacter(currentCharacter, playerX, playerY, hasStarPower); // Gambar pemain
         initializeMirrorSprites();

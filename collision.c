@@ -200,7 +200,7 @@ void cheakCollisionWithBlock(){
                     }
                     // Cek tabrakan dari kiri (hanya jika pemain tidak sedang berdiri di atas platform)
                     else if(collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop) {
-                        playerX = platformLeft - (COLS / 2)-10;
+                        playerX = platformLeft - (COLS / 2)-12;
                     }
                     // Cek tabrakan dari kanan (hanya jika pemain sejajar dengan platform, tidak berdiri di atasnya)
                     else if (collisionX && playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
