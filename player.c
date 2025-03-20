@@ -2,6 +2,8 @@
 #include "player.h"
 #include <stdbool.h>
 
+DWORD lastMoveTime = 0;
+
 int player_standing[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
     {BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, RED, YELLOW, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
@@ -153,7 +155,7 @@ int player_dead[ROWS][COLS] = {
 
 
 bool frameToggle = false; 
-bool isFacingLeft = true; // Default menghadap ke kanan
+bool isFacingLeft = false; // Default menghadap ke kanan
 int (*currentCharacter)[COLS] = player_standing; // Default adalah standing
 
 void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
@@ -167,9 +169,14 @@ void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
 
                 // Ubah warna berdasarkan kondisi power-up
                 if (hasStarPower) {
-                    if (color == RED) color = GREEN1;
-                    else if (color == GREEN) color = YELLOW1;
-                    else if (color == YELLOW) color = WHITE;
+                    if (player[i][j] != BLACK){
+                        if (color == RED) {
+                            color = GREEN1;
+                        }else if (color == GREEN){
+                            color = YELLOW1;}
+                        else if (color == YELLOW) 
+                        {color = WHITE;}
+                    }
                 }
 
                 setfillstyle(SOLID_FILL, color); // Atur warna sesuai kondisi
@@ -181,18 +188,6 @@ void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
                 );
             }
         }
-    }
-
-    // Tambahkan efek aura jika power-up aktif
-    if (hasStarPower) {
-        setcolor(GREEN1); // Warna aura (contoh warna power-up)
-        setfillstyle(SOLID_FILL, GREEN1);
-        fillellipse(
-            x + COLS / 2 * PLAYER_SIZE,                // Pusat aura (X)
-            adjustedY + ROWS / 2 * PLAYER_SIZE,        // Pusat aura (Y)
-            COLS * PLAYER_SIZE / 2 + 5,               // Lebar aura
-            ROWS * PLAYER_SIZE / 2 + 5                // Tinggi aura
-        );
     }
 }
 
@@ -231,55 +226,83 @@ void handleInput() {
     bool movingRight = GetAsyncKeyState('D') & 0x8000;
     bool jumping = GetAsyncKeyState('W') & 0x8000;
 
-    if (kbhit()) {
-        if (kbhit()) {
-            char key = getch();
-    
-            // Gerakan ke kiri
-            if (movingLeft && playerX > 0) { 
-                if (!isFacingLeft) {
-                    isFacingLeft = true;
-                }
-                if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
-                    cameraOffset -= SCROLL_SPEED;
-                    if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
-                        cameraOffset = 0;
-                        cameraX -= 2;
-                    }
-                } else {
-                    playerX -= MOVE_SPEED;
-                }
-                
-                currentCharacter = (frameToggle) ? player_walking1_mirrored : player_walking2_mirrored;
-                frameToggle = !frameToggle;
-            }
-            // Gerakan ke kanan
-            else if (movingRight && playerX < SCREEN_WIDTH) { 
-                if (isFacingLeft) {
-                    isFacingLeft = false;
-                }
-                if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
-                    cameraOffset += SCROLL_SPEED;
-                    if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
-                        cameraOffset = 0;
-                        cameraX += 2;
-                    }
-                } else {
-                    playerX += MOVE_SPEED;
-                }
-                
-                currentCharacter = (frameToggle) ? player_walking1 : player_walking2;
-                frameToggle = !frameToggle;
-            }
-        // Karakter melompat
-        else if (jumping && !isJumping) { 
-            velocityY = JUMP_STRENGTH; // Set kecepatan awal melompat
-            isJumping = 1; // Tandai status melompat
-            currentCharacter = player_jumping; // Gunakan animasi melompat
-        }
-    }
+    DWORD currentTime = GetTickCount();
 
-        // Gunakan animasi berdiri jika tidak ada input dan karakter tidak melompat
+    // Jika sedang melompat, gunakan sprite lompat
+    if (isJumping) {  
+        currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
+
+        if (movingLeft && playerX > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) {
+            isFacingLeft = true;
+            lastMoveTime = currentTime;
+
+            if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
+                cameraOffset -= SCROLL_SPEED;
+                if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX -= 2;
+                }
+            } else {
+                playerX -= MOVE_SPEED;
+            }
+        }
+
+        if (movingRight && playerX < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) {
+            isFacingLeft = false;
+            lastMoveTime = currentTime;
+
+            if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
+                cameraOffset += SCROLL_SPEED;
+                if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX += 2;
+                }
+            } else {
+                playerX += MOVE_SPEED;
+            }
+        }
+    } 
+    else {  // Jika tidak melompat, gunakan animasi berjalan atau diam
+        if (movingLeft && playerX > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) { 
+            isFacingLeft = true;
+            lastMoveTime = currentTime;
+
+            if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
+                cameraOffset -= SCROLL_SPEED;
+                if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX -= 2;
+                }
+            } else {
+                playerX -= MOVE_SPEED;
+            }
+            currentCharacter = (frameToggle) ? player_walking1_mirrored : player_walking2_mirrored;
+            frameToggle = !frameToggle;
+        }
+    
+        if (movingRight && playerX < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) { 
+            isFacingLeft = false;
+            lastMoveTime = currentTime;
+
+            if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
+                cameraOffset += SCROLL_SPEED;
+                if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    cameraOffset = 0;
+                    cameraX += 2;
+                }
+            } else {
+                playerX += MOVE_SPEED;
+            }
+            currentCharacter = (frameToggle) ? player_walking1 : player_walking2;
+            frameToggle = !frameToggle;
+        }
+    
+        if (jumping && !isJumping) { 
+            velocityY = JUMP_STRENGTH;
+            isJumping = 1;
+            currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
+        }
+
         if (!movingLeft && !movingRight && velocityY == 0 && !isJumping) {
             currentCharacter = isFacingLeft ? player_standing_mirrored : player_standing;
         }

@@ -38,7 +38,6 @@ void drawPlatform(int x, int y, int width, int height) {
 }
 
 
-#include <graphics.h>
 
 void drawGround(int x, int y) {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  
@@ -222,7 +221,7 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + (SCREEN_HEIGHT / MAP_HEIGHT) - (SCREEN_HEIGHT / MAP_HEIGHT) / 2);
+                    drawSpike(x +20, y +20);
                     break;                                
                 case 7:
                     drawNextLevel(x, y);

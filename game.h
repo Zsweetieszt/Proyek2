@@ -12,7 +12,7 @@
 #define GROUND_HEIGHT 420
 #define GRAVITY 1
 #define JUMP_STRENGTH -17
-#define MOVE_SPEED 7
+#define MOVE_SPEED 9
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 12
 #define TOTAL_MAP_WIDTH 120
@@ -20,9 +20,11 @@
 #define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
 #define SPIKE 6
-#define SCROLL_SPEED 5
+#define SCROLL_SPEED 9
 #define ROWS 35// Jumlah baris dalam array Player
 #define COLS 25// Jumlah kolom dalam array Player
+#define MOVE_DELAY 50 // Tambahkan delay saat berjalan (dalam ms)
+
 
 
 // Variabel global (hanya deklarasi, definisi di game.c)

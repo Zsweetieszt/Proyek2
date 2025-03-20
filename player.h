@@ -10,7 +10,7 @@
 #define YELLOW COLOR(227, 157, 37)
 #define GREEN1 COLOR(58, 132, 0)
 #define YELLOW1 COLOR(226, 158, 53)
-#define WHITE 1
+#define WHITE COLOR(255,255,255)
 
 
 

@@ -12,17 +12,19 @@ void checkCollisionWithSpike() {
                 int spikeWidth = SCREEN_WIDTH / MAP_WIDTH;
                 int spikeHeight = 20; // Sesuaikan tinggi spike
 
-                // Hitbox Mario (25x35)
-                int playerLeft = playerX - (25 / 2);
-                int playerRight = playerX + (25 / 2);
-                int playerTop = playerY - 35;
+                // Fokus hanya pada bagian bawah spike
+                int spikeTop = spikeY + 20;
+                int spikeBottom = spikeY + 40; 
+
+                // Hitbox Mario (gunakan konstanta)
+                int playerLeft = playerX - (COLS / 2);
+                int playerRight = playerX + (COLS / 2);
+                int playerTop = playerY - ROWS;
                 int playerBottom = playerY;
 
-                // Hitbox Spike
+                // Hitbox Spike (hanya setengah bagian bawah)
                 int spikeLeft = spikeX;
                 int spikeRight = spikeX + spikeWidth;
-                int spikeTop = spikeY;
-                int spikeBottom = spikeY + spikeHeight;
 
                 // Deteksi tabrakan menggunakan AABB
                 if (playerRight > spikeLeft && playerLeft < spikeRight &&
@@ -155,7 +157,7 @@ void cheakCollisionWithBlock(){
                 int platformHeight = 40; // Tinggi platform tetap 40
 
                 // Bounding box pemain (AABB) dengan ukuran Mario (25x35)
-                int playerLeft = playerX - (COLS / 2);
+                int playerLeft = playerX - (COLS / 2)+10;
                 int playerRight = playerX + (COLS / 2)+10;
                 int playerTop = playerY - ROWS;
                 int playerBottom = playerY +5;
@@ -170,13 +172,13 @@ void cheakCollisionWithBlock(){
                 int platformTop = platformY;
                 int platformBottom = platformY + platformHeight;
 
-                // Gambar hitbox pemain
+                /* Gambar hitbox pemain
                 setcolor(RED);
                 rectangle(hitboxX, hitboxY, hitboxX + 25, hitboxY + 35+5 );
 
                 // Gambar hitbox platform
                 setcolor(GREEN);
-                rectangle(platformLeft, platformTop, platformRight, platformBottom);
+                rectangle(platformLeft, platformTop, platformRight, platformBottom);*/
 
                 // Deteksi tabrakan AABB
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
@@ -202,7 +204,7 @@ void cheakCollisionWithBlock(){
                     }
                     // Cek tabrakan dari kanan (hanya jika pemain sejajar dengan platform, tidak berdiri di atasnya)
                     else if (collisionX && playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
-                        playerX = platformRight + (COLS / 2)-13;
+                        playerX = platformRight + (COLS / 2)-10;
                     }
                 }
             }

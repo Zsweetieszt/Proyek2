@@ -26,7 +26,7 @@ int main() {
         displayScore();  // Tampilkan skor di layar
         
         buffer = 1 - buffer;  // Tukar buffer untuk frame berikutnya
-        delay(1);  // Delay untuk kecepatan game
+        delay(10);  // Delay untuk kecepatan game
     }
 
     displayGameOver();  // Tampilkan layar game over
