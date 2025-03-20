@@ -25,30 +25,26 @@ void drawBackground(int x, int y, int width, int height) {
     bar(x, y, x + width, y + height);
 }
 
-void drawPlatform(int startX, int startY, int rectWidth, int gap) {
-    int rectHeight = 40;  // Tetap menjaga tinggi persegi panjang
-    int boxSize = rectHeight;  // Membuat ukuran kotak sama dengan tinggi persegi panjang
+void drawPlatform(int startX, int startY, int platformWidth, int platformHeight, int tileSize, int gap) {
+    int rectHeight = platformHeight; // Tinggi persegi panjang
+    int rectWidth = platformWidth / 2 - gap / 2; // Lebar persegi panjang
+    int boxSize = tileSize; // Ukuran kotak persegi
 
-    // Menggambar latar belakang hitam di area desain
-    int totalWidth = 2 * rectWidth + 3 * gap + boxSize;
-    int totalHeight = 4 * (rectHeight + gap) + rectHeight;
-    drawBackground(startX - gap, startY - gap, totalWidth, totalHeight);
-
-    // Baris 1
+    // Baris 1: Dua persegi panjang menyamping
     drawRectangle(startX, startY, rectWidth, rectHeight);
     drawRectangle(startX + rectWidth + gap, startY, rectWidth, rectHeight);
 
-    // Baris 2
+    // Baris 2: Satu persegi panjang diapit dua kotak
     drawSquare(startX, startY + rectHeight + gap, boxSize);
     drawRectangle(startX + boxSize + gap, startY + rectHeight + gap, rectWidth, rectHeight);
-    drawSquare(startX + boxSize + rectWidth + 2 * gap, startY + rectHeight + gap, boxSize);
+    drawSquare(startX + rectWidth + boxSize + 2 * gap, startY + rectHeight + gap, boxSize);
 
-    // Baris 3
+    // Baris 3: Dua persegi panjang menyamping
     drawRectangle(startX, startY + 2 * (rectHeight + gap), rectWidth, rectHeight);
     drawRectangle(startX + rectWidth + gap, startY + 2 * (rectHeight + gap), rectWidth, rectHeight);
 
-    // Baris 4
+    // Baris 4: Satu persegi panjang diapit dua kotak
     drawSquare(startX, startY + 3 * (rectHeight + gap), boxSize);
     drawRectangle(startX + boxSize + gap, startY + 3 * (rectHeight + gap), rectWidth, rectHeight);
-    drawSquare(startX + boxSize + rectWidth + 2 * gap, startY + 3 * (rectHeight + gap), boxSize);
+    drawSquare(startX + rectWidth + boxSize + 2 * gap, startY + 3 * (rectHeight + gap), boxSize);
 }
