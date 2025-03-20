@@ -7,20 +7,33 @@ void checkCollisionWithSpike() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[level][i][j] == SPIKE) {
-                int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) + 10 - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT) + 50;
+                int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+                int spikeWidth = SCREEN_WIDTH / MAP_WIDTH;
+                int spikeHeight = 20; // Sesuaikan tinggi spike
 
-                int dx = playerX - spikeX;
-                int dy = playerY - spikeY;
-                int distance = sqrt(dx * dx + dy * dy);
+                // Hitbox Mario (25x35)
+                int playerLeft = playerX - (25 / 2);
+                int playerRight = playerX + (25 / 2);
+                int playerTop = playerY - 35;
+                int playerBottom = playerY;
 
-                if (distance < PLAYER_SIZE + 17) {
-                    isAlive = 0;
+                // Hitbox Spike
+                int spikeLeft = spikeX;
+                int spikeRight = spikeX + spikeWidth;
+                int spikeTop = spikeY;
+                int spikeBottom = spikeY + spikeHeight;
+
+                // Deteksi tabrakan menggunakan AABB
+                if (playerRight > spikeLeft && playerLeft < spikeRight &&
+                    playerBottom > spikeTop && playerTop < spikeBottom) {
+                    isAlive = 0; // Mario mati jika menyentuh spike
                 }
             }
         }
     }
 }
+
 
 // Fungsi untuk mendeteksi tabrakan dengan monster
 void checkCollisionWithMonster() {
@@ -133,20 +146,23 @@ void checkCollisionWithNextLevel() {
 
 void cheakCollisionWithBlock(){
     
-    // Cek apakah pemain bertabrakan dengan platform menggunakan AABB
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[level][i][j] == 1 || maps[level][i][j] == 2 || maps[level][i][j] == 8 || maps[level][i][j] == 11) {
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
-                int platformHeight = 40; // Tinggi platform diperbarui menjadi 40
+                int platformHeight = 40; // Tinggi platform tetap 40
 
-                // Bounding box pemain (AABB)
-                int playerLeft = playerX - PLAYER_SIZE;
-                int playerRight = playerX + PLAYER_SIZE;
-                int playerTop = playerY - PLAYER_SIZE;
-                int playerBottom = playerY + PLAYER_SIZE;
+                // Bounding box pemain (AABB) dengan ukuran Mario (25x35)
+                int playerLeft = playerX - (COLS / 2);
+                int playerRight = playerX + (COLS / 2)+10;
+                int playerTop = playerY - ROWS;
+                int playerBottom = playerY +5;
+
+                // Sesuaikan agar hitbox benar-benar berada di tengah sprite
+                int hitboxX = playerX - (COLS/ 2) + (ROWS / 4);
+                int hitboxY = playerY - COLS;
 
                 // Bounding box platform (AABB)
                 int platformLeft = platformX;
@@ -154,40 +170,43 @@ void cheakCollisionWithBlock(){
                 int platformTop = platformY;
                 int platformBottom = platformY + platformHeight;
 
-                /* Gambar hitbox pemain
+                // Gambar hitbox pemain
                 setcolor(RED);
-                rectangle(playerLeft, playerTop, playerRight, playerBottom);
+                rectangle(hitboxX, hitboxY, hitboxX + 25, hitboxY + 35+5 );
 
                 // Gambar hitbox platform
                 setcolor(GREEN);
                 rectangle(platformLeft, platformTop, platformRight, platformBottom);
-                    */
+
                 // Deteksi tabrakan AABB
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
                 bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
 
+
                 if (collisionX && collisionY) {
                     // Cek tabrakan dari atas (agar pemain bisa berdiri di platform)
-                    if (playerBottom > platformTop && playerTop < platformTop && velocityY >= 0) {
-                        playerY = platformTop - PLAYER_SIZE;
+                    if (playerBottom > platformTop && playerTop < platformTop+ 2  && velocityY >= 0) {
+                        playerY = platformTop;
                         velocityY = 0;
                         isJumping = 0;
+                        continue;
                     }
                     // Cek tabrakan dari bawah
                     else if (playerTop < platformBottom && playerBottom > platformBottom && velocityY < 0) {
-                        playerY = platformBottom + PLAYER_SIZE;
+                        playerY = platformBottom + ROWS;
                         velocityY = 0;
                     }
                     // Cek tabrakan dari kiri (hanya jika pemain tidak sedang berdiri di atas platform)
-                    if (playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformBottom) {
-                        playerX = platformLeft - PLAYER_SIZE;
+                    else if(collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop) {
+                        playerX = platformLeft - (COLS / 2)-10;
                     }
-                    // Cek tabrakan dari kanan (hanya jika pemain tidak sedang berdiri di atas platform)
-                    else if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformBottom) {
-                        playerX = platformRight + PLAYER_SIZE;
+                    // Cek tabrakan dari kanan (hanya jika pemain sejajar dengan platform, tidak berdiri di atasnya)
+                    else if (collisionX && playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
+                        playerX = platformRight + (COLS / 2)-13;
                     }
                 }
             }
         }
     }
+    
 }

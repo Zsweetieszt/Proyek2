@@ -17,7 +17,8 @@ int main() {
         drawMap();  // Gambar peta level
         //drawGrid();// Gambar Grid
       
-        drawCharacter(playerX, playerY);  // Gambar pemain
+        drawCharacter(currentCharacter, playerX, playerY, hasStarPower); // Gambar pemain
+        initializeMirrorSprites();
         updateGame();  // Perbarui status game
         handleInput();  // Tangani input pemain
         checkCollisionWithMonster();  // Periksa tabrakan dengan monster
@@ -25,7 +26,7 @@ int main() {
         displayScore();  // Tampilkan skor di layar
         
         buffer = 1 - buffer;  // Tukar buffer untuk frame berikutnya
-        delay(15);  // Delay untuk kecepatan game
+        delay(1);  // Delay untuk kecepatan game
     }
 
     displayGameOver();  // Tampilkan layar game over

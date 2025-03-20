@@ -25,7 +25,7 @@ void drawSquare(int x, int y, int size) {
 
 void drawPlatform(int x, int y, int width, int height) {
     int tileSize = 40;  // Ukuran setiap elemen platform
-    int gap = 5;  // Jarak antar elemen
+    int gap = 0;  // Jarak antar elemen
 
     // Baris 1: Dua persegi panjang menyamping
     drawRectangle(x, y, width / 2 - gap / 2, height);
@@ -175,21 +175,17 @@ void drawStar(int x, int y) {
 void drawBackground() {
     // Gambar langit biru
     setfillstyle(SOLID_FILL, LIGHTBLUE);
-    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT+25);
+    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
 
-    // Gambar awan (contoh sederhana)
-    setcolor(WHITE);
-    setfillstyle(SOLID_FILL, WHITE);
-    fillellipse(100, 100, 30, 20);
-    fillellipse(150, 120, 40, 25);
-    fillellipse(200, 110, 35, 22);
+    // Gambar matahari (lingkaran kuning)
+    int sunX = SCREEN_WIDTH / 2;  // Posisi X matahari (tengah layar)
+    int sunY = 100;               // Posisi Y matahari
+    int sunRadius = 50;           // Radius matahari
 
-    fillellipse(300, 50, 25, 18);
-    fillellipse(340, 60, 30, 20);
-
-    fillellipse(450, 80, 40, 25);
-    fillellipse(500, 70, 35, 22);
-    fillellipse(550, 90, 45, 28);
+    // Gambar lingkaran matahari dengan warna kuning
+    setcolor(YELLOW);            // Set warna garis
+    setfillstyle(SOLID_FILL, YELLOW);  // Set warna isi
+    fillellipse(sunX, sunY, sunRadius, sunRadius);  // Gambar matahari
 }
 
 void drawNextLevel(int x, int y) {
