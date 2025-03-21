@@ -88,3 +88,60 @@ void drawPipe(int x, int y, int width, int height) {
     line(x - 10, y + 20, x + width + 10, y + 20); // Garis bawah bagian atas
     line(x, y + height, x + width, y + height);   // Garis bawah batang pipa
 }
+
+void drawFlag(int x, int y) {
+    int flagWidth = 50;  // Ukuran bendera diperbesar
+    int flagHeight = 30;
+    int poleHeight = 80; // Ukuran tiang diperbesar
+    int poleWidth = 5;
+    
+    // Warna RGB untuk bendera (merah) dan tiang (abu-abu)
+    int flagColor = COLOR(200, 0, 0);
+    int poleColor = COLOR(100, 100, 100);
+    int shadowColor = COLOR(150, 0, 0); // Bayangan lebih gelap
+    int highlightColor = COLOR(255, 50, 50); // Efek pencahayaan
+    int baseColor = COLOR(80, 80, 80); // Warna dasar tiang
+    int textureColor = COLOR(120, 120, 120); // Tekstur tiang
+    int flagTextureColor = COLOR(220, 50, 50); // Tekstur bendera
+    
+    // Gambar dasar tiang (lebih profesional dengan efek bayangan)
+    setcolor(baseColor);
+    setfillstyle(SOLID_FILL, baseColor);
+    bar(x - 3, y, x + poleWidth + 3, y + 7);
+    
+    // Gambar tiang
+    setcolor(poleColor);
+    setfillstyle(SOLID_FILL, poleColor);
+    bar(x, y - poleHeight, x + poleWidth, y);
+    
+    // Tambahkan tekstur pada tiang
+    setcolor(textureColor);
+    for (int i = y - poleHeight; i < y; i += 5) {
+        line(x, i, x + poleWidth, i);
+    }
+    
+    // Efek bayangan pada tiang
+    setcolor(COLOR(60, 60, 60));
+    line(x + poleWidth, y - poleHeight, x + poleWidth, y);
+    
+    // Gambar bayangan bendera
+    setcolor(shadowColor);
+    setfillstyle(SOLID_FILL, shadowColor);
+    bar(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth + 2, y - poleHeight + flagHeight + 2);
+    
+    // Gambar bendera
+    setcolor(flagColor);
+    setfillstyle(SOLID_FILL, flagColor);
+    bar(x + poleWidth, y - poleHeight, x + poleWidth + flagWidth, y - poleHeight + flagHeight);
+    
+    // Tambahkan tekstur pada bendera
+    setcolor(flagTextureColor);
+    for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3) {
+        line(x + poleWidth, i, x + poleWidth + flagWidth, i);
+    }
+    
+    // Tambahkan highlight untuk efek pencahayaan
+    setcolor(highlightColor);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
+}
