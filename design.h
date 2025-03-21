@@ -1,5 +1,5 @@
-#ifndef BACKGROUND_H
-#define BACKGROUND_H
+#ifndef DESIGN_H
+#define DESIGN_H
 
 void drawBackground();
 void drawCloudBlock(int x, int y);
