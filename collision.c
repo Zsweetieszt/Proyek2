@@ -53,25 +53,45 @@ void checkCollisionWithSpike() {
 void checkCollisionWithMonster() {
     int screenMonsterX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
 
-    int monsterSize = MONSTER_SIZE;
-    int playerSize = PLAYER_SIZE;
+    int hitboxMarginX = 25;  
+    int hitboxMarginY = 20;  
 
-    // Cek tabrakan antara pemain dan monster
-    if (playerX < screenMonsterX + monsterSize &&
-        playerX + playerSize > screenMonsterX &&
-        playerY < monsterY + monsterSize &&
-        playerY + playerSize > monsterY) {
-        
+    int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
+    int monsterHitboxRight  = screenMonsterX + MONSTER_SIZE + hitboxMarginX;
+    int monsterHitboxTop    = monsterY - hitboxMarginY;
+    int monsterHitboxBottom = monsterY + MONSTER_SIZE + hitboxMarginY;
+
+    int playerHitboxLeft   = playerX + 20;
+    int playerHitboxRight  = playerX + COLS + 4;
+    int playerHitboxTop    = playerY - 4;
+    int playerHitboxBottom = playerY;
+
+    if (playerHitboxRight > monsterHitboxLeft &&
+        playerHitboxLeft < monsterHitboxRight &&
+        playerHitboxBottom > monsterHitboxTop &&
+        playerHitboxTop < monsterHitboxBottom) {
+
         if (hasStarPower) {
-            // Jika dalam mode Star Power, bunuh monster dan tambah skor
-            monsterX = -999999;  // Pindahkan monster keluar layar (anggap hilang)
-            score += 15;       // Tambahkan skor sebanyak 15 poin
+            monsterX = -999999;  // Monster mati jika Mario punya Star Power
+            score += 15;
         } else {
-            // Jika tidak punya Star Power, pemain mati
-            playerLives = playerLives-1;
+            playerLives--;  // Kurangi nyawa Mario
+
+            if (playerLives > 0) {  
+                // Jika masih ada nyawa tersisa, reset posisi Mario
+                findMarioStartPosition();  
+            } else {
+                // Jika nyawa habis, baru set isAlive = 0
+                isAlive = 0;
+            }
         }
     }
 }
+
+
+
+
+
 
 void checkCollisionWithCoin() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -80,8 +100,8 @@ void checkCollisionWithCoin() {
                 int coinX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int coinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
-                int coinWidth = 30;  // Lebarkan hitbox koin
-                int coinHeight = 30; // Tinggikan hitbox koin
+                int coinWidth = 50;  // Lebarkan hitbox koin
+                int coinHeight = 50; // Tinggikan hitbox koin
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
 
@@ -107,8 +127,8 @@ void checkCollisionWithStar() {
                 int starX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int starY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
-                int starWidth = 40;  // Perbesar hitbox Star Power
-                int starHeight = 40;
+                int starWidth = 50;  // Perbesar hitbox Star Power
+                int starHeight = 50;
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
 
@@ -136,8 +156,8 @@ void checkCollisionWithNextLevel() {
 
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
-                int nextWidth = 32;
-                int nextHeight = 32;
+                int nextWidth = 50;
+                int nextHeight = 50;
 
                 if (playerX < nextX + nextWidth &&
                     playerX + playerWidth > nextX &&
