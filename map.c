@@ -149,11 +149,18 @@ void drawBrickBlock(int x, int y) {
         line(x, y + i, x + 32, y + i);
     }
 }
-void drawPipe(int x, int y){
-    setcolor(GREEN);
+
+void drawPipe(int x, int y) {
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  // Ukuran pipa sama seperti blok lain
+    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT * 2;  // Pipa dua kali tinggi blok biasa
+
     setfillstyle(SOLID_FILL, GREEN);
-    bar(x, y, x + 32, y + 32);   
+    bar(x, y, x + tileSizeX, y + tileSizeY);
+
+    setcolor(BLACK);
+    rectangle(x, y, x + tileSizeX, y + tileSizeY);
 }
+
 
 void drawCloudBlock(int x, int y) {
     int size = 32;
@@ -235,13 +242,13 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x +20, y +20);
+                    drawSpike(x, y +20);
                     break;                                
                 case 7:
                     drawNextLevel(x, y);
                     break;
                 case 8:
-                    drawPipe(x + 20, y + 20);
+                    drawPipe(x, y);
                     break;
                 case 9:
                     drawCloud(x + 20, y + 20);
