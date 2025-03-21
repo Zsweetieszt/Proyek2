@@ -1,4 +1,4 @@
-#include "background.h"
+#include "design.h"
 
 void drawBackground() {
     // Gambar langit biru
@@ -46,3 +46,45 @@ void drawMonster(int x, int y) {
         arc(x, y + 5, 200, 340, 10); // Mulut berbentuk setengah lingkaran
     
     }
+
+    // Fungsi menggambar pipa dengan ukuran dan posisi fleksibel
+void drawPipe(int x, int y, int width, int height) {
+    int warna1 = COLOR(1, 166, 1);
+    int warna2 = COLOR(111, 202, 48);
+
+    // **1. Bagian Atas Pipa (Lebih Lebar)**
+    setfillstyle(SOLID_FILL, warna1);
+    bar(x - 10, y, x + width + 10, y + 20);
+
+    // **2. Batang Pipa (Vertikal)**
+    setfillstyle(SOLID_FILL, warna1);
+    bar(x, y + 20, x + width, y + height);
+
+    // **3. Detail Garis Hijau Tua**
+    setcolor(warna1);
+    for (int i = 0; i < 3; i++) {
+        line(x + (i * 10) + 5, y + 20, x + (i * 10) + 5, y + height);
+    }
+
+    // **4. Efek Shading Kuning Tebal**
+    setcolor(warna2);
+    for (int i = 0; i < 3; i++) {
+        line(x + (i * 5) + 2, y + 20, x + (i * 5) + 2, y + height);
+    }
+
+    setfillstyle(SOLID_FILL, warna2);
+    bar(x + 10, y + 20, x + 15, y + height);  // Bar tambahan agar shading lebih nyata
+
+    // **5. Outline Hitam Agar Lebih Tegas**
+    setcolor(BLACK);
+    setlinestyle(SOLID_LINE, 0, 3);
+
+    // Garis luar (outline utama)
+    rectangle(x - 10, y, x + width + 10, y + 20); // Bagian atas pipa
+    rectangle(x, y + 20, x + width, y + height);  // Batang pipa
+
+    // **6. Garis Hitam di Ujung Pipa (Atas & Bawah)**
+    line(x - 10, y, x + width + 10, y);  // Garis atas pipa
+    line(x - 10, y + 20, x + width + 10, y + 20); // Garis bawah bagian atas
+    line(x, y + height, x + width, y + height);   // Garis bawah batang pipa
+}

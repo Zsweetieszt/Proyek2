@@ -4,5 +4,6 @@
 void drawBackground();
 void drawCloudBlock(int x, int y);
 void drawMonster(int x, int y);
+void drawPipe(int x, int y, int width, int height);
 
 #endif
