@@ -10,31 +10,47 @@ int main() {
     
     
     int buffer = 0;
-    showMainMenu();
-    
-    while (isAlive) {  // Loop utama game
-        setactivepage(buffer);  // Aktifkan buffer
-        setvisualpage(1 - buffer);  // Tampilkan halaman yang sudah digambar
+ // Game berjalan saat isRunning = 1
+ showMainMenu();
+ while (isRunning) {  
+    setactivepage(buffer);
+    setvisualpage(1 - buffer);
+    cleardevice();
 
-        cleardevice();  // Bersihkan buffer sebelum menggambar ulang
-        drawBackground();
-        drawMap();  // Gambar peta level
-        //drawGrid();// Gambar Grid
-        
-      
-        drawCharacter(currentCharacter, playerX, playerY, hasStarPower); // Gambar pemain
-        initializeMirrorSprites();
-        updateGame();  // Perbarui status game
-        handleInput();  // Tangani input pemain
-        checkCollisionWithMonster();  // Periksa tabrakan dengan monster
-        checkCollisionWithSpike();  // Periksa tabrakan dengan duri
-        displayScore();  // Tampilkan skor di layar
-        
-        buffer = 1 - buffer;  // Tukar buffer untuk frame berikutnya
-        delay(10);  // Delay untuk kecepatan game
+    drawBackground();
+    drawMap();
+    drawCharacter(currentCharacter, playerX, playerY, hasStarPower);
+    initializeMirrorSprites();
+
+    if (isAlive) { 
+        updateGame();
+        handleInput();
+        checkCollisionWithMonster();
+        checkCollisionWithSpike();
+        displayScore();
+    } else {  
+        // **MENAMPILKAN GAME OVER**
+        displayGameOver();
+
+        // **Cek tombol untuk Restart atau kembali ke Main Menu**
+        if (GetAsyncKeyState('R') & 0x8000) {  
+            delay(200); // Hindari deteksi ganda
+            restartGame();  
+        } else if (GetAsyncKeyState('M') & 0x8000) {  
+            delay(200);  
+            isRunning = 0;  // **Pastikan loop utama berhenti**
+            showMainMenu();  
+            return 0;  // **Agar tidak kembali ke game loop setelah menu**
+        }
+    }
+    // Jika tombol Escape ditekan, keluar dari game
+    if (GetAsyncKeyState(VK_ESCAPE)) {  
+        isRunning = 0;  
     }
 
-    displayGameOver();  // Tampilkan layar game over
-    closegraph();  // Tutup grafik
-    return 0;
+    buffer = 1 - buffer;
+    delay(10);
+}
+
+showMainMenu();  // Setelah keluar dari game, kembali ke menu utama
 }

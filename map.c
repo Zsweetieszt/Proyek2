@@ -149,10 +149,70 @@ void drawBrickBlock(int x, int y) {
         line(x, y + i, x + 32, y + i);
     }
 }
-void drawPipe(int x, int y){
-    setcolor(GREEN);
-    setfillstyle(SOLID_FILL, GREEN);
-    bar(x, y, x + 32, y + 32);   
+void drawBodyPipe(int x, int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    
+    // Menggambar bagian atas pipa (lebih lebar sedikit)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x - 10, y - 20, x + 50, y);
+    
+    // Efek pencahayaan di bagian atas
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x - 5, y - 20, x + 10, y);
+    
+    // Menambahkan detail garis batas pada pipa
+    setcolor(BLACK);
+    rectangle(x, y, x + 40, y + 40);
+    rectangle(x - 10, y - 20, x + 50, y);
+}
+
+void drawPipe(int x,int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    // Menambahkan detail garis batas pada pipa
+    setcolor(BLACK);
+    rectangle(x, y, x , y + 40);
+    
 }
 
 void drawCloudBlock(int x, int y) {
@@ -194,18 +254,60 @@ void drawNextLevel(int x, int y) {
 }
 
 void drawFlag(int x, int y) {
-    setcolor(WHITE);
-    line(x, y, x, y + 60);  // Tiang lebih pendek sesuai ukuran bendera
-
-    // Menggambar bagian atas bendera (merah)
-    setfillstyle(SOLID_FILL, RED);
-    rectangle(x, y, x + 40, y + 20);
-    floodfill(x + 20, y + 10, WHITE);
-
-    // Menggambar bagian bawah bendera (putih)
-    setfillstyle(SOLID_FILL, WHITE);
-    rectangle(x, y + 20, x + 40, y + 40);
-    floodfill(x + 20, y + 30, WHITE);
+    int flagWidth = 50;  // Ukuran bendera diperbesar
+    int flagHeight = 30;
+    int poleHeight = 80; // Ukuran tiang diperbesar
+    int poleWidth = 5;
+    
+    // Warna RGB untuk bendera (merah) dan tiang (abu-abu)
+    int flagColor = COLOR(200, 0, 0);
+    int poleColor = COLOR(100, 100, 100);
+    int shadowColor = COLOR(150, 0, 0); // Bayangan lebih gelap
+    int highlightColor = COLOR(255, 50, 50); // Efek pencahayaan
+    int baseColor = COLOR(80, 80, 80); // Warna dasar tiang
+    int textureColor = COLOR(120, 120, 120); // Tekstur tiang
+    int flagTextureColor = COLOR(220, 50, 50); // Tekstur bendera
+    
+    // Gambar dasar tiang (lebih profesional dengan efek bayangan)
+    setcolor(baseColor);
+    setfillstyle(SOLID_FILL, baseColor);
+    bar(x - 3, y, x + poleWidth + 3, y + 7);
+    
+    // Gambar tiang
+    setcolor(poleColor);
+    setfillstyle(SOLID_FILL, poleColor);
+    bar(x, y - poleHeight, x + poleWidth, y);
+    
+    // Tambahkan tekstur pada tiang
+    setcolor(textureColor);
+    for (int i = y - poleHeight; i < y; i += 5) {
+        line(x, i, x + poleWidth, i);
+    }
+    
+    // Efek bayangan pada tiang
+    setcolor(COLOR(60, 60, 60));
+    line(x + poleWidth, y - poleHeight, x + poleWidth, y);
+    
+    // Gambar bayangan bendera
+    setcolor(shadowColor);
+    setfillstyle(SOLID_FILL, shadowColor);
+    bar(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth + 2, y - poleHeight + flagHeight + 2);
+    
+    // Gambar bendera
+    setcolor(flagColor);
+    setfillstyle(SOLID_FILL, flagColor);
+    bar(x + poleWidth, y - poleHeight, x + poleWidth + flagWidth, y - poleHeight + flagHeight);
+    
+    // Tambahkan tekstur pada bendera
+    setcolor(flagTextureColor);
+    for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3) {
+        line(x + poleWidth, i, x + poleWidth + flagWidth, i);
+    }
+    
+    // Tambahkan highlight untuk efek pencahayaan
+    setcolor(highlightColor);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
 
 void drawMap() {
@@ -235,13 +337,13 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x +20, y +20);
+                    drawSpike(x, y +20);
                     break;                                
                 case 7:
                     drawNextLevel(x, y);
                     break;
                 case 8:
-                    drawPipe(x + 20, y + 20);
+                    drawPipe(x + 10, y + 20);
                     break;
                 case 9:
                     drawCloud(x + 20, y + 20);
@@ -253,8 +355,12 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x +20, y +20);
+                    drawFlag(x +20, y +30);
                     break;
+                case 13:
+                    drawBodyPipe(x + 10, y + 20);
+                    break;
+
             }
         }
     }

@@ -2,6 +2,10 @@
 #include "collision.h"
 #include <stdbool.h>
 
+void drawHitbox(int left, int top, int right, int bottom, int color) {
+    setcolor(color);
+    rectangle(left, top, right, bottom);
+}
 // Fungsi untuk mendeteksi tabrakan dengan duri
 void checkCollisionWithSpike() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -17,14 +21,17 @@ void checkCollisionWithSpike() {
                 int spikeBottom = spikeY + 40; 
 
                 // Hitbox Mario (gunakan konstanta)
-                int playerLeft = playerX - (COLS / 2);
-                int playerRight = playerX + (COLS / 2);
+                int playerLeft = playerX - (COLS / 2)+20;
+                int playerRight = playerX + (COLS / 2)+10;
                 int playerTop = playerY - ROWS;
                 int playerBottom = playerY;
 
                 // Hitbox Spike (hanya setengah bagian bawah)
                 int spikeLeft = spikeX;
                 int spikeRight = spikeX + spikeWidth;
+
+                //drawHitbox(spikeLeft, spikeTop, spikeRight, spikeBottom, RED);   // Hitbox Spike (Merah)
+               // drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); // Hitbox Mario (Biru)
 
                 // Deteksi tabrakan menggunakan AABB
                 if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH) {
@@ -34,13 +41,12 @@ void checkCollisionWithSpike() {
                         playerLives--; // Kurangi nyawa Mario
                         
                         if (playerLives <= 0) {
-                            isAlive = 0; // Mario benar-benar mati jika nyawa habis
+                            isAlive = 0;// Mario benar-benar mati jika nyawa habis
                         } else {
                             // Reset posisi Mario ke titik aman setelah kena spike
                             findMarioStartPosition();
                         }
-                        
-                        return; // Keluar lebih cepat jika sudah terkena spike
+
                     }
                 }
             }
@@ -62,15 +68,45 @@ void checkCollisionWithMonster() {
         playerY < monsterY + monsterSize &&
         playerY + playerSize > monsterY) {
         
+    int hitboxMarginX = 25;  
+    int hitboxMarginY = 20;  
+
+    int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
+    int monsterHitboxRight  = screenMonsterX + MONSTER_SIZE + hitboxMarginX;
+    int monsterHitboxTop    = monsterY - hitboxMarginY;
+    int monsterHitboxBottom = monsterY + MONSTER_SIZE + hitboxMarginY;
+
+    int playerHitboxLeft   = playerX + 20;
+    int playerHitboxRight  = playerX + COLS + 4;
+    int playerHitboxTop    = playerY - 4;
+    int playerHitboxBottom = playerY;
+    
+
+    if (playerHitboxRight > monsterHitboxLeft &&
+        playerHitboxLeft < monsterHitboxRight &&
+        playerHitboxBottom > monsterHitboxTop &&
+        playerHitboxTop < monsterHitboxBottom) {
+
         if (hasStarPower) {
             // Jika dalam mode Star Power, bunuh monster dan tambah skor
             monsterX = -999999;  // Pindahkan monster keluar layar (anggap hilang)
             score += 15;       // Tambahkan skor sebanyak 15 poin
+            monsterX = -999999;  // Monster mati jika Mario punya Star Power
+            score += 15;
         } else {
             // Jika tidak punya Star Power, pemain mati
             playerLives = playerLives-1;
+
+            if (playerLives > 0) {  
+                // Jika masih ada nyawa tersisa, reset posisi Mario
+                findMarioStartPosition();  
+            } else {
+                // Jika nyawa habis, baru set isAlive = 0
+                isAlive = 0;
+            }
         }
     }
+}
 }
 
 void checkCollisionWithCoin() {
@@ -162,7 +198,7 @@ void cheakCollisionWithBlock(){
     
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
-            if (maps[level][i][j] == 1 || maps[level][i][j] == 2 || maps[level][i][j] == 8 || maps[level][i][j] == 11) {
+            if (maps[level][i][j] == 1 || maps[level][i][j] == 2 || maps[level][i][j] == 8 || maps[level][i][j] == 11|| maps[level][i][j] == 13) {
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
