@@ -129,8 +129,8 @@ void drawCoin(int x, int y) {
 
 void animationMonster() {
     // Hitung koordinat layar untuk monster
-    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-    int screenY = monsterY; // Koordinat Y tetap sama
+    int screenX = monster.x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+    int screenY = monster.y; // Koordinat Y tetap sama
 
     // Panggil fungsi desain baru dengan koordinat layar
     drawMonster(screenX, screenY);
@@ -453,11 +453,11 @@ void drawVictoryFlag(int x, int y) {
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            int actualX = j + cameraX; // Ambil posisi asli di peta besar
+            int actualX = j + camera.x; // Ambil posisi asli di peta besar
             if (actualX >= TOTAL_MAP_WIDTH) continue; // Hindari menggambar di luar batas
 
-            int tile = maps[level][i][actualX];
-            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; // Sesuaikan dengan offset kamera
+            int tile = maps[gameState.level][i][actualX];
+            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset; // Sesuaikan dengan offset kamera
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
             
             switch (tile) {
