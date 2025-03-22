@@ -1,4 +1,6 @@
-#include <block_design.h>
+#include "game.h"
+#include "map.h"
+#include "block_design.h"
 
 // Fungsi untuk menggambar baris 1 dan 3
 void drawRow(int x, int y, int gap, int blockSize) {
@@ -75,9 +77,9 @@ void drawPlatform(int x, int y, int width, int height) {
     for (int i = 0; i < 4; i++) {
         int rowType = (i % 2 == 0) ? 1 : 2; // Baris 1 & 3 = tipe 1, Baris 2 & 4 = tipe 2
         if (rowType == 1) {
-            drawRow13(x, y, gap, blockSize);
+            drawRow(x, y, gap, blockSize);
         } else {
-            drawRow24(x, y, gap, blockSize);
+            drawRow2(x, y, gap, blockSize);
         }
         y += blockSize + gap; // Pindah ke posisi atas untuk baris berikutnya
     }
