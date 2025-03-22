@@ -1,3 +1,5 @@
+#include "game.h"
+#include "map.h"
 #include "design.h"
 
 void drawBackground() {
@@ -16,6 +18,103 @@ void drawBackground() {
     fillellipse(sunX, sunY, sunRadius, sunRadius);  // Gambar matahari
 }
 
+void animationMonster() {
+    // Hitung koordinat layar untuk monster
+    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+    int screenY = monsterY; // Koordinat Y tetap sama
+
+    // Panggil fungsi desain baru dengan koordinat layar
+    drawMonster(screenX, screenY);
+}
+
+void drawMonster(int x, int y) {
+    // Kepala hantu (lingkaran)
+    setfillstyle(SOLID_FILL, WHITE);
+    fillellipse(x, y, 15, 20);
+
+    // Badan hantu (bagian bawah bergelombang)
+    int body[] = {x - 15, y, x - 17, y + 15, x - 12, y + 20, x - 7, y + 15,
+                  x - 2, y + 20, x + 2 , y + 15, x + 7, y + 20, x + 12, y + 15,
+                  x + 15, y, x - 15, y};
+    setfillstyle(SOLID_FILL, WHITE);
+    fillpoly(10, body);
+
+    // Mata hantu
+    setfillstyle(SOLID_FILL, BLACK);
+    fillellipse(x - 5, y - 5, 2, 4);
+    fillellipse(x + 5, y - 5, 2, 4);
+
+    // Mulut hantu
+    arc(x, y + 2, 200, 340, 5); // Mulut berbentuk setengah lingkaran
+}
+
+
+void drawBodyPipe(int x, int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    
+    // Menggambar bagian atas pipa (lebih lebar sedikit)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x - 10, y - 20, x + 50, y);
+    
+    // Efek pencahayaan di bagian atas
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x - 5, y - 20, x + 10, y);
+    
+    // Menambahkan detail garis batas pada pipa
+    setcolor(BLACK);
+    rectangle(x, y, x + 40, y + 40);
+    rectangle(x - 10, y - 20, x + 50, y);
+}
+
+void drawPipe(int x,int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    // Menambahkan detail garis batas pada pipa
+    setcolor(BLACK);
+    rectangle(x, y, x , y + 40);
+    
+}
+
 void drawCloudBlock(int x, int y) {
     int size = 32;
     setcolor(WHITE);
@@ -23,70 +122,6 @@ void drawCloudBlock(int x, int y) {
     bar(x, y, x + size, y + size * 2 / 3);
     bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
-}
-
-void drawMonster(int x, int y) {
-    // Kepala hantu (lingkaran)
-        setfillstyle(SOLID_FILL, WHITE);
-        fillellipse(x, y, 30, 40);
-    
-        // Badan hantu (bagian bawah bergelombang)
-        int body[] = {x - 30, y, x - 35, y + 30, x - 25, y + 40, x - 15, y + 30,
-                    x - 5, y + 40, x + 5, y + 30, x + 15, y + 40, x + 25, y + 30,
-                    x + 30, y, x - 30, y}; 
-        setfillstyle(SOLID_FILL, WHITE);
-        fillpoly(10, body);
-    
-        // Mata hantu
-        setfillstyle(SOLID_FILL, BLACK);
-        fillellipse(x - 10, y - 10, 5, 8);
-        fillellipse(x + 10, y - 10, 5, 8);
-    
-        // Mulut hantu
-        arc(x, y + 5, 200, 340, 10); // Mulut berbentuk setengah lingkaran
-    
-    }
-
-    // Fungsi menggambar pipa dengan ukuran dan posisi fleksibel
-void drawPipe(int x, int y, int width, int height) {
-    int warna1 = COLOR(1, 166, 1);
-    int warna2 = COLOR(111, 202, 48);
-
-    // **1. Bagian Atas Pipa (Lebih Lebar)**
-    setfillstyle(SOLID_FILL, warna1);
-    bar(x - 10, y, x + width + 10, y + 20);
-
-    // **2. Batang Pipa (Vertikal)**
-    setfillstyle(SOLID_FILL, warna1);
-    bar(x, y + 20, x + width, y + height);
-
-    // **3. Detail Garis Hijau Tua**
-    setcolor(warna1);
-    for (int i = 0; i < 3; i++) {
-        line(x + (i * 10) + 5, y + 20, x + (i * 10) + 5, y + height);
-    }
-
-    // **4. Efek Shading Kuning Tebal**
-    setcolor(warna2);
-    for (int i = 0; i < 3; i++) {
-        line(x + (i * 5) + 2, y + 20, x + (i * 5) + 2, y + height);
-    }
-
-    setfillstyle(SOLID_FILL, warna2);
-    bar(x + 10, y + 20, x + 15, y + height);  // Bar tambahan agar shading lebih nyata
-
-    // **5. Outline Hitam Agar Lebih Tegas**
-    setcolor(BLACK);
-    setlinestyle(SOLID_LINE, 0, 3);
-
-    // Garis luar (outline utama)
-    rectangle(x - 10, y, x + width + 10, y + 20); // Bagian atas pipa
-    rectangle(x, y + 20, x + width, y + height);  // Batang pipa
-
-    // **6. Garis Hitam di Ujung Pipa (Atas & Bawah)**
-    line(x - 10, y, x + width + 10, y);  // Garis atas pipa
-    line(x - 10, y + 20, x + width + 10, y + 20); // Garis bawah bagian atas
-    line(x, y + height, x + width, y + height);   // Garis bawah batang pipa
 }
 
 void drawFlag(int x, int y) {
