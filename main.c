@@ -32,15 +32,15 @@ int main() {
         // **MENAMPILKAN GAME OVER**
         displayGameOver();
 
-        // **Cek tombol untuk Restart atau kembali ke Main Menu**
-        if (GetAsyncKeyState('R') & 0x8000) {  
-            delay(200); // Hindari deteksi ganda
-            restartGame();  
-        } else if (GetAsyncKeyState('M') & 0x8000) {  
-            delay(200);  
-            isRunning = 0;  // **Pastikan loop utama berhenti**
-            showMainMenu();  
-            return 0;  // **Agar tidak kembali ke game loop setelah menu**
+        char key = getch();
+        if (key == 'R' || key == 'r') {  
+            // Restart game dari awal
+            restartGame();
+        } else if (key == 'M' || key == 'm') {  
+            // Kembali ke Main Menu
+            isRunning = 0;  // Hentikan game loop
+            showMainMenu();
+            return 0;     // Pastikan keluar dari main() agar tidak lanjut
         }
     }
     // Jika tombol Escape ditekan, keluar dari game

@@ -59,28 +59,30 @@ void handleMouseClick(int mouseX, int mouseY) {
 }
 
 // Fungsi untuk menampilkan menu utama
-    void showMainMenu() {
-        setbkcolor(LIGHTBLUE);
-        cleardevice();
-    
-        setcolor(WHITE);
-        settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
-    
-        char startText[] = "Start Game";
-        char exitText[] = "Exit";
-    
-        outtextxy(100, 150, startText);
-        outtextxy(100, 200, exitText);
-    
-        while (1) {  
-            if (GetAsyncKeyState(VK_RETURN) & 0x8000) {  
-                delay(200);
-                restartGame();  
-                return;  
-            } else if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {  
-                exit(0);  // **Keluar dari program**
-            }
-            delay(50);
+void showMainMenu() {
+    setbkcolor(LIGHTBLUE);
+    cleardevice();
+
+    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
+    setcolor(WHITE);
+
+    char startText[] = "Start Game";
+    char continueText[] = "Continue";
+    char guideText[] = "Guide";
+    char exitText[] = "Exit";
+
+    outtextxy(100, 150, startText);
+    outtextxy(100, 180, continueText);
+    outtextxy(100, 210, guideText);
+    outtextxy(100, 240, exitText);
+
+    while (1) { 
+        int mouseX, mouseY;
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
+            handleMouseClick(mouseX, mouseY);
+            clearmouseclick(WM_LBUTTONDOWN);
+            break;
         }
     }
- 
+}
