@@ -7,6 +7,7 @@ void checkCollisionWithCoin();
 void checkCollisionWithStar();
 void checkCollisionWithNextLevel();
 void cheakCollisionWithBlock();
+int checkCollisionWithFlag();
 
 
 

@@ -356,6 +356,76 @@ void drawFlag(int x, int y) {
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
+void drawVictoryFlag(int x, int y) {
+    int flagWidth = 50;
+    int flagHeight = 30;
+    int poleHeight = 300;
+    int poleWidth = 5;
+    
+    int flagColor = COLOR(200, 0, 0);
+    int poleColor = COLOR(100, 100, 100);
+    int shadowColor = COLOR(150, 0, 0);
+    int highlightColor = COLOR(255, 50, 50);
+    int baseColor = COLOR(80, 80, 80);
+    int textureColor = COLOR(120, 120, 120);
+    int flagTextureColor = COLOR(220, 50, 50);
+    int starColor = COLOR(255, 255, 0);
+    
+    // Gambar dasar tiang
+    setcolor(baseColor);
+    setfillstyle(SOLID_FILL, baseColor);
+    bar(x - 3, y, x + poleWidth + 3, y + 7);
+    
+    // Gambar tiang
+    setcolor(poleColor);
+    setfillstyle(SOLID_FILL, poleColor);
+    bar(x, y - poleHeight, x + poleWidth, y);
+    
+    // Tambahkan tekstur pada tiang
+    setcolor(textureColor);
+    for (int i = y - poleHeight; i < y; i += 5) {
+        line(x, i, x + poleWidth, i);
+    }
+    
+    // Efek bayangan pada tiang
+    setcolor(COLOR(60, 60, 60));
+    line(x + poleWidth, y - poleHeight, x + poleWidth, y);
+    
+    // Gambar bayangan bendera
+    setcolor(shadowColor);
+    setfillstyle(SOLID_FILL, shadowColor);
+    int shadowTriangle[6] = {x + poleWidth, y - poleHeight + 2, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2 + 2, x + poleWidth, y - poleHeight + flagHeight + 2};
+    fillpoly(3, shadowTriangle);
+    
+    // Gambar bendera segitiga menghadap kiri
+    setcolor(flagColor);
+    setfillstyle(SOLID_FILL, flagColor);
+    int triangle[6] = {x + poleWidth, y - poleHeight, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2, x + poleWidth, y - poleHeight + flagHeight};
+    fillpoly(3, triangle);
+    
+    // Tambahkan tekstur pada bendera
+    setcolor(flagTextureColor);
+    for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3) {
+        line(x + poleWidth, i, x + poleWidth - flagWidth / 2, i);
+    }
+    
+    // Tambahkan highlight untuk efek pencahayaan
+    setcolor(highlightColor);
+    line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - flagWidth / 2 + 2, y - poleHeight + flagHeight / 4);
+    line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - 2, y - poleHeight + flagHeight - 2);
+    
+    // Gambar tanda kemenangan (bintang di dalam bendera)
+    setcolor(starColor);
+    setfillstyle(SOLID_FILL, starColor);
+    int star[10] = {
+        x + poleWidth - flagWidth / 3, y - poleHeight + flagHeight / 2 - 6,
+        x + poleWidth - flagWidth / 3 + 6, y - poleHeight + flagHeight / 2 + 3,
+        x + poleWidth - flagWidth / 3 - 6, y - poleHeight + flagHeight / 2 - 2,
+        x + poleWidth - flagWidth / 3 + 6, y - poleHeight + flagHeight / 2 - 2,
+        x + poleWidth - flagWidth / 3 - 6, y - poleHeight + flagHeight / 2 + 3
+    };
+    fillpoly(5, star);
+}
 
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -406,6 +476,9 @@ void drawMap() {
                     break;
                 case 13:
                     drawBodyPipe(x + 10, y + 20);
+                    break;
+                case 14:
+                    drawVictoryFlag(x +20, y +30);
                     break;
 
             }

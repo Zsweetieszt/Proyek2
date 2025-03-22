@@ -42,10 +42,10 @@ void handleMouseClick(int mouseX, int mouseY) {
 // Fungsi untuk menampilkan menu utama
 void showMainMenu() {
         // Set halaman aktif dan visual ke 0
-        setactivepage(0);
-        setvisualpage(0);
+    setactivepage(0);
+    setvisualpage(0);
         
-        cleardevice();  // Bersihkan layar
+    cleardevice();  // Bersihkan layar
     setbkcolor(LIGHTBLUE);
     cleardevice();
 

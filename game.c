@@ -3,7 +3,7 @@
 #include "map.h"
 
 // Definisi variabel global
-int playerX = 100, playerY = GROUND_HEIGHT - 30;
+int playerX = 80, playerY = GROUND_HEIGHT - 30;
 int velocityY = 0;
 int isJumping = 0;
 int level = 0;
@@ -12,13 +12,14 @@ int cameraX = 0;
 int cameraOffset = 0;
 int monsterX = 300, monsterY = GROUND_HEIGHT - 30;
 int monsterDirection = 1; // 1 untuk ke kanan, -1 untuk ke kiri
-int score = 0;  
+int score = 5;  
 int coins = 0;  
 int hasStarPower = 0;  // Awalnya pemain tidak memiliki Star Power
 int starPowerTimer = 0; // Timer untuk Star Power
 int playerLives = 3;
 int playing =1;
-int isRunning = 0; 
+int isRunning = 0;
+int hasWon=0; 
 
 
 
@@ -35,7 +36,7 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 2, 0, 0, 0, 0, 0, 0 },
         {0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 13, 0, 2, 0, 0, 0, 0, 0, 0 },
         {0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0 },
-        {0, 12, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0 },
+        {0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     },
     {
@@ -62,7 +63,7 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 12, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 2, 0, 2, 6, 2, 6, 2, 6, 6, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 }
     },
@@ -71,6 +72,9 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
 // Fungsi untuk memperbarui status game
 void updateGame() {
     if (!isAlive) return;
+    if (!hasWon) {  // Jika belum menang, cek tabrakan
+        checkCollisionWithFlag();
+    }
 
 
     playerY += velocityY;
@@ -113,16 +117,27 @@ void restartGame() {
     playerLives = 3;  // Reset nyawa Mario
     isAlive = 1;  // Mario hidup kembali
     playing = 1;  // Kembali ke mode bermain
-
+    score = 0; 
+    coins = 0; // Kurangi skor
+    
     // Reset posisi Mario ke titik awal
     findMarioStartPosition();  
 
-    // **Tambahkan inisialisasi ulang level, skor, atau power-up jika ada**
+    // Reset level ke awal jika diperlukan
     level = 0;  
 
-    // **Tambahkan reset variabel lain yang diperlukan**
+    for (int lvl = 0; lvl <= 3; lvl++) {  // Loop untuk semua level
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+                if (maps[lvl][i][j] == 20) {
+                    maps[lvl][i][j] = 3;  // Kembalikan semua koin di setiap level
+                }
+            }
+        }
+    }
     isRunning = 1; // Pastikan game tetap berjalan
 }
+
 
 
 void displayScore() {
@@ -177,4 +192,29 @@ void findMarioStartPosition() {
             }
         }
     }
+}
+
+void displayWinScreen(int score, int coins, int playerLives) {
+    // Set halaman aktif dan visual ke 0
+    setactivepage(0);
+    setvisualpage(0);
+    cleardevice();
+    
+    setcolor(WHITE);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+    
+    outtextxy(130, 150, (char*)"CONGRATULATIONS!");  // Tambahkan (char*)
+    outtextxy(200, 200, (char*)"YOU WIN!");
+    
+    char scoreText[50], coinText[50], livesText[50];
+    sprintf(scoreText, "SCORE: %d", score);
+    sprintf(coinText, "COINS: %d", coins);
+    sprintf(livesText, "LIVES LEFT: %d", playerLives);
+    
+    outtextxy(200, 250, scoreText);
+    outtextxy(200, 280, coinText);
+    outtextxy(200, 310, livesText);
+    
+    outtextxy(70, 350, (char*)"Press 'M' to Menu");
+    outtextxy(70, 380, (char*)"Press 'Q' to Quit Game");
 }
