@@ -229,7 +229,7 @@ void displayWinScreen(Point point, Player player) {
     char scoreText[50], coinText[50], livesText[50];
     sprintf(scoreText, "SCORE: %d", point.score);
     sprintf(coinText, "COINS: %d", point.coins);
-    sprintf(livesText, "LIVES LEFT: %d", player.lives);
+    sprintf(livesText, "LIVES LEFT: %d", player.playerLives);
     
     outtextxy(200, 250, scoreText);
     outtextxy(200, 280, coinText);
