@@ -6,16 +6,16 @@ void showGuide() {
     settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2); // Gunakan font triplex
 
     char guideTitle[] = "Guide:";
-    char guideStep1[] = "1. Use arrow keys to navigate.";
-    char guideStep2[] = "2. Press 'Enter' to select an option.";
-    char guideStep3[] = "3. Enjoy the game!";
+    char guideStep1[] = "1. Gunakan A D untuk bergerak.";
+    char guideStep2[] = "2. Gunakan W untuk melompat.";
+    char guideStep3[] = "3. Gunakan P untuk pause game";
     char backMsg[] = "Press any key or click to play game.";
 
     outtextxy(100, 100, guideTitle);
     outtextxy(100, 150, guideStep1);
     outtextxy(100, 200, guideStep2);
     outtextxy(100, 250, guideStep3);
-    outtextxy(100, 300, backMsg);
+    outtextxy(80, 300, backMsg);
 
     while (!kbhit() && !ismouseclick(WM_LBUTTONDOWN)); // Tunggu input keyboard atau mouse
     getch(); // Bersihkan input keyboard

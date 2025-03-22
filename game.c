@@ -152,9 +152,9 @@ void displayGameOver() {
     char retryText[] = "Press R to Retry";
     char menuText[] = "Press M for Main Menu";
 
-    outtextxy(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, gameOverText);
-    outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2 + 50, retryText);
-    outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2 + 100, menuText);
+    outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, gameOverText);
+    outtextxy(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 50, retryText);
+    outtextxy(SCREEN_WIDTH / 2 - 220, SCREEN_HEIGHT / 2 + 100, menuText);
 }
 
 
