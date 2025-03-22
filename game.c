@@ -18,7 +18,7 @@ int hasStarPower = 0;  // Awalnya pemain tidak memiliki Star Power
 int starPowerTimer = 0; // Timer untuk Star Power
 int playerLives = 3;
 int playing =1;
-int isRunning = 1; 
+int isRunning = 0; 
 
 
 
