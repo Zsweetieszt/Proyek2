@@ -1,40 +1,87 @@
 #include "game.h"
 #include "map.h"
 
-void drawRectangle(int x, int y, int width, int height) {
-    int rectColor = COLOR(204, 102, 0); // Warna oranye
-    int gapColor = BLACK; // Warna pemisah
+// Fungsi untuk menggambar baris 1 dan 3
+void drawRow13(int x, int y, int gap, int blockSize) {
+    int platformColor = COLOR(204, 102, 0); // Warna kotak/persegi panjang
+    int gapColor = COLOR(0, 0, 0);          // Warna celah (hitam)
+    int left = x, right, top = y, bottom = top + blockSize;
 
-    setfillstyle(SOLID_FILL, rectColor);
-    bar(x, y, x + width, y + height);
+    // Kotak kiri dengan celah
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, left + blockSize + gap, bottom + gap);
 
-    setcolor(gapColor);
-    rectangle(x, y, x + width, y + height);
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, left + blockSize, bottom);
+
+    // Persegi panjang tengah dengan celah
+    left = left + blockSize + gap;
+    right = left + (2 * blockSize) - 1;
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
+
+    // Kotak kanan dengan celah
+    left = right + gap;
+    right = left + blockSize;
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
 }
 
-void drawSquare(int x, int y, int size) {
-    int rectColor = COLOR(204, 102, 0); // Warna oranye
-    int gapColor = BLACK; 
+// Fungsi untuk menggambar baris 2 dan 4
+void drawRow24(int x, int y, int gap, int blockSize) {
+    int platformColor = COLOR(204, 102, 0); // Warna persegi panjang
+    int gapColor = COLOR(0, 0, 0);          // Warna celah (hitam)
+    int left = x, right, top = y, bottom = top + blockSize;
 
-    setfillstyle(SOLID_FILL, rectColor); 
-    bar(x, y, x + size, y + size);
+    // Persegi panjang pertama dengan celah
+    right = left + (2 * blockSize);
 
-    setcolor(gapColor);
-    rectangle(x, y, x + size, y + size);
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
+
+    // Persegi panjang kedua dengan celah
+    left = right + gap;
+    right = left + (2 * blockSize);
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
 }
 
+// Fungsi untuk menggambar seluruh pola menggunakan ukuran fleksibel
 void drawPlatform(int x, int y, int width, int height) {
-    int tileSize = 40;  // Ukuran setiap elemen platform
-    int gap = 0;  // Jarak antar elemen
+    // Parameter pola
+    int blockSize = 10; // Tetapkan ukuran tetap untuk kotak/persegi panjang
+    int gap = 1;        // Celah antar objek
+    int rowHeight = 2 * (blockSize + gap); // Tinggi total semua baris
 
-    // Baris 1: Dua persegi panjang menyamping
-    drawRectangle(x, y, width / 2 - gap / 2, height);
-    drawRectangle(x + width / 2 + gap / 2, y, width / 2 - gap / 2, height);
+    // Pusatkan pola jika height melebihi tinggi pola
+    int offsetY = (height > rowHeight) ? (height - rowHeight) / 2 : 0;
+    y += offsetY; // Tambahkan offset vertikal untuk pusatkan pola
 
-    // Baris 2: Satu persegi panjang diapit dua kotak
-    drawSquare(x, y + height + gap, tileSize);
-    drawRectangle(x + tileSize + gap, y + height + gap, width - 2 * (tileSize + gap), height);
-    drawSquare(x + width - tileSize, y + height + gap, tileSize);
+    // Gambar setiap baris
+    for (int i = 0; i < 4; i++) {
+        int rowType = (i % 2 == 0) ? 1 : 2; // Baris 1 & 3 = tipe 1, Baris 2 & 4 = tipe 2
+        if (rowType == 1) {
+            drawRow13(x, y, gap, blockSize);
+        } else {
+            drawRow24(x, y, gap, blockSize);
+        }
+        y += blockSize + gap; // Pindah ke posisi atas untuk baris berikutnya
+    }
 }
 
 
@@ -162,16 +209,70 @@ void drawBrickBlock(int x, int y) {
         line(x, y + i, x + 32, y + i);
     }
 }
-
-void drawPipe(int x, int y) {
-    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  // Ukuran pipa sama seperti blok lain
-    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT * 2;  // Pipa dua kali tinggi blok biasa
-
-    setfillstyle(SOLID_FILL, GREEN);
-    bar(x, y, x + tileSizeX, y + tileSizeY);
-
+void drawBodyPipe(int x, int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    
+    // Menggambar bagian atas pipa (lebih lebar sedikit)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x - 10, y - 20, x + 50, y);
+    
+    // Efek pencahayaan di bagian atas
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x - 5, y - 20, x + 10, y);
+    
+    // Menambahkan detail garis batas pada pipa
     setcolor(BLACK);
-    rectangle(x, y, x + tileSizeX, y + tileSizeY);
+    rectangle(x, y, x + 40, y + 40);
+    rectangle(x - 10, y - 20, x + 50, y);
+}
+
+void drawPipe(int x,int y){
+    // Warna utama pipa hijau gelap
+    int darkGreen = COLOR(0, 128, 0);
+    // Warna hijau terang untuk efek cahaya
+    int lightGreen = COLOR(0, 200, 0);
+    // Warna bayangan lebih gelap
+    int shadowGreen = COLOR(0, 100, 0);
+    // Menggambar bagian bawah pipa (40x40 pixel)
+    setcolor(darkGreen);
+    setfillstyle(SOLID_FILL, darkGreen);
+    bar(x, y, x + 40, y + 40);
+    
+    // Efek pencahayaan pada pipa
+    setcolor(lightGreen);
+    setfillstyle(SOLID_FILL, lightGreen);
+    bar(x + 5, y, x + 15, y + 40);
+    
+    // Menambahkan bayangan di sisi kanan
+    setcolor(shadowGreen);
+    setfillstyle(SOLID_FILL, shadowGreen);
+    bar(x + 30, y, x + 40, y + 40);
+    // Menambahkan detail garis batas pada pipa
+    setcolor(BLACK);
+    rectangle(x, y, x , y + 40);
+    
 }
 
 
@@ -214,18 +315,60 @@ void drawNextLevel(int x, int y) {
 }
 
 void drawFlag(int x, int y) {
-    setcolor(WHITE);
-    line(x, y, x, y + 60);  // Tiang lebih pendek sesuai ukuran bendera
-
-    // Menggambar bagian atas bendera (merah)
-    setfillstyle(SOLID_FILL, RED);
-    rectangle(x, y, x + 40, y + 20);
-    floodfill(x + 20, y + 10, WHITE);
-
-    // Menggambar bagian bawah bendera (putih)
-    setfillstyle(SOLID_FILL, WHITE);
-    rectangle(x, y + 20, x + 40, y + 40);
-    floodfill(x + 20, y + 30, WHITE);
+    int flagWidth = 50;  // Ukuran bendera diperbesar
+    int flagHeight = 30;
+    int poleHeight = 80; // Ukuran tiang diperbesar
+    int poleWidth = 5;
+    
+    // Warna RGB untuk bendera (merah) dan tiang (abu-abu)
+    int flagColor = COLOR(200, 0, 0);
+    int poleColor = COLOR(100, 100, 100);
+    int shadowColor = COLOR(150, 0, 0); // Bayangan lebih gelap
+    int highlightColor = COLOR(255, 50, 50); // Efek pencahayaan
+    int baseColor = COLOR(80, 80, 80); // Warna dasar tiang
+    int textureColor = COLOR(120, 120, 120); // Tekstur tiang
+    int flagTextureColor = COLOR(220, 50, 50); // Tekstur bendera
+    
+    // Gambar dasar tiang (lebih profesional dengan efek bayangan)
+    setcolor(baseColor);
+    setfillstyle(SOLID_FILL, baseColor);
+    bar(x - 3, y, x + poleWidth + 3, y + 7);
+    
+    // Gambar tiang
+    setcolor(poleColor);
+    setfillstyle(SOLID_FILL, poleColor);
+    bar(x, y - poleHeight, x + poleWidth, y);
+    
+    // Tambahkan tekstur pada tiang
+    setcolor(textureColor);
+    for (int i = y - poleHeight; i < y; i += 5) {
+        line(x, i, x + poleWidth, i);
+    }
+    
+    // Efek bayangan pada tiang
+    setcolor(COLOR(60, 60, 60));
+    line(x + poleWidth, y - poleHeight, x + poleWidth, y);
+    
+    // Gambar bayangan bendera
+    setcolor(shadowColor);
+    setfillstyle(SOLID_FILL, shadowColor);
+    bar(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth + 2, y - poleHeight + flagHeight + 2);
+    
+    // Gambar bendera
+    setcolor(flagColor);
+    setfillstyle(SOLID_FILL, flagColor);
+    bar(x + poleWidth, y - poleHeight, x + poleWidth + flagWidth, y - poleHeight + flagHeight);
+    
+    // Tambahkan tekstur pada bendera
+    setcolor(flagTextureColor);
+    for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3) {
+        line(x + poleWidth, i, x + poleWidth + flagWidth, i);
+    }
+    
+    // Tambahkan highlight untuk efek pencahayaan
+    setcolor(highlightColor);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
+    line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
 
 void drawMap() {
@@ -258,13 +401,13 @@ void drawMap() {
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y + 20);
+                    drawSpike(x, y +20);
                     break;                                
                 case 7:
                     drawNextLevel(x, y);
                     break;
                 case 8:
-                    drawPipe(x, y);
+                    drawPipe(x + 10, y + 20);
                     break;
                 case 9:
                     drawCloud(x + 20, y + 20);
@@ -276,8 +419,12 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x + 20, y + 20);
+                    drawFlag(x +20, y +30);
                     break;
+                case 13:
+                    drawBodyPipe(x + 10, y + 20);
+                    break;
+
             }
         }
     }

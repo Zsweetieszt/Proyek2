@@ -24,6 +24,9 @@
 #define ROWS 35// Jumlah baris dalam array Player
 #define COLS 25// Jumlah kolom dalam array Player
 #define MOVE_DELAY 50 // Tambahkan delay saat berjalan (dalam ms)
+#define STATE_MENU 0
+#define STATE_PLAYING 1
+#define STATE_GAMEOVER 2
 
 
 
@@ -44,10 +47,13 @@ extern int totalMonsters;
 extern int monsterMinX[MAX_MONSTERS], monsterMaxX[MAX_MONSTERS];
 
 
+extern int playing;
+extern int isRunning;
 
 extern int score;  // Skor pemain
 extern int coins;  // Jumlah koin yang dikumpulkan
 extern int playerLives;
+
 
 extern int hasStarPower;   // Apakah pemain memiliki Star Power (0 = tidak, 1 = aktif)
 extern int starPowerTimer; // Waktu tersisa untuk Star Power dalam frame (10 detik)
@@ -61,6 +67,7 @@ void displayGameOver();
 void displayScore();
 void findMarioStartPosition();
 void findAllMonsters();
+void restartGame();
 
 
 #endif

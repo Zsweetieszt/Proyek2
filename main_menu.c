@@ -9,7 +9,7 @@ void showGuide() {
     char guideStep1[] = "1. Use arrow keys to navigate.";
     char guideStep2[] = "2. Press 'Enter' to select an option.";
     char guideStep3[] = "3. Enjoy the game!";
-    char backMsg[] = "Press any key or click to return to the main menu.";
+    char backMsg[] = "Press any key or click to play game.";
 
     outtextxy(100, 100, guideTitle);
     outtextxy(100, 150, guideStep1);
@@ -39,7 +39,13 @@ void handleMouseClick(int mouseX, int mouseY) {
     }
 }
 
+// Fungsi untuk menampilkan menu utama
 void showMainMenu() {
+        // Set halaman aktif dan visual ke 0
+        setactivepage(0);
+        setvisualpage(0);
+        
+        cleardevice();  // Bersihkan layar
     setbkcolor(LIGHTBLUE);
     cleardevice();
 
