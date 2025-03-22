@@ -1,40 +1,87 @@
 #include "game.h"
 #include "map.h"
 
-void drawRectangle(int x, int y, int width, int height) {
-    int rectColor = COLOR(204, 102, 0); // Warna oranye
-    int gapColor = BLACK; // Warna pemisah
+// Fungsi untuk menggambar baris 1 dan 3
+void drawRow13(int x, int y, int gap, int blockSize) {
+    int platformColor = COLOR(204, 102, 0); // Warna kotak/persegi panjang
+    int gapColor = COLOR(0, 0, 0);          // Warna celah (hitam)
+    int left = x, right, top = y, bottom = top + blockSize;
 
-    setfillstyle(SOLID_FILL, rectColor);
-    bar(x, y, x + width, y + height);
+    // Kotak kiri dengan celah
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, left + blockSize + gap, bottom + gap);
 
-    setcolor(gapColor);
-    rectangle(x, y, x + width, y + height);
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, left + blockSize, bottom);
+
+    // Persegi panjang tengah dengan celah
+    left = left + blockSize + gap;
+    right = left + (2 * blockSize) - 1;
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
+
+    // Kotak kanan dengan celah
+    left = right + gap;
+    right = left + blockSize;
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
 }
 
-void drawSquare(int x, int y, int size) {
-    int rectColor = COLOR(204, 102, 0); // Warna oranye
-    int gapColor = BLACK; 
+// Fungsi untuk menggambar baris 2 dan 4
+void drawRow24(int x, int y, int gap, int blockSize) {
+    int platformColor = COLOR(204, 102, 0); // Warna persegi panjang
+    int gapColor = COLOR(0, 0, 0);          // Warna celah (hitam)
+    int left = x, right, top = y, bottom = top + blockSize;
 
-    setfillstyle(SOLID_FILL, rectColor); 
-    bar(x, y, x + size, y + size);
+    // Persegi panjang pertama dengan celah
+    right = left + (2 * blockSize);
 
-    setcolor(gapColor);
-    rectangle(x, y, x + size, y + size);
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
+
+    // Persegi panjang kedua dengan celah
+    left = right + gap;
+    right = left + (2 * blockSize);
+
+    setfillstyle(SOLID_FILL, gapColor);
+    bar(left - gap, top - gap, right + gap, bottom + gap);
+
+    setfillstyle(SOLID_FILL, platformColor);
+    bar(left, top, right, bottom);
 }
 
+// Fungsi untuk menggambar seluruh pola menggunakan ukuran fleksibel
 void drawPlatform(int x, int y, int width, int height) {
-    int tileSize = 40;  // Ukuran setiap elemen platform
-    int gap = 0;  // Jarak antar elemen
+    // Parameter pola
+    int blockSize = 10; // Tetapkan ukuran tetap untuk kotak/persegi panjang
+    int gap = 1;        // Celah antar objek
+    int rowHeight = 2 * (blockSize + gap); // Tinggi total semua baris
 
-    // Baris 1: Dua persegi panjang menyamping
-    drawRectangle(x, y, width / 2 - gap / 2, height);
-    drawRectangle(x + width / 2 + gap / 2, y, width / 2 - gap / 2, height);
+    // Pusatkan pola jika height melebihi tinggi pola
+    int offsetY = (height > rowHeight) ? (height - rowHeight) / 2 : 0;
+    y += offsetY; // Tambahkan offset vertikal untuk pusatkan pola
 
-    // Baris 2: Satu persegi panjang diapit dua kotak
-    drawSquare(x, y + height + gap, tileSize);
-    drawRectangle(x + tileSize + gap, y + height + gap, width - 2 * (tileSize + gap), height);
-    drawSquare(x + width - tileSize, y + height + gap, tileSize);
+    // Gambar setiap baris
+    for (int i = 0; i < 4; i++) {
+        int rowType = (i % 2 == 0) ? 1 : 2; // Baris 1 & 3 = tipe 1, Baris 2 & 4 = tipe 2
+        if (rowType == 1) {
+            drawRow13(x, y, gap, blockSize);
+        } else {
+            drawRow24(x, y, gap, blockSize);
+        }
+        y += blockSize + gap; // Pindah ke posisi atas untuk baris berikutnya
+    }
 }
 
 
