@@ -81,11 +81,24 @@ void drawCoin(int x, int y) {
 }
 
 void drawMonster() {
-    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-    setcolor(RED);
-    setfillstyle(SOLID_FILL, RED);
-    fillellipse(screenX, monsterY, MONSTER_SIZE, MONSTER_SIZE);
+    for (int i = 0; i < totalMonsters; i++) {
+        if (monsterX[i] == -9999 && monsterY[i] == -9999) continue;  // Jangan gambar monster yang sudah mati
+
+        int screenX = monsterX[i] - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+        int screenY = monsterY[i];
+
+        setcolor(RED);
+        setfillstyle(SOLID_FILL, RED);
+        fillellipse(screenX, screenY, MONSTER_SIZE, MONSTER_SIZE);
+    }
 }
+
+
+
+
+
+
+
 
 
 
@@ -218,13 +231,15 @@ void drawFlag(int x, int y) {
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            int actualX = j + cameraX; // Ambil posisi asli di peta besar
-            if (actualX >= TOTAL_MAP_WIDTH) continue; // Hindari menggambar di luar batas
+            int actualX = j + cameraX; 
+            if (actualX >= TOTAL_MAP_WIDTH) continue; 
 
             int tile = maps[level][i][actualX];
-            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; // Sesuaikan dengan offset kamera
+            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; 
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
             
+            bool monsterMasihAda = false; 
+
             switch (tile) {
                 case 1:
                     drawGround(x, y);
@@ -233,16 +248,17 @@ void drawMap() {
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
                     break;
                 case 3:
-                    drawCoin(x, y);  // Sekarang menggambar koin
+                    drawCoin(x, y);
                     break;                
-                case 4:
+                case 4: {
                     drawMonster();
                     break;
+                }
                 case 5:
                     drawStar(x + 20, y + 20);
                     break;
                 case 6:
-                    drawSpike(x, y +20);
+                    drawSpike(x, y + 20);
                     break;                                
                 case 7:
                     drawNextLevel(x, y);
@@ -260,7 +276,7 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x +20, y +20);
+                    drawFlag(x + 20, y + 20);
                     break;
             }
         }

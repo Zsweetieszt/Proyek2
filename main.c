@@ -11,6 +11,7 @@ int main() {
     
     int buffer = 0;
     showMainMenu();
+    findAllMonsters();
     
     while (isAlive) {  // Loop utama game
         setactivepage(buffer);  // Aktifkan buffer
@@ -24,6 +25,7 @@ int main() {
       
         drawCharacter(currentCharacter, playerX, playerY, hasStarPower); // Gambar pemain
         initializeMirrorSprites();
+        findAllMonsters();  // Cari semua monster yang ada di level
         updateGame();  // Perbarui status game
         handleInput();  // Tangani input pemain
         checkCollisionWithMonster();  // Periksa tabrakan dengan monster

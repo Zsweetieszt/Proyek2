@@ -51,42 +51,52 @@ void checkCollisionWithSpike() {
 
 // Fungsi untuk mendeteksi tabrakan dengan monster
 void checkCollisionWithMonster() {
-    int screenMonsterX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+    for (int i = 0; i < totalMonsters; i++) {
+        int screenMonsterX = monsterX[i] - (cameraX * (SCREEN_WIDTH / MAP_WIDTH)) - cameraOffset;
+        int monsterHitboxLeft   = screenMonsterX - 25;
+        int monsterHitboxRight  = screenMonsterX + MONSTER_SIZE + 25;
+        int monsterHitboxTop    = monsterY[i] - 20;
+        int monsterHitboxBottom = monsterY[i] + MONSTER_SIZE + 20;
 
-    int hitboxMarginX = 25;  
-    int hitboxMarginY = 20;  
+        int playerHitboxLeft   = playerX + 20;
+        int playerHitboxRight  = playerX + COLS + 4;
+        int playerHitboxTop    = playerY - 4;
+        int playerHitboxBottom = playerY;
 
-    int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
-    int monsterHitboxRight  = screenMonsterX + MONSTER_SIZE + hitboxMarginX;
-    int monsterHitboxTop    = monsterY - hitboxMarginY;
-    int monsterHitboxBottom = monsterY + MONSTER_SIZE + hitboxMarginY;
+        if (playerHitboxRight > monsterHitboxLeft &&
+            playerHitboxLeft < monsterHitboxRight &&
+            playerHitboxBottom > monsterHitboxTop &&
+            playerHitboxTop < monsterHitboxBottom) {
 
-    int playerHitboxLeft   = playerX + 20;
-    int playerHitboxRight  = playerX + COLS + 4;
-    int playerHitboxTop    = playerY - 4;
-    int playerHitboxBottom = playerY;
+            if (hasStarPower) {
+                // **1. Pindahkan monster ke luar layar**
+                monsterX[i] = -9999;
+                monsterY[i] = -9999;
+                monsterDirection[i] = 0;  
 
-    if (playerHitboxRight > monsterHitboxLeft &&
-        playerHitboxLeft < monsterHitboxRight &&
-        playerHitboxBottom > monsterHitboxTop &&
-        playerHitboxTop < monsterHitboxBottom) {
+                // **2. Hapus dari array peta**
+                for (int row = 0; row < MAP_HEIGHT; row++) {
+                    for (int col = 0; col < TOTAL_MAP_WIDTH; col++) {
+                        if (maps[level][row][col] == 4) {
+                            maps[level][row][col] = 0;  // Ubah jadi kosong
+                            break;  // Keluar dari loop setelah menemukan satu monster
+                        }
+                    }
+                }
 
-        if (hasStarPower) {
-            monsterX = -999999;  // Monster mati jika Mario punya Star Power
-            score += 15;
-        } else {
-            playerLives--;  // Kurangi nyawa Mario
-
-            if (playerLives > 0) {  
-                // Jika masih ada nyawa tersisa, reset posisi Mario
-                findMarioStartPosition();  
+                score += 15;
             } else {
-                // Jika nyawa habis, baru set isAlive = 0
-                isAlive = 0;
+                playerLives--;
+                if (playerLives > 0) {  
+                    findMarioStartPosition();  
+                } else {
+                    isAlive = 0;
+                }
             }
         }
     }
 }
+
 
 
 
