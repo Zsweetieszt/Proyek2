@@ -1,2 +1,8 @@
 * text=auto
-*.json text
+
+# Spesifik untuk file JSON
+*.json text eol=lf
+
+# Spesifik untuk file VS Code
+.vscode/settings.json text eol=lf
+.vscode/c_cpp_properties.json text eol=lf
