@@ -53,6 +53,7 @@ extern int isRunning;
 extern int score;  // Skor pemain
 extern int coins;  // Jumlah koin yang dikumpulkan
 extern int playerLives;
+extern int hasWon;
 
 
 extern int hasStarPower;   // Apakah pemain memiliki Star Power (0 = tidak, 1 = aktif)
@@ -68,6 +69,7 @@ void displayScore();
 void findMarioStartPosition();
 void findAllMonsters();
 void restartGame();
+void displayWinScreen(int score, int coins, int playerLives);
 
 
 #endif

@@ -20,6 +20,7 @@ void drawNextLevel(int x, int y);
 void drawFlag(int x, int y);
 void drawBodyPipe(int x, int y);
 void drawTree(int x, int y);
+void drawVictoryFlag(int x, int y);
 
 
 

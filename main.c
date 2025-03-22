@@ -59,6 +59,23 @@ int main() {
                     break;  // **Keluar dari loop permainan, kembali ke menu utama**
                 }
             }
+            // **Cek apakah pemain menang**
+            if (hasWon) {  
+                displayWinScreen(score, coins, playerLives);  // **Tampilkan layar kemenangan**
+                while (1) {  
+                    char key = getch();
+                    if (key == 'M' || key == 'm') {  
+                        cleardevice();  // **Bersihkan layar**
+                        hasWon = 0;  // **Reset kemenangan**
+                        break;
+                    } else if (key == 'Q' || key == 'q') {  
+                        closegraph();
+                        return 0;  // **Keluar dari game sepenuhnya**
+                    }
+                }
+                break;  // **Keluar dari loop permainan, kembali ke menu utama**
+            }
+            
 
             // **Jika tombol Escape ditekan, keluar dari permainan sepenuhnya**
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {  

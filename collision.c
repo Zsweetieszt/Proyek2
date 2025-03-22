@@ -129,7 +129,7 @@ void checkCollisionWithCoin() {
                     
                     coins++;     // Tambah jumlah koin yang dikumpulkan
                     score += 10; // Tambah skor pemain
-                    maps[level][i][j] = 0;  // Hapus koin dari peta
+                    maps[level][i][j] =20;  // Hapus koin dari peta
                 }
             }
         }
@@ -259,4 +259,40 @@ void cheakCollisionWithBlock(){
         }
     }
     
+}
+
+// Fungsi mengecek tabrakan dengan bendera
+int checkCollisionWithFlag() {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[level][i][j] == 14) { // 14 adalah kode bendera
+                int poleX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
+                int poleY = i * (SCREEN_HEIGHT / MAP_HEIGHT) - 300; // Tiang tinggi 300 px
+
+                // Hitbox Tiang Bendera
+                int poleLeft = poleX+20;
+                int poleRight = poleX+30;
+                int poleTop = poleY +20;
+                int poleBottom = poleY + 340;
+
+                // Hitbox Mario
+                int playerLeft = playerX - (COLS / 2)+20;
+                int playerRight = playerX + (COLS / 2)+10;
+                int playerTop = playerY - ROWS;
+                int playerBottom = playerY;
+
+                // Gambar hitbox untuk debugging
+                drawHitbox(poleLeft, poleTop, poleRight, poleBottom, GREEN);  // Tiang bendera (Hijau)
+                drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); // Mario (Biru)
+
+                // Deteksi tabrakan dengan tiang (bukan kain bendera)
+                if (playerRight > poleLeft && playerLeft < poleRight &&
+                    playerBottom > poleTop && playerTop < poleBottom) {
+                    score+=100;
+                    hasWon = 1; // Mario menang
+                    return hasWon; // Kembalikan nilai kemenangan
+                }
+            }
+        }
+    }
 }
