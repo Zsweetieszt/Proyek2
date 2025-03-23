@@ -55,59 +55,54 @@ void checkCollisionWithSpike() {
 }
 
 
-// Fungsi untuk mendeteksi tabrakan dengan monster
-void checkCollisionWithMonster() {
-    int screenMonsterX = monster.x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
-
-    int monsterSize = MONSTER_SIZE;
-    int playerSize = PLAYER_SIZE;
-
-    // Cek tabrakan antara pemain dan monster
-    if (player.x < screenMonsterX + monsterSize &&
-        player.x + playerSize > screenMonsterX &&
-        player.y < monster.y + monsterSize &&
-        player.y + playerSize > monster.y) {
-        
-    int hitboxMarginX = 25;  
-    int hitboxMarginY = 20;  
-
-    int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
-    int monsterHitboxRight  = screenMonsterX + MONSTER_SIZE + hitboxMarginX;
-    int monsterHitboxTop    = monster.y - hitboxMarginY;
-    int monsterHitboxBottom = monster.y + MONSTER_SIZE + hitboxMarginY;
-
-    int playerHitboxLeft   = player.x + 20;
-    int playerHitboxRight  = player.x + COLS + 4;
-    int playerHitboxTop    = player.y - 4;
-    int playerHitboxBottom = player.y;
+// Fungsi untuk mendeteksi tabrakan dengan monstervoid checkCollisionWithMonster() {
+    void checkCollisionWithMonster() {
+        for (int i = 0; i < monsterCount; i++) {  // Loop untuk semua monster dalam level
+            int screenMonsterX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+            int monsterSize = MONSTER_SIZE;
+            int playerSize = PLAYER_SIZE;
     
-
-    if (playerHitboxRight > monsterHitboxLeft &&
-        playerHitboxLeft < monsterHitboxRight &&
-        playerHitboxBottom > monsterHitboxTop &&
-        playerHitboxTop < monsterHitboxBottom) {
-
-        if (player.hasStarPower) {
-            // Jika dalam mode Star Power, bunuh monster dan tambah skor
-            monster.x = -999999;  // Pindahkan monster keluar layar (anggap hilang)
-            point.score += 15;       // Tambahkan skor sebanyak 15 poin
-            monster.x = -999999;  // Monster mati jika Mario punya Star Power
-            point.score += 15;
-        } else {
-            // Jika tidak punya Star Power, pemain mati
-            player.playerLives = player.playerLives-1;
-
-            if (player.playerLives > 0) {  
-                // Jika masih ada nyawa tersisa, reset posisi Mario
-                findMarioStartPosition();  
-            } else {
-                // Jika nyawa habis, baru set gameState.isAlive = 0
-                gameState.isAlive = 0;
+            if (player.x < screenMonsterX + monsterSize &&
+                player.x + playerSize > screenMonsterX &&
+                player.y < monsters[i].y + monsterSize &&
+                player.y + playerSize > monsters[i].y) {
+                
+                int hitboxMarginX = 25;  
+                int hitboxMarginY = 20;  
+    
+                int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
+                int monsterHitboxRight  = screenMonsterX + monsterSize + hitboxMarginX;
+                int monsterHitboxTop    = monsters[i].y - hitboxMarginY;
+                int monsterHitboxBottom = monsters[i].y + monsterSize + hitboxMarginY;
+    
+                int playerHitboxLeft   = player.x + 20;
+                int playerHitboxRight  = player.x + COLS + 4;
+                int playerHitboxTop    = player.y - 4;
+                int playerHitboxBottom = player.y;
+    
+                if (playerHitboxRight > monsterHitboxLeft &&
+                    playerHitboxLeft < monsterHitboxRight &&
+                    playerHitboxBottom > monsterHitboxTop &&
+                    playerHitboxTop < monsterHitboxBottom) {
+    
+                    if (player.hasStarPower) {
+                        monsters[i].x = -999999;  // Pindahkan monster keluar layar
+                        point.score += 15;       
+                    } else {
+                        player.playerLives--;
+    
+                        if (player.playerLives > 0) {  
+                            findMarioStartPosition();  
+                        } else {
+                            gameState.isAlive = 0;
+                        }
+                    }
+                }
             }
         }
     }
-}
-}
+        
+
 
 void checkCollisionWithCoin() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -183,7 +178,7 @@ void checkCollisionWithNextLevel() {
                     gameState.level++;  // Pindah ke level berikutnya
                     if (gameState.level >= 3) {  // Jika sudah di level terakhir, kembali ke awal
                         gameState.level = 0;
-                    }
+                    };
                     player.x = 100; // Atur ulang posisi pemain
                     player.y = GROUND_HEIGHT - 30;
                     camera.x * 0;  // Reset kamera

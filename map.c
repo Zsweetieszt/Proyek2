@@ -128,12 +128,14 @@ void drawCoin(int x, int y) {
 }
 
 void animationMonster() {
-    // Hitung koordinat layar untuk monster
-    int screenX = monster.x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
-    int screenY = monster.y; // Koordinat Y tetap sama
+    for (int i = 0; i < monsterCount; i++) {
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;  
+        drawMonster(screenX, screenY);
+    }
 
-    // Panggil fungsi desain baru dengan koordinat layar
-    drawMonster(screenX, screenY);
+    // Debug grid untuk melihat area monster
+    drawMonsterDebugGrid();
 }
 
 void drawMonster(int x, int y) {
@@ -506,5 +508,20 @@ void drawMap() {
 
             }
         }
+    }
+}
+
+void drawMonsterDebugGrid() {
+    setcolor(RED);  // Warna merah untuk grid
+    for (int i = 0; i < monsterCount; i++) {
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;
+
+        // Gambar kotak hitbox monster
+        rectangle(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+        
+        // Gambar garis silang (X) di dalam grid
+        line(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+        line(screenX + MONSTER_SIZE, screenY, screenX, screenY + MONSTER_SIZE);
     }
 }

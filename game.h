@@ -15,7 +15,7 @@
 #define MOVE_SPEED 9
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 12
-#define TOTAL_MAP_WIDTH 120
+#define TOTAL_MAP_WIDTH 150
 #define PLAYER_SIZE 1.5
 #define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
@@ -27,6 +27,7 @@
 #define STATE_MENU 0
 #define STATE_PLAYING 1
 #define STATE_GAMEOVER 2
+#define MAX_MONSTERS 10
 
 typedef struct {
     int x;
@@ -64,8 +65,9 @@ typedef struct {
     int x, y;
     int direction; // 1 untuk ke kanan, -1 untuk ke kiri
 } Monster;
-extern Monster monster;
 
+extern Monster monsters[MAX_MONSTERS];  // Array monster
+extern int monsterCount;  
 extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];
 
 
@@ -77,6 +79,8 @@ void displayScore();
 void findMarioStartPosition();
 void restartGame();
 void displayWinScreen(Point point, Player player);
+void updateMonsters();  // Deklarasi fungsi updateMonsters()
+
 
 
 #endif

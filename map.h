@@ -20,6 +20,7 @@ void drawFlag(int x, int y);
 void drawBodyPipe(int x, int y);
 void drawVictoryFlag(int x, int y);
 void animationMonster();
+void drawMonsterDebugGrid();
 
 
 
