@@ -18,6 +18,39 @@ void drawBackground() {
     fillellipse(sunX, sunY, sunRadius, sunRadius);  // Gambar matahari
 }
 
+void drawNightBackground() {
+    // Gambar langit malam (warna biru gelap)
+    int DARKBLUE = COLOR(22,38, 79);
+    setfillstyle(SOLID_FILL, DARKBLUE);
+    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
+
+    // Gambar bulan (lingkaran putih)
+    int moonX = SCREEN_WIDTH / 2 + 100;  // Posisi X bulan (sedikit di samping)
+    int moonY = 100;                     // Posisi Y bulan
+    int moonRadius = 40;                 // Radius bulan
+
+    // Gambar lingkaran bulan dengan warna putih
+    setcolor(WHITE);                     // Set warna garis
+    setfillstyle(SOLID_FILL, WHITE);     // Set warna isi
+    fillellipse(moonX, moonY, moonRadius, moonRadius);  // Gambar bulan
+
+    // Gambar beberapa bintang kecil
+    setcolor(WHITE);                     // Warna bintang putih
+    for (int i = 0; i < 10; i++) {
+        int starX = rand() % SCREEN_WIDTH;  // Posisi acak X untuk bintang
+        int starY = rand() % (GROUND_HEIGHT + 25);  // Posisi acak Y untuk bintang
+        putpixel(starX, starY, WHITE);  // Gambar bintang kecil
+    }
+}
+
+void renderLevel(GameState gameState) {
+    if (gameState.level == 0 || gameState.level == 1) {
+        drawBackground(); // Latar belakang siang
+    } else if (gameState.level == 2) {
+        drawNightBackground(); // Latar belakang malam
+    }
+}
+
 void animationMonster() {
     // Hitung koordinat layar untuk monster
     int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;

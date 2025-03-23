@@ -2,6 +2,8 @@
 #define DESIGN_H
 
 void drawBackground();
+void drawNightBackground();
+void renderLevel(GameState gameState);
 void animationMonster();
 void drawMonster(int x, int y);
 void drawBodyPipe(int x, int y);
