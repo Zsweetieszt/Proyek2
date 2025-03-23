@@ -15,7 +15,6 @@ int main() {
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
         showMainMenu();
-    findAllMonsters();
         
         // **Hapus input buffer agar tidak ada input sisa**
         while (kbhit()) getch();  
@@ -36,13 +35,18 @@ int main() {
             drawMap();
             drawCharacter(currentCharacter, playerX, playerY, hasStarPower);
             initializeMirrorSprites();
-        findAllMonsters();  // Cari semua monster yang ada di level
 
             if (isAlive) { 
                 updateGame();
                 handleInput();
                 checkCollisionWithMonster();
-                checkCollisionWithSpike();
+
+                if (isCollidingWithSpike()) {
+                    playerLives--;
+                    if (playerLives <= 0) isAlive = 0;
+                    else findMarioStartPosition();
+                }                
+
                 displayScore();
             } else {  
                 // **Tampilan Game Over**
