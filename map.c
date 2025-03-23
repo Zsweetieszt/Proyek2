@@ -89,7 +89,7 @@ void drawPlatform(int x, int y, int width, int height) {
 void drawGround(int x, int y) {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  
     int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
-    int borderWidth = 3; // Ketebalan border
+    int borderWidth = 1; // Ketebalan border
 
     // Warna utama tanah (oranye)
     int mainColor = COLOR(204, 102, 0); // RGB untuk oranye
@@ -122,9 +122,24 @@ void drawGround(int x, int y) {
 
 
 void drawCoin(int x, int y) {
-    setcolor(YELLOW);
-    setfillstyle(SOLID_FILL, YELLOW);
-    fillellipse(x + 15, y + 15, 10, 10);  // Gambar lingkaran kecil sebagai koin
+    int size = 10;
+    int i;
+    for (i = size; i > 0; i--) {
+        int colorFactor = (255 * i) / size;
+        setcolor(COLOR(255, 215, colorFactor)); // Gradasi warna kuning keemasan
+        setfillstyle(SOLID_FILL, COLOR(255, 215, colorFactor));
+        fillellipse(x, y, i, i);
+    }
+    
+    // Efek pencahayaan
+    setcolor(COLOR(255, 255, 200));
+    setfillstyle(SOLID_FILL, COLOR(255, 255, 200));
+    fillellipse(x - size / 4, y - size / 4, size / 5, size / 5);
+    
+    // Detail garis vertikal di tengah koin
+    setcolor(COLOR(200, 150, 0));
+    setlinestyle(SOLID_LINE, 0, 3);
+    line(x, y - size / 2, x, y + size / 2);
 }
 
 void animationMonster() {
@@ -135,7 +150,7 @@ void animationMonster() {
     }
 
     // Debug grid untuk melihat area monster
-    drawMonsterDebugGrid();
+    //drawMonsterDebugGrid();
 }
 
 void drawMonster(int x, int y) {
@@ -158,8 +173,6 @@ void drawMonster(int x, int y) {
     // Mulut hantu
     arc(x, y + 2, 200, 340, 5); // Mulut berbentuk setengah lingkaran
 }
-
-
 
 
 void drawSpike(int x, int y) {
@@ -256,7 +269,7 @@ void drawBodyPipe(int x, int y){
     
     // Menambahkan detail garis batas pada pipa
     setcolor(BLACK);
-    rectangle(x, y, x + 40, y + 40);
+    rectangle(x, y, x, y + 40);
     rectangle(x - 10, y - 20, x + 50, y);
 }
 
@@ -283,7 +296,7 @@ void drawPipe(int x,int y){
     bar(x + 30, y, x + 40, y + 40);
     // Menambahkan detail garis batas pada pipa
     setcolor(BLACK);
-    rectangle(x, y, x , y + 40);
+    rectangle(x, y -20 , x , y + 40);
     
 }
 
@@ -297,11 +310,15 @@ void drawCloudBlock(int x, int y) {
 }
 
 void drawStar(int x, int y) {
-    setcolor(WHITE);
-    setfillstyle(SOLID_FILL, YELLOW);
-    fillellipse(x + 15, y + 15, 12, 12);  // Gambar bintang kecil
+    int radius = 10;
+    int color;
+    for (int i = radius; i > 0; i--) {
+        color = COLOR(255 - (i * 255 / radius), 100, i * 255 / radius); // Gradasi RGB
+        setcolor(color);
+        setfillstyle(SOLID_FILL, color);
+        fillellipse(x, y, i, i);
+    }
 }
-
 
 void drawBackground() {
     // Gambar langit biru
@@ -320,10 +337,64 @@ void drawBackground() {
 }
 
 void drawNextLevel(int x, int y) {
-    setcolor(CYAN);  // Warna biru muda
-    setfillstyle(SOLID_FILL, CYAN);
-    bar(x, y, x + 32, y + 32);  // Kotak 32x32 sebagai blok teleportasi
+    int radius = 10;
+    
+    // Efek pencahayaan
+    for (int i = 0; i < 5; i++) {
+        int color = COLOR(0, 100, 255);
+        setcolor(color);
+        circle(x, y, radius + i * 3);
+    }
+    
+    // Portal utama dengan gradasi warna
+    for (int i = 0; i < radius; i++) {
+        int color = COLOR(50 + i, 50 + 2 * i, 255 - i);
+        setcolor(color);
+        circle(x, y, radius - i);
+    }
+    
+    // Partikel di sekitar portal
+    for (int i = 0; i < 10; i++) {
+        int angle = rand() % 360;
+        int px = x + cos(angle * 3.14 / 180) * (radius + 40);
+        int py = y + sin(angle * 3.14 / 180) * (radius + 40);
+        putpixel(px, py, COLOR(255, 255, 255));
+    }
 }
+
+
+void renderLevel(GameState gameState) {
+    if (gameState.level == 0 || gameState.level == 1) {
+        drawBackground(); // Latar belakang siang
+    } else if (gameState.level == 2) {
+        drawNightBackground(); // Latar belakang malam
+    }
+}
+void drawNightBackground() {
+    // Gambar langit malam (warna biru gelap)
+    int DARKBLUE = COLOR(22,38, 79);
+    setfillstyle(SOLID_FILL, DARKBLUE);
+    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
+
+    // Gambar bulan (lingkaran putih)
+    int moonX = SCREEN_WIDTH / 2 + 100;  // Posisi X bulan (sedikit di samping)
+    int moonY = 100;                     // Posisi Y bulan
+    int moonRadius = 40;                 // Radius bulan
+
+    // Gambar lingkaran bulan dengan warna putih
+    setcolor(WHITE);                     // Set warna garis
+    setfillstyle(SOLID_FILL, WHITE);     // Set warna isi
+    fillellipse(moonX, moonY, moonRadius, moonRadius);  // Gambar bulan
+
+    // Gambar beberapa bintang kecil
+    setcolor(WHITE);                     // Warna bintang putih
+    for (int i = 0; i < 10; i++) {
+        int starX = rand() % SCREEN_WIDTH;  // Posisi acak X untuk bintang
+        int starY = rand() % (GROUND_HEIGHT + 25);  // Posisi acak Y untuk bintang
+        putpixel(starX, starY, WHITE);  // Gambar bintang kecil
+    }
+}
+
 
 void drawFlag(int x, int y) {
     int flagWidth = 50;  // Ukuran bendera diperbesar
@@ -470,7 +541,7 @@ void drawMap() {
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
                     break;
                 case 3:
-                    drawCoin(x, y);  // Sekarang menggambar koin
+                    drawCoin(x+20, y+15);  // Sekarang menggambar koin
                     break;                
                 case 4:
                     animationMonster();
@@ -482,7 +553,7 @@ void drawMap() {
                     drawSpike(x, y +20);
                     break;                                
                 case 7:
-                    drawNextLevel(x, y);
+                    drawNextLevel(x+20, y+20);
                     break;
                 case 8:
                     drawPipe(x + 10, y + 20);

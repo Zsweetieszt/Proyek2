@@ -120,11 +120,21 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
 
 // Fungsi untuk memperbarui status game
 void updateGame() {
-    if (!gameState.isAlive) return;
     if (!gameState.hasWon) {  // Jika belum menang, cek tabrakan
         checkCollisionWithFlag();
     }
+    if (checkCollisionWithNextLevel()) {
+        gameState.level++;  // Pindah ke level berikutnya
+        if (gameState.level >= 3) {  
+            gameState.level = 0; // Reset jika sudah level terakhir
+        }
+        findMarioStartPosition();
+    }
 
+    if (checkCollisionWithCoin()) {
+        point.coins++;     // Tambah jumlah koin yang dikumpulkan
+        point.score += 10; // Tambah skor pemain
+    }
 
     player.y += player.velocityY;
     player.velocityY += GRAVITY;
@@ -158,7 +168,7 @@ void updateGame() {
     
 
 }
-void restartGame() {
+int restartGame() {
     player.playerLives = 3;  
     gameState.isAlive = 1;  
     gameState.playing = 1;  
@@ -168,7 +178,6 @@ void restartGame() {
     findMarioStartPosition();  
 
     gameState.level = 0;
-
     for (int lvl = 0; lvl <= 3; lvl++) {  
         for (int i = 0; i < MAP_HEIGHT; i++) {
             for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
@@ -178,7 +187,15 @@ void restartGame() {
             }
         }
     }
-    gameState.isRunning = 1;
+    for (int lvl = 0; lvl <= 3; lvl++) {  
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+                if (maps[lvl][i][j] == 21) {
+                    maps[lvl][i][j] = 5;  
+                }
+            }
+        }
+    }
 
     // 🔥 Reset monster sebelum mengisi ulang!
     monsterCount = 0;
@@ -190,6 +207,8 @@ void restartGame() {
     for (int i = 0; i < monsterCount; i++) {
         monsters[i] = levelMonsters[gameState.level][i];
     }
+    gameState.isRunning = 1;
+    return gameState.isRunning;
 }
 
 
@@ -228,7 +247,7 @@ void displayGameOver() {
 }
 
 
-void findMarioStartPosition() {
+int findMarioStartPosition() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[gameState.level][i][j] == 12) {
@@ -243,10 +262,11 @@ void findMarioStartPosition() {
                 if (camera.x > TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH)
                     camera.x = TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH;
 
-                return; // Keluar setelah menemukan posisi awal
+                return 1; //mario di temukan
             }
         }
     }
+    return 0;//mario tidak di temukan
 }
 
 void displayWinScreen(Point point, Player player) {

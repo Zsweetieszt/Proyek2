@@ -23,12 +23,11 @@
 #define SCROLL_SPEED 9
 #define ROWS 35// Jumlah baris dalam array Player
 #define COLS 25// Jumlah kolom dalam array Player
-#define MOVE_DELAY 50 // Tambahkan delay saat berjalan (dalam ms)
+#define MOVE_DELAY 60 // Tambahkan delay saat berjalan (dalam ms)
 #define STATE_MENU 0
 #define STATE_PLAYING 1
 #define STATE_GAMEOVER 2
 #define MAX_MONSTERS 20
-
 typedef struct {
     int x;
     int offset;
@@ -85,8 +84,8 @@ extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];  // Peta level
 void updateGame();
 void displayGameOver();
 void displayPoint();
-void findMarioStartPosition();
-void restartGame();
+int findMarioStartPosition();
+int restartGame();
 void displayWinScreen(Point point, Player player);
 void updateMonsters();  // Deklarasi fungsi updateMonsters()
 
