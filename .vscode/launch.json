@@ -2,14 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run C++ with graphics.h",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/output.exe",
+      "cwd": "${fileDirname}",
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/hp/Downloads/proyeekk2/Proyek2-dinan",
-      "program": "c:/Users/hp/Downloads/proyeekk2/Proyek2-dinan/build/Debug/outDebug",
+      "cwd": "c:/Users/ASUS/OneDrive/문서/semester 2/Proyek2/Proyek2",
+      "program": "c:/Users/ASUS/OneDrive/문서/semester 2/Proyek2/Proyek2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
