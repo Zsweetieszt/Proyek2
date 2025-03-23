@@ -308,9 +308,10 @@ int checkCollisionWithFlag() {
                     playerBottom > poleTop && playerTop < poleBottom) {
                     point.score+=100;
                     gameState.hasWon = 1; // Mario menang
-                    return gameState.hasWon; // Kembalikan nilai kemenangan
+                    return 1; // Kembalikan nilai kemenangan
                 }
             }
         }
     }
+    return 0;
 }
