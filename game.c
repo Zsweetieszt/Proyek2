@@ -3,23 +3,44 @@
 #include "map.h"
 
 // Definisi variabel global
-int playerX = 80, playerY = GROUND_HEIGHT - 30;
-int velocityY = 0;
-int isJumping = 0;
-int level = 0;
-int isAlive = 1;
-int cameraX = 0;
-int cameraOffset = 0;
-int monsterX = 300, monsterY = GROUND_HEIGHT - 30;
-int monsterDirection = 1; // 1 untuk ke kanan, -1 untuk ke kiri
-int score = 5;  
-int coins = 0;  
-int hasStarPower = 0;  // Awalnya pemain tidak memiliki Star Power
-int starPowerTimer = 0; // Timer untuk Star Power
-int playerLives = 3;
-int playing =1;
-int isRunning = 0;
-int hasWon=0; 
+
+Monster monster={
+    300,
+    GROUND_HEIGHT - 30,
+    1,
+};
+
+//inisiasi camera
+Camera camera = {
+    0, //camera.x
+    0  //camera.offside
+}; 
+
+// Inisialisasi Player
+Player player = { 
+    80,                  // x (posisi awal)
+    GROUND_HEIGHT - 30,   // y (posisi awal)
+    0,                    // player.velocity
+    0,                    // player.isJumping (tidak lompat)
+    0,                    // hasStarPower
+    0,                    // starPowerTimer
+    3                     // lives (nyawa awal)
+};
+
+// Inisialisasi Point (score & coins)
+Point point = { 
+    0,  // score awal
+    0   // coins awal
+};
+
+GameState gameState = { 
+    1,   // isRunning (game dimulai)
+    1,   // gameState.isAlive (pemain masih hidup)
+    0,   // level (mulai dari level 0)
+    0,   // kemenangan
+    0,   //level game
+};
+
 
 
 
@@ -71,19 +92,19 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
 
 // Fungsi untuk memperbarui status game
 void updateGame() {
-    if (!isAlive) return;
-    if (!hasWon) {  // Jika belum menang, cek tabrakan
+    if (!gameState.isAlive) return;
+    if (!gameState.hasWon) {  // Jika belum menang, cek tabrakan
         checkCollisionWithFlag();
     }
 
 
-    playerY += velocityY;
-    velocityY += GRAVITY;
+    player.y += player.velocityY;
+    player.velocityY += GRAVITY;
 
 
-    if (playerY >= GROUND_HEIGHT +17) {
-        playerY = GROUND_HEIGHT +17;
-        isJumping = 0;
+    if (player.y >= GROUND_HEIGHT +17) {
+        player.y = GROUND_HEIGHT +17;
+        player.isJumping = 0;
     }
     
 
@@ -109,35 +130,35 @@ void updateGame() {
     checkCollisionWithNextLevel();
 
     // Gerakan musuh
-    monsterX += monsterDirection * 2; // Kecepatan gerak musuh
+    monster.x += monster.direction * 2; // Kecepatan gerak musuh
 
     // Batasi gerakan bolak-balik
-    if (monsterX <= 200 || monsterX >= 500) {
-        monsterDirection *= -1; // Ubah arah jika mencapai batas
+    if (monster.x <= 200 || monster.x >= 500) {
+        monster.direction *= -1; // Ubah arah jika mencapai batas
     }
 
     // Untuk Star Power
-    if (hasStarPower) {
-        starPowerTimer--;
-        if (starPowerTimer <= 0) {
-            hasStarPower = 0;  // Matikan Star Power setelah 10 detik
+    if (player.hasStarPower) {
+        player.starPowerTimer--;
+        if (player.starPowerTimer <= 0) {
+            player.hasStarPower = 0;  // Matikan Star Power setelah 10 detik
         }
     }
     
 
 }
 void restartGame() {
-    playerLives = 3;  // Reset nyawa Mario
-    isAlive = 1;  // Mario hidup kembali
-    playing = 1;  // Kembali ke mode bermain
-    score = 0; 
-    coins = 0; // Kurangi skor
+    player.playerLives = 3;  // Reset nyawa Mario
+    gameState.isAlive = 1;  // Mario hidup kembali
+    gameState.playing = 1;  // Kembali ke mode bermain
+    point.score = 0; 
+    point.coins = 0; // Kurangi skor
     
     // Reset posisi Mario ke titik awal
     findMarioStartPosition();  
 
     // Reset level ke awal jika diperlukan
-    level = 0;  
+    gameState.level = 0;  
 
     for (int lvl = 0; lvl <= 3; lvl++) {  // Loop untuk semua level
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -148,7 +169,7 @@ void restartGame() {
             }
         }
     }
-    isRunning = 1; // Pastikan game tetap berjalan
+    gameState.isRunning = 1; // Pastikan game tetap berjalan
 }
 
 
@@ -158,14 +179,14 @@ void displayScore() {
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
 
     char scoreText[20];
-    sprintf(scoreText, "Score: %d", score);
+    sprintf(scoreText, "Score: %d", point.score);
     outtextxy(10, 10, scoreText);  // Menampilkan skor di pojok kiri atas
 
     char coinText[20];
-    sprintf(coinText, "Coins: %d", coins);
+    sprintf(coinText, "Coins: %d", point.coins);
     outtextxy(10, 30, coinText);  // Menampilkan jumlah koin
     char livesText[20];
-    sprintf(livesText, "live: %d", playerLives);
+    sprintf(livesText, "live: %d", player.playerLives);
     outtextxy(10, 50, livesText);
 }
 
@@ -189,17 +210,17 @@ void displayGameOver() {
 void findMarioStartPosition() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
-            if (maps[level][i][j] == 12) {
-                playerX = j * (SCREEN_WIDTH / MAP_WIDTH);
-                playerY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+            if (maps[gameState.level][i][j] == 12) {
+                player.x = j * (SCREEN_WIDTH / MAP_WIDTH);
+                player.y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
                 // Atur kamera agar langsung melihat Mario
-                cameraX = playerX - (SCREEN_WIDTH / 2);
+                camera.x = player.x - (SCREEN_WIDTH / 2);
 
                 // Pastikan kamera tidak keluar batas level
-                if (cameraX < 0) cameraX = 0;
-                if (cameraX > TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH)
-                    cameraX = TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH;
+                if (camera.x < 0) camera.x = 0;
+                if (camera.x > TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH)
+                    camera.x = TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH;
 
                 return; // Keluar setelah menemukan posisi awal
             }
@@ -207,8 +228,7 @@ void findMarioStartPosition() {
     }
 }
 
-void displayWinScreen(int score, int coins, int playerLives) {
-    // Set halaman aktif dan visual ke 0
+void displayWinScreen(Point point, Player player) {
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
@@ -216,13 +236,13 @@ void displayWinScreen(int score, int coins, int playerLives) {
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     
-    outtextxy(130, 150, (char*)"CONGRATULATIONS!");  // Tambahkan (char*)
+    outtextxy(130, 150, (char*)"CONGRATULATIONS!");
     outtextxy(200, 200, (char*)"YOU WIN!");
     
     char scoreText[50], coinText[50], livesText[50];
-    sprintf(scoreText, "SCORE: %d", score);
-    sprintf(coinText, "COINS: %d", coins);
-    sprintf(livesText, "LIVES LEFT: %d", playerLives);
+    sprintf(scoreText, "SCORE: %d", point.score);
+    sprintf(coinText, "COINS: %d", point.coins);
+    sprintf(livesText, "LIVES LEFT: %d", player.playerLives);
     
     outtextxy(200, 250, scoreText);
     outtextxy(200, 280, coinText);

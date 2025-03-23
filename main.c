@@ -21,22 +21,22 @@ int main() {
 
         // **Jika pemain memilih Start Game, reset permainan**
         restartGame();     
-        isRunning = 1;     
+        gameState.isRunning = 1;     
 
         int buffer = 0;
         
         // **Loop permainan utama**
-        while (isRunning) {  
+        while (gameState.isRunning) {  
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
 
             drawBackground();
             drawMap();
-            drawCharacter(currentCharacter, playerX, playerY, hasStarPower);
+            drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
 
-            if (isAlive) { 
+            if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
                 checkCollisionWithMonster();
@@ -59,18 +59,18 @@ int main() {
                 } else if (key == 'M' || key == 'm') {  
                     // **Bersihkan layar sebelum kembali ke menu**
                     cleardevice();
-                    isRunning = 0;  
+                    gameState.isRunning = 0;  
                     break;  // **Keluar dari loop permainan, kembali ke menu utama**
                 }
             }
             // **Cek apakah pemain menang**
-            if (hasWon) {  
-                displayWinScreen(score, coins, playerLives);  // **Tampilkan layar kemenangan**
+            if (gameState.hasWon) {  
+                displayWinScreen(point, player);  // **Tampilkan layar kemenangan**
                 while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm') {  
                         cleardevice();  // **Bersihkan layar**
-                        hasWon = 0;  // **Reset kemenangan**
+                        gameState.hasWon = 0;  // **Reset kemenangan**
                         break;
                     } else if (key == 'Q' || key == 'q') {  
                         closegraph();
@@ -83,7 +83,7 @@ int main() {
 
             // **Jika tombol Escape ditekan, keluar dari permainan sepenuhnya**
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {  
-                isRunning = 0;
+                gameState.isRunning = 0;
                 closegraph();
                 return 0;
             }

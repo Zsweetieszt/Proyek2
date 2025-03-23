@@ -28,30 +28,45 @@
 #define STATE_PLAYING 1
 #define STATE_GAMEOVER 2
 
+typedef struct {
+    int x;
+    int offset;
+} Camera;
+extern Camera camera;
 
+typedef struct {
+    int x, y;
+    int velocityY;
+    int isJumping;
+    int hasStarPower;
+    int starPowerTimer;
+    int playerLives;
+} Player;
+extern Player player;
 
-// Variabel global (hanya deklarasi, definisi di game.c)
-extern int playerX, playerY;
-extern int velocityY;
-extern int isJumping;
-extern int level;
-extern int isAlive;
+typedef struct {
+    int score; // Skor permainan
+    int coins; // Jumlah koin yang dikumpulkan
+} Point;
+extern Point point;
+
+typedef struct {
+    int isRunning;  // Apakah game sedang berjalan
+    int isAlive;    // Apakah pemain masih hidup
+    int level;      // Level saat ini
+    int hasWon ;     //ketika menang
+    int playing;
+} GameState;
+
+extern GameState gameState;
+
+typedef struct {
+    int x, y;
+    int direction; // 1 untuk ke kanan, -1 untuk ke kiri
+} Monster;
+extern Monster monster;
+
 extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];
-extern int cameraX;
-extern int cameraOffset;
-extern int monsterX, monsterY, monsterDirection;
-extern int playing;
-extern int isRunning;
-
-extern int score;  // Skor pemain
-extern int coins;  // Jumlah koin yang dikumpulkan
-extern int playerLives;
-extern int hasWon;
-
-
-extern int hasStarPower;   // Apakah pemain memiliki Star Power (0 = tidak, 1 = aktif)
-extern int starPowerTimer; // Waktu tersisa untuk Star Power dalam frame (10 detik)
-
 
 
 
@@ -61,7 +76,7 @@ void displayGameOver();
 void displayScore();
 void findMarioStartPosition();
 void restartGame();
-void displayWinScreen(int score, int coins, int playerLives);
+void displayWinScreen(Point point, Player player);
 
 
 #endif

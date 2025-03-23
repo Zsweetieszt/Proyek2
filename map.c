@@ -127,11 +127,34 @@ void drawCoin(int x, int y) {
     fillellipse(x + 15, y + 15, 10, 10);  // Gambar lingkaran kecil sebagai koin
 }
 
-void drawMonster() {
-    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-    setcolor(RED);
-    setfillstyle(SOLID_FILL, RED);
-    fillellipse(screenX, monsterY, MONSTER_SIZE, MONSTER_SIZE);
+void animationMonster() {
+    // Hitung koordinat layar untuk monster
+    int screenX = monster.x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+    int screenY = monster.y; // Koordinat Y tetap sama
+
+    // Panggil fungsi desain baru dengan koordinat layar
+    drawMonster(screenX, screenY);
+}
+
+void drawMonster(int x, int y) {
+    // Kepala hantu (lingkaran)
+    setfillstyle(SOLID_FILL, WHITE);
+    fillellipse(x, y, 15, 20);
+
+    // Badan hantu (bagian bawah bergelombang)
+    int body[] = {x - 15, y, x - 17, y + 15, x - 12, y + 20, x - 7, y + 15,
+                  x - 2, y + 20, x + 2 , y + 15, x + 7, y + 20, x + 12, y + 15,
+                  x + 15, y, x - 15, y};
+    setfillstyle(SOLID_FILL, WHITE);
+    fillpoly(10, body);
+
+    // Mata hantu
+    setfillstyle(SOLID_FILL, BLACK);
+    fillellipse(x - 5, y - 5, 2, 4);
+    fillellipse(x + 5, y - 5, 2, 4);
+
+    // Mulut hantu
+    arc(x, y + 2, 200, 340, 5); // Mulut berbentuk setengah lingkaran
 }
 
 
@@ -430,11 +453,11 @@ void drawVictoryFlag(int x, int y) {
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            int actualX = j + cameraX; // Ambil posisi asli di peta besar
+            int actualX = j + camera.x; // Ambil posisi asli di peta besar
             if (actualX >= TOTAL_MAP_WIDTH) continue; // Hindari menggambar di luar batas
 
-            int tile = maps[level][i][actualX];
-            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; // Sesuaikan dengan offset kamera
+            int tile = maps[gameState.level][i][actualX];
+            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset; // Sesuaikan dengan offset kamera
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
             
             switch (tile) {
@@ -448,7 +471,7 @@ void drawMap() {
                     drawCoin(x, y);  // Sekarang menggambar koin
                     break;                
                 case 4:
-                    drawMonster();
+                    animationMonster();
                     break;
                 case 5:
                     drawStar(x + 20, y + 20);

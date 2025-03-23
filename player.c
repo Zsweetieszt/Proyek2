@@ -216,7 +216,7 @@ void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]) {
 
 // Fungsi untuk menangani input dari pemain
 void handleInput() {
-    if (!isAlive) { 
+    if (!gameState.isAlive) { 
         // Ganti ke animasi mati jika karakter tidak hidup
         currentCharacter = player_dead;
         return;
@@ -229,81 +229,81 @@ void handleInput() {
     DWORD currentTime = GetTickCount();
 
     // Jika sedang melompat, gunakan sprite lompat
-    if (isJumping) {  
+    if (player.isJumping) {  
         currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
 
-        if (movingLeft && playerX > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) {
+        if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) {
             isFacingLeft = true;
             lastMoveTime = currentTime;
 
-            if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
-                cameraOffset -= SCROLL_SPEED;
-                if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
-                    cameraOffset = 0;
-                    cameraX -= 2;
+            if (player.x <= SCREEN_WIDTH / 2 && camera.x > 0) {
+                camera.offset -= SCROLL_SPEED;
+                if (camera.offset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    camera.offset = 0;
+                    camera.x -= 2;
                 }
             } else {
-                playerX -= MOVE_SPEED;
+                player.x -= MOVE_SPEED;
             }
         }
 
-        if (movingRight && playerX < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) {
+        if (movingRight && player.x < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) {
             isFacingLeft = false;
             lastMoveTime = currentTime;
 
-            if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
-                cameraOffset += SCROLL_SPEED;
-                if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
-                    cameraOffset = 0;
-                    cameraX += 2;
+            if (player.x >= SCREEN_WIDTH / 2 && camera.x < TOTAL_MAP_WIDTH - MAP_WIDTH) {
+                camera.offset += SCROLL_SPEED;
+                if (camera.offset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    camera.offset = 0;
+                    camera.x += 2;
                 }
             } else {
-                playerX += MOVE_SPEED;
+                player.x += MOVE_SPEED;
             }
         }
     } 
     else {  // Jika tidak melompat, gunakan animasi berjalan atau diam
-        if (movingLeft && playerX > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) { 
+        if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) { 
             isFacingLeft = true;
             lastMoveTime = currentTime;
 
-            if (playerX <= SCREEN_WIDTH / 2 && cameraX > 0) {
-                cameraOffset -= SCROLL_SPEED;
-                if (cameraOffset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
-                    cameraOffset = 0;
-                    cameraX -= 2;
+            if (player.x <= SCREEN_WIDTH / 2 && camera.x > 0) {
+                camera.offset -= SCROLL_SPEED;
+                if (camera.offset <= -SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    camera.offset = 0;
+                    camera.x -= 2;
                 }
             } else {
-                playerX -= MOVE_SPEED;
+                player.x -= MOVE_SPEED;
             }
             currentCharacter = (frameToggle) ? player_walking1_mirrored : player_walking2_mirrored;
             frameToggle = !frameToggle;
         }
     
-        if (movingRight && playerX < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) { 
+        if (movingRight && player.x < SCREEN_WIDTH && (currentTime - lastMoveTime > MOVE_DELAY)) { 
             isFacingLeft = false;
             lastMoveTime = currentTime;
 
-            if (playerX >= SCREEN_WIDTH / 2 && cameraX < TOTAL_MAP_WIDTH - MAP_WIDTH) {
-                cameraOffset += SCROLL_SPEED;
-                if (cameraOffset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
-                    cameraOffset = 0;
-                    cameraX += 2;
+            if (player.x >= SCREEN_WIDTH / 2 && camera.x < TOTAL_MAP_WIDTH - MAP_WIDTH) {
+                camera.offset += SCROLL_SPEED;
+                if (camera.offset >= SCREEN_WIDTH / MAP_WIDTH * 2) {
+                    camera.offset = 0;
+                    camera.x += 2;
                 }
             } else {
-                playerX += MOVE_SPEED;
+                player.x += MOVE_SPEED;
             }
             currentCharacter = (frameToggle) ? player_walking1 : player_walking2;
             frameToggle = !frameToggle;
         }
     
-        if (jumping && !isJumping) { 
-            velocityY = JUMP_STRENGTH;
-            isJumping = 1;
+        if (jumping && !player.isJumping) { 
+            player.velocityY = JUMP_STRENGTH;
+            player.isJumping = 1;
             currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
         }
 
-        if (!movingLeft && !movingRight && velocityY == 0 && !isJumping) {
+        if (!movingLeft && !movingRight && player.velocityY == 0 && !player.isJumping) {
             currentCharacter = isFacingLeft ? player_standing_mirrored : player_standing;
         }
     }
