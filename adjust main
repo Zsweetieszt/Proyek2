@@ -1,0 +1,3 @@
+initializeMirrorPlayer(&player);
+drawCharacter(currentCharacter, playerX, playerY, hasStarPower);
+currentCharacter = player.standing;
