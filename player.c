@@ -191,7 +191,6 @@ void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
     }
 }
 
-
 int player_standing_mirrored[ROWS][COLS];
 int player_walking1_mirrored[ROWS][COLS];
 int player_walking2_mirrored[ROWS][COLS];

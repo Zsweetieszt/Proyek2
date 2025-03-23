@@ -1,10 +1,9 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-bool isCollidingWithSpike();
+void checkCollisionWithSpike();
 void checkCollisionWithMonster();
-
-bool isCollidingWithCoin(int *coinX, int *coinY);
+void checkCollisionWithCoin();
 void checkCollisionWithStar();
 void checkCollisionWithNextLevel();
 void cheakCollisionWithBlock();

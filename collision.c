@@ -7,33 +7,52 @@ void drawHitbox(int left, int top, int right, int bottom, int color) {
     rectangle(left, top, right, bottom);
 }
 // Fungsi untuk mendeteksi tabrakan dengan duri
-bool isCollidingWithSpike() {
+void checkCollisionWithSpike() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[gameState.level][i][j] == SPIKE) {
                 int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+                int spikeWidth = SCREEN_WIDTH / MAP_WIDTH;
+                int spikeHeight = 20; // Sesuaikan tinggi spike
 
-                int playerLeft = playerX - (COLS / 2) + 20;
-                int playerRight = playerX + (COLS / 2) + 10;
-                int playerTop = playerY - ROWS;
-                int playerBottom = playerY;
-
-                int spikeLeft = spikeX;
-                int spikeRight = spikeX + (SCREEN_WIDTH / MAP_WIDTH);
+                // Fokus hanya pada bagian bawah spike
                 int spikeTop = spikeY + 20;
-                int spikeBottom = spikeY + 40;
+                int spikeBottom = spikeY + 40; 
 
-                if (playerRight > spikeLeft && playerLeft < spikeRight &&
-                    playerBottom > spikeTop && playerTop < spikeBottom) {
-                    return true;  // Ada tabrakan dengan spike
+                // Hitbox Mario (gunakan konstanta)
+                int playerLeft = player.x - (COLS / 2)+20;
+                int playerRight = player.x + (COLS / 2)+10;
+                int playerTop = player.y - ROWS;
+                int playerBottom = player.y;
+
+                // Hitbox Spike (hanya setengah bagian bawah)
+                int spikeLeft = spikeX;
+                int spikeRight = spikeX + spikeWidth;
+
+                //drawHitbox(spikeLeft, spikeTop, spikeRight, spikeBottom, RED);   // Hitbox Spike (Merah)
+               // drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); // Hitbox Mario (Biru)
+
+                // Deteksi tabrakan menggunakan AABB
+                if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH) {
+                    if (playerRight > spikeLeft && playerLeft < spikeRight &&
+                        playerBottom > spikeTop && playerTop < spikeBottom) {
+                        
+                        player.playerLives--; // Kurangi nyawa Mario
+                        
+                        if (player.playerLives <= 0) {
+                            gameState.isAlive = 0;// Mario benar-benar mati jika nyawa habis
+                        } else {
+                            // Reset posisi Mario ke titik aman setelah kena spike
+                            findMarioStartPosition();
+                        }
+
+                    }
                 }
             }
         }
     }
-    return false;  // Tidak ada tabrakan dengan spike
 }
-
 
 
 // Fungsi untuk mendeteksi tabrakan dengan monster
@@ -90,33 +109,32 @@ void checkCollisionWithMonster() {
 }
 }
 
-bool isCollidingWithCoin(int *coinX, int *coinY) {
+void checkCollisionWithCoin() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
-            if (maps[level][i][j] == 3) {  // Kode 3 berarti koin
-                int tempCoinX = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-                int tempCoinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+            if (maps[gameState.level][i][j] == 3) {  // Jika ada koin di posisi ini
+                int coinX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+                int coinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
-                int coinWidth = 50;
-                int coinHeight = 50;
+                int coinWidth = 30;  // Lebarkan hitbox koin
+                int coinHeight = 30; // Tinggikan hitbox koin
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
 
-                if (playerX < tempCoinX + coinWidth &&
-                    playerX + playerWidth > tempCoinX &&
-                    playerY < tempCoinY + coinHeight &&
-                    playerY + playerHeight > tempCoinY) {
+                // Cek apakah hitbox pemain bertabrakan dengan hitbox koin (AABB Collision)
+                if (player.x < coinX + coinWidth &&
+                    player.x + playerWidth > coinX &&
+                    player.y < coinY + coinHeight &&
+                    player.y + playerHeight > coinY) {
                     
-                    *coinX = j;  // Simpan posisi koin yang kena tabrak
-                    *coinY = i;
-                    return true;  // Koin ditemukan dan bertabrakan
+                    point.coins++;     // Tambah jumlah koin yang dikumpulkan
+                    point.score += 10; // Tambah skor pemain
+                    maps[gameState.level][i][j] =20;  // Hapus koin dari peta
                 }
             }
         }
     }
-    return false;  // Tidak ada tabrakan dengan koin
 }
-
 
 void checkCollisionWithStar() {
     for (int i = 0; i < MAP_HEIGHT; i++) {

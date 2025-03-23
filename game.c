@@ -111,21 +111,8 @@ void updateGame() {
     // Cek tabrakan dengan musuh, duri, coin, starpower, nextLevel,Block
     cheakCollisionWithBlock();
     checkCollisionWithMonster();
-    
-    if (isCollidingWithSpike()) {
-        playerLives--;
-        if (playerLives <= 0) isAlive = 0;
-        else findMarioStartPosition();
-    }
-    
-
-    int coinX, coinY;
-    if (isCollidingWithCoin(&coinX, &coinY)) {
-        coins++;  // Tambah jumlah koin yang dikumpulkan
-        score += 10;  // Tambah skor pemain
-        maps[level][coinY][coinX] = 0;  // Hapus koin dari peta
-    }
-
+    checkCollisionWithSpike();
+    checkCollisionWithCoin();
     checkCollisionWithStar();
     checkCollisionWithNextLevel();
 

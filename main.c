@@ -40,13 +40,7 @@ int main() {
                 updateGame();
                 handleInput();
                 checkCollisionWithMonster();
-
-                if (isCollidingWithSpike()) {
-                    playerLives--;
-                    if (playerLives <= 0) isAlive = 0;
-                    else findMarioStartPosition();
-                }                
-
+                checkCollisionWithSpike();
                 displayScore();
             } else {  
                 // **Tampilan Game Over**
