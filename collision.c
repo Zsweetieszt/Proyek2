@@ -85,18 +85,21 @@ void checkCollisionWithSpike() {
                     playerHitboxBottom > monsterHitboxTop &&
                     playerHitboxTop < monsterHitboxBottom) {
     
-                    if (player.hasStarPower) {
-                        monsters[i].x = -999999;  // Pindahkan monster keluar layar
-                        point.score += 15;       
-                    } else {
-                        player.playerLives--;
-    
-                        if (player.playerLives > 0) {  
-                            findMarioStartPosition();  
+                        if (player.hasStarPower) {
+                            monsters[i].x = -999999;  // Pindahkan monster keluar layar
+                            point.score += 15;       
                         } else {
-                            gameState.isAlive = 0;
-                        }
-                    }
+                            if (gameState.level >= 2) {  // Monster hanya bisa melukai di level 3 ke atas
+                                player.playerLives--;
+                        
+                                if (player.playerLives > 0) {  
+                                    findMarioStartPosition();  // Reset posisi jika masih ada nyawa
+                                } else {
+                                    gameState.isAlive = 0;  // Game Over jika nyawa habis
+                                }
+                            }
+                            // 🔥 Tidak perlu else untuk level <2, karena kita tidak ingin ada efek apapun
+                        }    
                 }
             }
         }

@@ -62,13 +62,22 @@ typedef struct {
 extern GameState gameState;
 
 typedef struct {
-    int x, y;
-    int direction; // 1 untuk ke kanan, -1 untuk ke kiri
+    int x, y;           // Posisi monster
+    int direction;      // Arah gerak: 1 = kanan, -1 = kiri
+    int startX;         // Posisi awal monster (agar dia tidak bergerak jauh)
+    int maxDistance;    // Seberapa jauh monster bisa bergerak dari startX
 } Monster;
 
-extern Monster monsters[MAX_MONSTERS];  // Array monster
-extern int monsterCount;  
-extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];
+// 🔥 Hapus duplikasi & tetap deklarasikan hanya sekali
+extern Monster monsters[MAX_MONSTERS];  // Array monster dalam level saat ini
+extern int monsterCount;                // Jumlah monster dalam level saat ini
+
+extern int levelMonsterCounts[1];       // Jumlah monster di tiap level
+extern Monster levelMonsters[1][MAX_MONSTERS]; // Daftar monster di setiap level
+
+extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];  // Peta level
+
+
 
 
 
