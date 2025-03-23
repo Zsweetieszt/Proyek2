@@ -11,7 +11,7 @@
 #define SCREEN_HEIGHT 480
 #define GROUND_HEIGHT 420
 #define GRAVITY 1
-#define JUMP_STRENGTH -17
+#define JUMP_STRENGTH -16
 #define MOVE_SPEED 9
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 12
