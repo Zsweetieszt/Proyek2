@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>  // Library untuk pengelolaan waktu
 
 // Konstanta game
 #define SCREEN_WIDTH 640
@@ -75,6 +76,10 @@ extern int levelMonsterCounts[1];       // Jumlah monster di tiap level
 extern Monster levelMonsters[1][MAX_MONSTERS]; // Daftar monster di setiap level
 
 extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];  // Peta level
+
+extern clock_t startClock;
+extern clock_t endClock;
+extern double gameDurationMs;  // Durasi dalam milidetik
 
 
 
