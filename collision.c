@@ -58,7 +58,7 @@ void checkCollisionWithSpike() {
 // Fungsi untuk mendeteksi tabrakan dengan monstervoid checkCollisionWithMonster() {
     void checkCollisionWithMonster() {
         for (int i = 0; i < monsterCount; i++) {  // Loop untuk semua monster dalam level
-            int screenMonsterX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+            int screenMonsterX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH);
             int monsterSize = MONSTER_SIZE;
             int playerSize = PLAYER_SIZE;
     
@@ -66,19 +66,21 @@ void checkCollisionWithSpike() {
                 player.x + playerSize > screenMonsterX &&
                 player.y < monsters[i].y + monsterSize &&
                 player.y + playerSize > monsters[i].y) {
-                
-                int hitboxMarginX = 25;  
-                int hitboxMarginY = 20;  
+
+                int hitboxScale = 10; // Ubah ini ke 2 untuk memperbesar hitbox lebih luas lagi
+
+                int monsterHitboxLeft   = screenMonsterX - (COLS * hitboxScale);
+                int monsterHitboxRight  = screenMonsterX + monsterSize + (COLS * hitboxScale);
+                int monsterHitboxTop    = monsters[i].y - (ROWS * hitboxScale);
+                int monsterHitboxBottom = monsters[i].y + monsterSize + (ROWS * hitboxScale);
+                    
+                    
     
-                int monsterHitboxLeft   = screenMonsterX - hitboxMarginX;
-                int monsterHitboxRight  = screenMonsterX + monsterSize + hitboxMarginX;
-                int monsterHitboxTop    = monsters[i].y - hitboxMarginY;
-                int monsterHitboxBottom = monsters[i].y + monsterSize + hitboxMarginY;
-    
-                int playerHitboxLeft   = player.x + 20;
-                int playerHitboxRight  = player.x + COLS + 4;
-                int playerHitboxTop    = player.y - 4;
+                int playerHitboxLeft   = player.x - (COLS / 2);
+                int playerHitboxRight  = player.x + (COLS / 2);
+                int playerHitboxTop    = player.y - ROWS;
                 int playerHitboxBottom = player.y;
+
     
                 if (playerHitboxRight > monsterHitboxLeft &&
                     playerHitboxLeft < monsterHitboxRight &&
@@ -114,8 +116,8 @@ void checkCollisionWithCoin() {
                 int coinX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int coinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
-                int coinWidth = 30;  // Lebarkan hitbox koin
-                int coinHeight = 30; // Tinggikan hitbox koin
+                int coinWidth = 70;  // Lebarkan hitbox koin
+                int coinHeight = 70; // Tinggikan hitbox koin
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
 
@@ -141,8 +143,8 @@ void checkCollisionWithStar() {
                 int starX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int starY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
 
-                int starWidth = 40;  // Perbesar hitbox Star Power
-                int starHeight = 40;
+                int starWidth = 85;  // Perbesar hitbox Star Power
+                int starHeight = 85;
                 int playerWidth = PLAYER_SIZE;
                 int playerHeight = PLAYER_SIZE;
 
@@ -153,7 +155,7 @@ void checkCollisionWithStar() {
                     player.y + playerHeight > starY) {
                     
                     player.hasStarPower = 1;  // Aktifkan Star Power
-                    player.starPowerTimer = 300; // 300 frame (5 detik dalam game)
+                    player.starPowerTimer = 150;
                     maps[gameState.level][i][j] = 0; // Hapus Star Power dari peta
                 }
             }

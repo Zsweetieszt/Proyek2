@@ -27,7 +27,7 @@
 #define STATE_MENU 0
 #define STATE_PLAYING 1
 #define STATE_GAMEOVER 2
-#define MAX_MONSTERS 10
+#define MAX_MONSTERS 20
 
 typedef struct {
     int x;
