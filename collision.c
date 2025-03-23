@@ -179,10 +179,7 @@ void checkCollisionWithNextLevel() {
                     if (gameState.level >= 3) {  // Jika sudah di level terakhir, kembali ke awal
                         gameState.level = 0;
                     };
-                    player.x = 100; // Atur ulang posisi pemain
-                    player.y = GROUND_HEIGHT - 30;
-                    camera.x * 0;  // Reset kamera
-                    camera.offset = 0;
+                    findMarioStartPosition();
                 }
             }
         }

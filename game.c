@@ -183,7 +183,7 @@ void restartGame() {
 
 
 
-void displayScore() {
+void displayPoint() {
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
 

@@ -39,9 +39,7 @@ int main() {
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
-                checkCollisionWithMonster();
-                checkCollisionWithSpike();
-                displayScore();
+                displayPoint();
             } else {  
                 // **Tampilan Game Over**
                 displayGameOver();

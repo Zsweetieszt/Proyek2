@@ -75,7 +75,7 @@ extern int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH];
 // Prototipe fungsi umum
 void updateGame();
 void displayGameOver();
-void displayScore();
+void displayPoint();
 void findMarioStartPosition();
 void restartGame();
 void displayWinScreen(Point point, Player player);
