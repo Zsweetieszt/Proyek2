@@ -214,11 +214,11 @@ void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]) {
 
 
 // Fungsi untuk menangani input dari pemain
-void handleInput() {
+int handleInput() {
     if (!gameState.isAlive) { 
         // Ganti ke animasi mati jika karakter tidak hidup
         currentCharacter = player_dead;
-        return;
+        return 0;
         
     }
     bool movingLeft = GetAsyncKeyState('A') & 0x8000;

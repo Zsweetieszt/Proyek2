@@ -31,7 +31,7 @@ int main() {
             setvisualpage(1 - buffer);
             cleardevice();
 
-            drawBackground();
+            renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();

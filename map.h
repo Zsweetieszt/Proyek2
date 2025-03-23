@@ -5,7 +5,7 @@ void drawPlatform(int x, int y, int width, int height);
 void drawCoin(int x, int y);
 void drawStar(int x, int y);
 void drawMonster(int x, int y);
-void drawSpike();
+void drawSpike(int x, int y);
 void drawMap();
 void drawGrid();
 void drawGround(int x, int y);
@@ -21,6 +21,8 @@ void drawBodyPipe(int x, int y);
 void drawVictoryFlag(int x, int y);
 void animationMonster();
 void drawMonsterDebugGrid();
+void renderLevel(GameState gameState);
+void drawNightBackground();
 
 
 

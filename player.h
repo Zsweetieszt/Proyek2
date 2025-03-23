@@ -26,6 +26,6 @@ extern int (*currentCharacter)[COLS]; // Deklarasi sebagai variabel global
 void initializeMirrorSprites();
 void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]);
 void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower);
-void handleInput();
+int handleInput();
 
 #endif // PLAYER_H
