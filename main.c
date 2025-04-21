@@ -9,8 +9,15 @@
  // Status pemain hidup atau mati
 
 int main() {
-    int gd = DETECT, gm;
-    initwindow(1920, 1080, "Mario Bros Revan");;  // Inisialisasi mode grafik
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
+
+    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
+    int windowWidth = screenWidth;
+    int windowHeight = screenHeight; 
+
+    // Buat window grafik dengan ukuran yang disesuaikan
+    initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
