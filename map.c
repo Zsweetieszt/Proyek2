@@ -64,7 +64,7 @@ void drawRow24(int x, int y, int gap, int blockSize) {
 // Fungsi untuk menggambar seluruh pola menggunakan ukuran fleksibel
 void drawPlatform(int x, int y, int width, int height) {
     // Parameter pola
-    int blockSize = 10; // Tetapkan ukuran tetap untuk kotak/persegi panjang
+    int blockSize = 15; // Tetapkan ukuran tetap untuk kotak/persegi panjang
     int gap = 1;        // Celah antar objek
     int rowHeight = 2 * (blockSize + gap); // Tinggi total semua baris
 
@@ -328,7 +328,7 @@ void drawBackground() {
     // Gambar matahari (lingkaran kuning)
     int sunX = SCREEN_WIDTH / 2;  // Posisi X matahari (tengah layar)
     int sunY = 100;               // Posisi Y matahari
-    int sunRadius = 50;           // Radius matahari
+    int sunRadius = 100;           // Radius matahari
 
     // Gambar lingkaran matahari dengan warna kuning
     setcolor(YELLOW);            // Set warna garis
@@ -559,7 +559,7 @@ void drawMap() {
                     drawPipe(x + 10, y + 20);
                     break;
                 case 9:
-                    drawCloud(x + 20, y + 20);
+                    drawCloud(x + 60, y + 60);
                     break;
                 case 10:
                     drawBrickBlock(x + 20, y + 20);
@@ -568,13 +568,13 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x +20, y +30);
+                    drawFlag(x +20, y +63);
                     break;
                 case 13:
                     drawBodyPipe(x + 10, y + 20);
                     break;
                 case 14:
-                    drawVictoryFlag(x +20, y +30);
+                    drawVictoryFlag(x +20, y +202);
                     break;
 
             }

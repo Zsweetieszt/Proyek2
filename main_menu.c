@@ -28,7 +28,7 @@ void handleMouseClick(int mouseX, int mouseY) {
         // Start game
         cleardevice();
         char startMsg[] = "Game Starting...";
-        outtextxy(100, 350, startMsg);
+        outtextxy(210, 200, startMsg);
         delay(2000); // Simulasi loading game
     } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230) {
         // Show guide
@@ -49,17 +49,16 @@ void showMainMenu() {
     setbkcolor(LIGHTBLUE);
     cleardevice();
 
-    // Gambar karakter sederhana
-    setcolor(RED);
-    circle(200, 300, 20);
 
     settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
 
+    char gameName[] = "Mario Bros";
     char startText[] = "Start Game";
     char guideText[] = "Guide";
     char exitText[] = "Exit";
 
+    outtextxy(230, 80, gameName);
     outtextxy(100, 150, startText);
     outtextxy(100, 200, guideText);
     outtextxy(100, 250, exitText);

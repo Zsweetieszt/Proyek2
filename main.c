@@ -10,7 +10,7 @@
 
 int main() {
     int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*)"");  // Inisialisasi mode grafik
+    initwindow(1920, 1080, "Mario Bros Revan");;  // Inisialisasi mode grafik
 
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
