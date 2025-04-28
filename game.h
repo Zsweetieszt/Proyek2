@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include <graphics.h>
-#include <conio.h>
+ #include <conio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
