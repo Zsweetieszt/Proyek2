@@ -32,7 +32,7 @@ typedef struct {
     int offset;
 } Camera;
 extern Camera camera;
-
+//gicomentar
 typedef struct {
     int x, y;
     int velocityY;
