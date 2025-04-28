@@ -11,9 +11,10 @@
 #define SCREEN_WIDTH 1550
 #define SCREEN_HEIGHT 840
 #define GROUND_HEIGHT 740
-#define GRAVITY 1
-#define JUMP_STRENGTH -30
-#define MOVE_SPEED 9
+#define GRAVITY_UP 4
+#define GRAVITY_DOWN 4
+#define JUMP_STRENGTH -45
+#define MOVE_SPEED 18
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 13
 #define TOTAL_MAP_WIDTH 150
@@ -21,7 +22,7 @@
 #define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
 #define SPIKE 6
-#define SCROLL_SPEED 9
+#define SCROLL_SPEED 18
 #define ROWS 35// Jumlah baris dalam array Player
 #define COLS 25// Jumlah kolom dalam array Player
 #define MOVE_DELAY 60 // Tambahkan delay saat berjalan (dalam ms)

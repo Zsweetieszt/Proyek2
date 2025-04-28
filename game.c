@@ -117,64 +117,73 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 3, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        {2, 12, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 2, 0, 2, 6, 2, 6, 2, 6, 6, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {2, 0, 0, 12, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 2, 0, 2, 6, 2, 6, 2, 6, 6, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
     },
 };
 
 // Fungsi untuk memperbarui status game
 void updateGame() {
-    player.y += player.velocityY;
-    player.velocityY += GRAVITY;
+    // Cek apakah Mario sedang naik atau jatuh
+    if (player.velocityY < 0) {
+        player.velocityY += GRAVITY_UP;   // Jika naik, gravitasi lebih kecil
+    } else {
+        player.velocityY += GRAVITY_DOWN; // Jika jatuh, gravitasi lebih besar
+    }
 
+    player.y += player.velocityY; // Update posisi berdasarkan kecepatan
 
-    if (player.y >= GROUND_HEIGHT) {
-        player.y = GROUND_HEIGHT;
+    // Cek apakah Mario menyentuh tanah
+    if (player.y >= GROUND_HEIGHT - 30) {
+        player.y = GROUND_HEIGHT - 30;
         player.isJumping = 0;
+        player.velocityY = 0; // Reset kecepatan saat menyentuh tanah
     }
     
-    // Cek tabrakan dengan musuh, duri, coin, starpower, nextLevel,Block
+    // Cek tabrakan dengan musuh, duri, koin, starpower, nextLevel, block
     if (checkCollisionWithCoin()) {
-        point.coins++;     // Tambah jumlah koin yang dikumpulkan
-        point.score += 10; // Tambah skor pemain
+        point.coins++;
+        point.score += 10;
     }
-    if (checkCollisionWithSpike()){
-        player.playerLives--; // Kurangi nyawa Mario
-                        
+
+    if (checkCollisionWithSpike()) {
+        player.playerLives--;
         if (player.playerLives <= 0) {
-            gameState.isAlive = 0;// Mario benar-benar mati jika nyawa habis
+            gameState.isAlive = 0;
         } else {
-            // Reset posisi Mario ke titik aman setelah kena spike
             findMarioStartPosition();
         }
     }
 
-    if (!gameState.hasWon) {  // Jika belum menang, cek tabrakan
+    if (!gameState.hasWon) {
         checkCollisionWithFlag();
     }
 
     if (checkCollisionWithNextLevel()) {
-        gameState.level++;  // Pindah ke level berikutnya
-        if (gameState.level >= 3) {  
-            gameState.level = 0; // Reset jika sudah level terakhir
+        gameState.level++;
+        if (gameState.level >= 3) {
+            gameState.level = 0;
         }
         findMarioStartPosition();
     }
+
     checkCollisionWithStar();
     cheakCollisionWithBlock();
     checkCollisionWithMonster();
 
-    // Gerakan musuh
-    updateMonsters();  // Update semua monster
+    // Update musuh
+    updateMonsters();
 
-    // Untuk Star Power
+    // Star Power Timer
     if (player.hasStarPower) {
         player.starPowerTimer--;
         if (player.starPowerTimer <= 0) {
-            player.hasStarPower = 0;  // Matikan Star Power setelah 10 detik
+            player.hasStarPower = 0;
         }
     }
 }
+
 int restartGame() {
     player.playerLives = 3;  
     gameState.isAlive = 1;  
@@ -206,11 +215,8 @@ int restartGame() {
         }
     }
 
-    // 🔥 Reset monster sebelum mengisi ulang!
     monsterCount = 0;
-    memset(monsters, 0, sizeof(monsters));  // Hapus semua monster dari level sebelumnya
-
-    // 🔥 Ambil data monster sesuai level baru
+    memset(monsters, 0, sizeof(monsters));
     monsterCount = levelMonsterCounts[gameState.level];
 
     for (int i = 0; i < monsterCount; i++) {
@@ -229,11 +235,9 @@ void displayPoint() {
 
     char scoreText[20], coinText[20], livesText[20], timeText[30];
 
-    // Hitung waktu permainan secara real-time dalam milidetik
     double currentTimeMs = ((double)(clock() - startClock) / CLOCKS_PER_SEC) * 1000;
     sprintf(timeText, "%.2f sec", currentTimeMs / 1000);
 
-    // Format teks untuk skor, koin, dan nyawa
     sprintf(scoreText, "Score: %d", point.score);
     sprintf(coinText, "Coins: %d", point.coins);
     sprintf(livesText, "Lives: %d", player.playerLives);
