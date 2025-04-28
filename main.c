@@ -38,9 +38,8 @@ int main()
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-            drawGrid();
-            if (gameState.isAlive)
-            {
+
+            if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
                 displayPoint();

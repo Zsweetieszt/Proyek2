@@ -217,21 +217,27 @@ void cheakCollisionWithBlock()
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
-                int platformHeight = 70;
+                int platformHeight = 40; // Tinggi platform tetap 40
 
                 int playerLeft = player.x - (COLS / 2) + 10;
                 int playerRight = player.x + (COLS / 2) + 10;
                 int playerTop = player.y - ROWS;
-                int playerBottom = player.y + COLS;
+                int playerBottom = player.y +5;
+
+                // Sesuaikan agar hitbox benar-benar berada di tengah sprite
+                int hitboxX = player.x - (COLS/ 2) + (ROWS / 4);
+                int hitboxY = player.y - COLS;
 
                 int platformLeft = platformX;
                 int platformRight = platformX + platformWidth;
-                int platformTop = platformY - 18;
+                int platformTop = platformY;
                 int platformBottom = platformY + platformHeight;
 
+                //Gambar hitbox pemain
                 setcolor(RED);
-                rectangle(playerLeft, playerTop, playerRight, playerBottom);
+                rectangle(hitboxX, hitboxY, hitboxX + 25, hitboxY + 35+5 );
 
+                // Gambar hitbox platform
                 setcolor(GREEN);
                 rectangle(platformLeft, platformTop, platformRight, platformBottom);
 
@@ -291,6 +297,11 @@ int checkCollisionWithFlag()
                 int playerTop = player.y - ROWS - 10;
                 int playerBottom = player.y;
 
+                // Gambar hitbox untuk debugging
+                drawHitbox(poleLeft, poleTop, poleRight, poleBottom, GREEN);  // Tiang bendera (Hijau)
+                drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); // Mario (Biru)
+
+                // Deteksi tabrakan dengan tiang (bukan kain bendera)
                 if (playerRight > poleLeft && playerLeft < poleRight &&
                     playerBottom > poleTop && playerTop < poleBottom)
                 {

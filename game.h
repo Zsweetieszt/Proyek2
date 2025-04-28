@@ -9,7 +9,7 @@
 
 #define SCREEN_WIDTH 1550
 #define SCREEN_HEIGHT 840
-#define GROUND_HEIGHT 740
+#define GROUND_HEIGHT 780
 #define GRAVITY 1
 #define JUMP_STRENGTH -25
 #define MOVE_SPEED 9
