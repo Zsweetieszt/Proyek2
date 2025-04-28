@@ -37,12 +37,12 @@ int main() {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-
+            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
+            drawGrid();
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();

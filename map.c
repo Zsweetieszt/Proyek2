@@ -247,7 +247,7 @@ void drawBodyPipe(int x, int y){
     // Menggambar bagian bawah pipa (40x40 pixel)
     setcolor(darkGreen);
     setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
+    bar(x, y, x + 80, y + 80);
     
     // Efek pencahayaan pada pipa
     setcolor(lightGreen);
