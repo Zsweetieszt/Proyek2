@@ -24,6 +24,4 @@ void drawMonsterDebugGrid();
 void renderLevel(GameState gameState);
 void drawNightBackground();
 
-
-
 #endif // MAP_H

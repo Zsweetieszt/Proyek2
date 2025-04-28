@@ -3,85 +3,90 @@
 #include "map.h"
 #include "collision.h"
 #include "main_menu.h"
-#include <conio.h>  // Untuk getch()
+#include <conio.h>
 
-// Misal variabel global
- // Status pemain hidup atau mati
+int main()
+{
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-int main() {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
-
-    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
     int windowWidth = screenWidth;
-    int windowHeight = screenHeight; 
+    int windowHeight = screenHeight;
 
-    // Buat window grafik dengan ukuran yang disesuaikan
-    initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
+    initwindow(windowWidth, windowHeight, "Mario Bros phase 2");
 
-    while (1) {  
-        // **Bersihkan layar sebelum menampilkan menu utama**
+    while (1)
+    {
+
         showMainMenu();
-        
-        // **Hapus input buffer agar tidak ada input sisa**
-        while (kbhit()) getch();  
 
-        // **Jika pemain memilih Start Game, reset permainan**
-        restartGame();     
-        gameState.isRunning = 1;     
+        while (kbhit())
+            getch();
+
+        restartGame();
+        gameState.isRunning = 1;
 
         int buffer = 0;
-        
-        // **Loop permainan utama**
-        while (gameState.isRunning) {  
+
+        while (gameState.isRunning)
+        {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-            
+
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
             drawGrid();
-            if (gameState.isAlive) { 
+            if (gameState.isAlive)
+            {
                 updateGame();
                 handleInput();
                 displayPoint();
-            } else {  
-                // **Tampilan Game Over**
+            }
+            else
+            {
+
                 displayGameOver();
 
-                // **Gunakan getch() agar blocking, menunggu input pemain**
                 char key = getch();
-                if (key == 'R' || key == 'r') {  
+                if (key == 'R' || key == 'r')
+                {
                     restartGame();
-                } else if (key == 'M' || key == 'm') {  
-                    // **Bersihkan layar sebelum kembali ke menu**
+                }
+                else if (key == 'M' || key == 'm')
+                {
+
                     cleardevice();
-                    gameState.isRunning = 0;  
-                    break;  // **Keluar dari loop permainan, kembali ke menu utama**
+                    gameState.isRunning = 0;
+                    break;
                 }
             }
-            // **Cek apakah pemain menang**
-            if (gameState.hasWon) {  
-                displayWinScreen(point, player);  // **Tampilkan layar kemenangan**
-                while (1) {  
+
+            if (gameState.hasWon)
+            {
+                displayWinScreen(point, player);
+                while (1)
+                {
                     char key = getch();
-                    if (key == 'M' || key == 'm') {  
-                        cleardevice();  // **Bersihkan layar**
-                        gameState.hasWon = 0;  // **Reset kemenangan**
+                    if (key == 'M' || key == 'm')
+                    {
+                        cleardevice();
+                        gameState.hasWon = 0;
                         break;
-                    } else if (key == 'Q' || key == 'q') {  
+                    }
+                    else if (key == 'Q' || key == 'q')
+                    {
                         closegraph();
-                        return 0;  // **Keluar dari game sepenuhnya**
+                        return 0;
                     }
                 }
-                break;  // **Keluar dari loop permainan, kembali ke menu utama**
+                break;
             }
-            
 
-            // **Jika tombol Escape ditekan, keluar dari permainan sepenuhnya**
-            if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {  
+            if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+            {
                 gameState.isRunning = 0;
                 closegraph();
                 return 0;
