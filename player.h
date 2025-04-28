@@ -13,7 +13,6 @@
 #define WHITE COLOR(255,255,255)
 
 
-
 // Deklarasi array Mario
 extern int player_standing[ROWS][COLS];
 extern int player_walking1[ROWS][COLS];
