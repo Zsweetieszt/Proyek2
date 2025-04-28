@@ -15,7 +15,7 @@
 #define JUMP_STRENGTH -30
 #define MOVE_SPEED 9
 #define MAP_WIDTH 16
-#define MAP_HEIGHT 12
+#define MAP_HEIGHT 13
 #define TOTAL_MAP_WIDTH 150
 #define PLAYER_SIZE 2.5
 #define MONSTER_SIZE 17
