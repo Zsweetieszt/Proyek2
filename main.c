@@ -9,8 +9,15 @@
  // Status pemain hidup atau mati
 
 int main() {
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*)"");  // Inisialisasi mode grafik
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
+
+    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
+    int windowWidth = screenWidth;
+    int windowHeight = screenHeight; 
+
+    // Buat window grafik dengan ukuran yang disesuaikan
+    initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
@@ -30,12 +37,12 @@ int main() {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-
+            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
+            drawGrid();
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();

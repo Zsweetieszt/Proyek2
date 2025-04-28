@@ -64,7 +64,7 @@ void drawRow24(int x, int y, int gap, int blockSize) {
 // Fungsi untuk menggambar seluruh pola menggunakan ukuran fleksibel
 void drawPlatform(int x, int y, int width, int height) {
     // Parameter pola
-    int blockSize = 10; // Tetapkan ukuran tetap untuk kotak/persegi panjang
+    int blockSize = 25; // Tetapkan ukuran tetap untuk kotak/persegi panjang
     int gap = 1;        // Celah antar objek
     int rowHeight = 2 * (blockSize + gap); // Tinggi total semua baris
 
@@ -122,7 +122,7 @@ void drawGround(int x, int y) {
 
 
 void drawCoin(int x, int y) {
-    int size = 10;
+    int size = 15;
     int i;
     for (i = size; i > 0; i--) {
         int colorFactor = (255 * i) / size;
@@ -159,9 +159,11 @@ void drawMonster(int x, int y) {
     fillellipse(x, y, 15, 20);
 
     // Badan hantu (bagian bawah bergelombang)
-    int body[] = {x - 15, y, x - 17, y + 15, x - 12, y + 20, x - 7, y + 15,
-                  x - 2, y + 20, x + 2 , y + 15, x + 7, y + 20, x + 12, y + 15,
-                  x + 15, y, x - 15, y};
+int body[] = {
+    x - 15, y + 1, x - 17, y + 16, x - 12, y + 21, x - 7, y + 16,
+    x - 2, y + 21, x + 2 , y + 16, x + 7, y + 21, x + 12, y + 16,
+    x + 15, y + 1, x - 15, y + 1
+};
     setfillstyle(SOLID_FILL, WHITE);
     fillpoly(10, body);
 
@@ -171,7 +173,7 @@ void drawMonster(int x, int y) {
     fillellipse(x + 5, y - 5, 2, 4);
 
     // Mulut hantu
-    arc(x, y + 2, 200, 340, 5); // Mulut berbentuk setengah lingkaran
+    arc(x, y + 8, 20, 160, 5); // Mulut berbentuk setengah lingkaran
 }
 
 
@@ -192,7 +194,7 @@ void drawSpike(int x, int y) {
 
 
 void drawCloud(int x, int y) {
-    int size = 32; // Ukuran piksel 32
+    int size = 64; // Ukuran piksel 32
     setcolor(WHITE);
     setfillstyle(SOLID_FILL, LIGHTGRAY);
     bar(x, y, x + size, y + size * 2 / 3);
@@ -245,7 +247,7 @@ void drawBodyPipe(int x, int y){
     // Menggambar bagian bawah pipa (40x40 pixel)
     setcolor(darkGreen);
     setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
+    bar(x, y, x + 80, y + 80);
     
     // Efek pencahayaan pada pipa
     setcolor(lightGreen);
@@ -328,7 +330,7 @@ void drawBackground() {
     // Gambar matahari (lingkaran kuning)
     int sunX = SCREEN_WIDTH / 2;  // Posisi X matahari (tengah layar)
     int sunY = 100;               // Posisi Y matahari
-    int sunRadius = 50;           // Radius matahari
+    int sunRadius = 100;           // Radius matahari
 
     // Gambar lingkaran matahari dengan warna kuning
     setcolor(YELLOW);            // Set warna garis
@@ -568,13 +570,13 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x +20, y +30);
+                    drawFlag(x +20, y +63);
                     break;
                 case 13:
                     drawBodyPipe(x + 10, y + 20);
                     break;
                 case 14:
-                    drawVictoryFlag(x +20, y +30);
+                    drawVictoryFlag(x +20, y +202);
                     break;
 
             }
