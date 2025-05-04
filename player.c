@@ -1,8 +1,17 @@
 #include "game.h"
 #include "player.h"
 #include <stdbool.h>
+int playerLeft, playerRight, playerTop, playerBottom;
 
 DWORD lastMoveTime = 0;
+
+void updatePlayerBounds() {
+    playerLeft = player.x - (COLS / 2) + 30;
+    playerRight = player.x + (COLS / 2) + 30;
+    playerTop = player.y - ROWS - 10;
+    playerBottom = player.y;
+}
+
 
 int player_standing[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
@@ -153,21 +162,20 @@ int player_dead[ROWS][COLS] = {
     {BLACK, BLACK, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, BLACK, BLACK}
 };
 
-
 bool frameToggle = false; 
-bool isFacingLeft = false; // Default menghadap ke kanan
-int (*currentCharacter)[COLS] = player_standing; // Default adalah standing
+bool isFacingLeft = false; 
+int (*currentCharacter)[COLS] = player_standing; 
 
 void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
-    int characterHeight = 50; // Total tinggi karakter
-    int adjustedY = y - characterHeight; // Sesuaikan Y agar kaki menjadi referensi
+    int characterHeight = 50; 
+    int adjustedY = y - characterHeight; 
 
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            if (player[i][j] != BLACK) { // Hanya menggambar piksel yang bukan hitam
-                int color = player[i][j]; // Warna asli dari array
+            if (player[i][j] != BLACK) { 
+                int color = player[i][j]; 
 
-                // Ubah warna berdasarkan kondisi power-up
+                
                 if (hasStarPower) {
                     if (player[i][j] != BLACK){
                         if (color == RED) {
@@ -179,12 +187,12 @@ void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
                     }
                 }
 
-                setfillstyle(SOLID_FILL, color); // Atur warna sesuai kondisi
+                setfillstyle(SOLID_FILL, color); 
                 bar(
-                    x + j * PLAYER_SIZE,                // Koordinat kiri atas pixel
-                    adjustedY + i * PLAYER_SIZE,        // Koordinat atas pixel
-                    x + (j + 1) * PLAYER_SIZE,          // Koordinat kanan bawah pixel
-                    adjustedY + (i + 1) * PLAYER_SIZE   // Koordinat bawah pixel
+                    x + j * PLAYER_SIZE,                
+                    adjustedY + i * PLAYER_SIZE,        
+                    x + (j + 1) * PLAYER_SIZE,          
+                    adjustedY + (i + 1) * PLAYER_SIZE   
                 );
             }
         }
@@ -203,23 +211,19 @@ void initializeMirrorSprites() {
     mirrorPlayer(player_jumping, player_jumping_mirrored);
 }
 
-// Fungsi untuk mencerminkan (mirroring) array
 void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            mirrored[i][j] = currentCharacter[i][COLS - 1 - j]; // Membalikkan arah kolom
+            mirrored[i][j] = currentCharacter[i][COLS - 1 - j]; 
         }
     }
 }
 
 
-// Fungsi untuk menangani input dari pemain
 int handleInput() {
     if (!gameState.isAlive) { 
-        // Ganti ke animasi mati jika karakter tidak hidup
         currentCharacter = player_dead;
         return 0;
-        
     }
     bool movingLeft = GetAsyncKeyState('A') & 0x8000;
     bool movingRight = GetAsyncKeyState('D') & 0x8000;
@@ -227,7 +231,6 @@ int handleInput() {
 
     DWORD currentTime = GetTickCount();
 
-    // Jika sedang melompat, gunakan sprite lompat
     if (player.isJumping) {  
         currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
 
@@ -261,7 +264,7 @@ int handleInput() {
             }
         }
     } 
-    else {  // Jika tidak melompat, gunakan animasi berjalan atau diam
+    else {  
         if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) { 
             isFacingLeft = true;
             lastMoveTime = currentTime;
