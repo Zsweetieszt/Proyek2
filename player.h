@@ -19,12 +19,14 @@ extern int player_standing_mirrored[ROWS][COLS];
 extern int player_walking1_mirrored[ROWS][COLS];
 extern int player_walking2_mirrored[ROWS][COLS];
 extern int player_jumping_mirrored[ROWS][COLS];
+extern int playerLeft, playerRight, playerTop, playerBottom; 
 
-extern int (*currentCharacter)[COLS];
+extern int (*currentCharacter)[COLS]; 
 
 void initializeMirrorSprites();
 void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]);
 void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower);
 int handleInput();
+void updatePlayerBounds();
 
-#endif
+#endif 

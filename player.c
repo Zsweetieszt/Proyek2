@@ -1,8 +1,17 @@
 #include "game.h"
 #include "player.h"
 #include <stdbool.h>
+int playerLeft, playerRight, playerTop, playerBottom;
 
 DWORD lastMoveTime = 0;
+
+void updatePlayerBounds() {
+    playerLeft = player.x - (COLS / 2) + 30;
+    playerRight = player.x + (COLS / 2) + 30;
+    playerTop = player.y - ROWS - 10;
+    playerBottom = player.y;
+}
+
 
 int player_standing[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
@@ -147,31 +156,26 @@ int player_dead[ROWS][COLS] = {
     {BLACK, GREEN, GREEN, GREEN, RED, RED, GREEN, GREEN, RED, RED, GREEN, GREEN, GREEN, BLACK},
     {BLACK, GREEN, GREEN, GREEN, RED, YELLOW, RED, RED, YELLOW, RED, GREEN, GREEN, GREEN, BLACK},
     {BLACK, GREEN, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, GREEN, BLACK},
-    {BLACK, BLACK, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, BLACK, BLACK}};
+    {BLACK, BLACK, GREEN, GREEN, RED, RED, RED, RED, RED, RED, GREEN, GREEN, BLACK, BLACK}
+};
 
-bool frameToggle = false;
-bool isFacingLeft = false;
-int (*currentCharacter)[COLS] = player_standing;
+bool frameToggle = false; 
+bool isFacingLeft = false; 
+int (*currentCharacter)[COLS] = player_standing; 
 
-void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower)
-{
-    int characterHeight = 50;
-    int adjustedY = y - characterHeight;
+void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower) {
+    int characterHeight = 50; 
+    int adjustedY = y - characterHeight; 
 
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            if (player[i][j] != BLACK)
-            {
-                int color = player[i][j];
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (player[i][j] != BLACK) { 
+                int color = player[i][j]; 
 
-                if (hasStarPower)
-                {
-                    if (player[i][j] != BLACK)
-                    {
-                        if (color == RED)
-                        {
+                
+                if (hasStarPower) {
+                    if (player[i][j] != BLACK){
+                        if (color == RED) {
                             color = GREEN1;
                         }
                         else if (color == GREEN)
@@ -185,12 +189,13 @@ void drawCharacter(int player[ROWS][COLS], int x, int y, bool hasStarPower)
                     }
                 }
 
-                setfillstyle(SOLID_FILL, color);
+                setfillstyle(SOLID_FILL, color); 
                 bar(
-                    x + j * PLAYER_SIZE,
-                    adjustedY + i * PLAYER_SIZE,
-                    x + (j + 1) * PLAYER_SIZE,
-                    adjustedY + (i + 1) * PLAYER_SIZE);
+                    x + j * PLAYER_SIZE,                
+                    adjustedY + i * PLAYER_SIZE,        
+                    x + (j + 1) * PLAYER_SIZE,          
+                    adjustedY + (i + 1) * PLAYER_SIZE   
+                );
             }
         }
     }
@@ -209,22 +214,17 @@ void initializeMirrorSprites()
     mirrorPlayer(player_jumping, player_jumping_mirrored);
 }
 
-void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS])
-{
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            mirrored[i][j] = currentCharacter[i][COLS - 1 - j];
+void mirrorPlayer(int currentCharacter[ROWS][COLS], int mirrored[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            mirrored[i][j] = currentCharacter[i][COLS - 1 - j]; 
         }
     }
 }
 
-int handleInput()
-{
-    if (!gameState.isAlive)
-    {
 
+int handleInput() {
+    if (!gameState.isAlive) { 
         currentCharacter = player_dead;
         return 0;
     }
@@ -234,8 +234,7 @@ int handleInput()
 
     DWORD currentTime = GetTickCount();
 
-    if (player.isJumping)
-    {
+    if (player.isJumping) {  
         currentCharacter = isFacingLeft ? player_jumping_mirrored : player_jumping;
 
         if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY))
@@ -277,11 +276,9 @@ int handleInput()
                 player.x += MOVE_SPEED;
             }
         }
-    }
-    else
-    {
-        if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY))
-        {
+    } 
+    else {  
+        if (movingLeft && player.x > 0 && (currentTime - lastMoveTime > MOVE_DELAY)) { 
             isFacingLeft = true;
             lastMoveTime = currentTime;
 

@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {
     "version": "2.0.0",
     "tasks": [
@@ -18,4 +20,9 @@
             "detail": "Compile multiple C files with graphics.h in VS Code"
         }
     ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b905eb6000124a52dc39dae75c03d410391155ec
+>>>>>>> ef796a87e23bf0bacc5d7224b666173f809bb192
