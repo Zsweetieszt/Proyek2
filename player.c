@@ -7,11 +7,10 @@ DWORD lastMoveTime = 0;
 
 void updatePlayerBounds() {
     playerLeft = player.x - (COLS / 2) + 30;
-    playerRight = player.x + (COLS / 2) + 30;
-    playerTop = player.y - ROWS - 10;
+    playerRight = player.x + (COLS / 2) + 27;
+    playerTop = player.y - ROWS - ;10
     playerBottom = player.y;
 }
-
 
 int player_standing[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
