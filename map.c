@@ -1,83 +1,81 @@
 #include "game.h"
 #include "map.h"
 
-void drawRow13(int x, int y, int gap, int blockSize)
+void drawMonsterDebugGrid()
 {
-    int platformColor = COLOR(204, 102, 0);
-    int gapColor = COLOR(0, 0, 0);
-    int left = x, right, top = y, bottom = top + blockSize;
-
-    setfillstyle(SOLID_FILL, gapColor);
-    bar(left - gap, top - gap, left + blockSize + gap, bottom + gap);
-
-    setfillstyle(SOLID_FILL, platformColor);
-    bar(left, top, left + blockSize, bottom);
-
-    left = left + blockSize + gap;
-    right = left + (2 * blockSize) - 1;
-
-    setfillstyle(SOLID_FILL, gapColor);
-    bar(left - gap, top - gap, right + gap, bottom + gap);
-
-    setfillstyle(SOLID_FILL, platformColor);
-    bar(left, top, right, bottom);
-
-    left = right + gap;
-    right = left + blockSize;
-
-    setfillstyle(SOLID_FILL, gapColor);
-    bar(left - gap, top - gap, right + gap, bottom + gap);
-
-    setfillstyle(SOLID_FILL, platformColor);
-    bar(left, top, right, bottom);
-}
-
-void drawRow24(int x, int y, int gap, int blockSize)
-{
-    int platformColor = COLOR(204, 102, 0);
-    int gapColor = COLOR(0, 0, 0);
-    int left = x, right, top = y, bottom = top + blockSize;
-
-    right = left + (2 * blockSize);
-
-    setfillstyle(SOLID_FILL, gapColor);
-    bar(left - gap, top - gap, right + gap, bottom + gap);
-
-    setfillstyle(SOLID_FILL, platformColor);
-    bar(left, top, right, bottom);
-
-    left = right + gap;
-    right = left + (2 * blockSize);
-
-    setfillstyle(SOLID_FILL, gapColor);
-    bar(left - gap, top - gap, right + gap, bottom + gap);
-
-    setfillstyle(SOLID_FILL, platformColor);
-    bar(left, top, right, bottom);
-}
-
-void drawPlatform(int x, int y, int width, int height)
-{
-
-    int blockSize = 25;
-    int gap = 1;
-    int rowHeight = 2 * (blockSize + gap);
-
-    int offsetY = (height > rowHeight) ? (height - rowHeight) / 2 : 0;
-    y += offsetY;
-
-    for (int i = 0; i < 4; i++)
+    setcolor(RED);
+    for (int i = 0; i < monsterCount; i++)
     {
-        int rowType = (i % 2 == 0) ? 1 : 2;
-        if (rowType == 1)
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;
+
+        rectangle(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+
+        line(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+        line(screenX + MONSTER_SIZE, screenY, screenX, screenY + MONSTER_SIZE);
+    }
+}
+
+void drawPlatform(int x, int y)
+{
+    int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
+    int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
+    int platformColor = COLOR(204, 102, 0);
+    int gapColor = COLOR(0, 0, 0);
+
+    int rowCount = 4;
+    int gap = tileSizeY / (rowCount * 10);
+    int blockHeight = (tileSizeY - (rowCount - 1) * gap) / rowCount;
+
+    int yPos = y;
+    for (int i = 0; i < rowCount; i++)
+    {
+        int left = x;
+        int top = yPos;
+        int bottom = top + blockHeight;
+
+        if (i % 2 == 0)
         {
-            drawRow13(x, y, gap, blockSize);
+
+            int totalGap = 2 * gap;
+            int boxW = (tileSizeX - totalGap) / 4;
+            int rectW = 2 * boxW;
+
+            setfillstyle(SOLID_FILL, gapColor);
+            bar(left - gap, top - gap, left + boxW + gap, bottom + gap);
+            setfillstyle(SOLID_FILL, platformColor);
+            bar(left, top, left + boxW, bottom);
+
+            left += boxW + gap;
+            setfillstyle(SOLID_FILL, gapColor);
+            bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
+            setfillstyle(SOLID_FILL, platformColor);
+            bar(left, top, left + rectW, bottom);
+
+            left += rectW + gap;
+            setfillstyle(SOLID_FILL, gapColor);
+            bar(left - gap, top - gap, left + boxW + gap, bottom + gap);
+            setfillstyle(SOLID_FILL, platformColor);
+            bar(left, top, left + boxW, bottom);
         }
         else
         {
-            drawRow24(x, y, gap, blockSize);
+
+            int rectW = (tileSizeX - gap) / 2;
+
+            setfillstyle(SOLID_FILL, gapColor);
+            bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
+            setfillstyle(SOLID_FILL, platformColor);
+            bar(left, top, left + rectW, bottom);
+
+            left += rectW + gap;
+            setfillstyle(SOLID_FILL, gapColor);
+            bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
+            setfillstyle(SOLID_FILL, platformColor);
+            bar(left, top, left + rectW, bottom);
         }
-        y += blockSize + gap;
+
+        yPos += blockHeight + gap;
     }
 }
 
@@ -133,13 +131,16 @@ void drawCoin(int x, int y)
     line(x, y - size / 2, x, y + size / 2);
 }
 
-void animationMonster()
+void drawStar(int x, int y)
 {
-    for (int i = 0; i < monsterCount; i++)
+    int radius = 15;
+    int color;
+    for (int i = radius; i > 0; i--)
     {
-        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
-        int screenY = monsters[i].y;
-        drawMonster(screenX, screenY);
+        color = COLOR(255 - (i * 255 / radius), 100, i * 255 / radius);
+        setcolor(color);
+        setfillstyle(SOLID_FILL, color);
+        fillellipse(x, y, i, i);
     }
 }
 
@@ -161,6 +162,16 @@ void drawMonster(int x, int y)
     fillellipse(x + 5, y - 5, 2, 4);
 
     arc(x, y + 8, 20, 160, 5);
+}
+
+void animationMonster()
+{
+    for (int i = 0; i < monsterCount; i++)
+    {
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;
+        drawMonster(screenX, screenY);
+    }
 }
 
 void drawSpike(int x, int y)
@@ -230,69 +241,10 @@ void drawBrickBlock(int x, int y)
         line(x, y + i, x + 32, y + i);
     }
 }
-void drawBodyPipe(int x, int y)
-{
-
-    int darkGreen = COLOR(0, 128, 0);
-
-    int lightGreen = COLOR(0, 200, 0);
-
-    int shadowGreen = COLOR(0, 100, 0);
-
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
-    
-    // Efek pencahayaan pada pipa
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x + 5, y, x + 20, y + 45);
-
-    setcolor(shadowGreen);
-    setfillstyle(SOLID_FILL, shadowGreen);
-    bar(x + 35, y, x + 55, y + 45);
-
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x - 10, y - 20, x + 65, y);
-
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x - 5, y - 20, x + 45, y);
-
-    setcolor(BLACK);
-    rectangle(x, y, x + 55, y + 45);
-    rectangle(x - 10, y - 20, x + 65, y);
-}
-
-void drawPipe(int x, int y)
-{
-
-    int darkGreen = COLOR(0, 128, 0);
-
-    int lightGreen = COLOR(0, 200, 0);
-
-    int shadowGreen = COLOR(0, 100, 0);
-
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
-
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x + 5, y, x + 15, y + 40);
-
-    setcolor(shadowGreen);
-    setfillstyle(SOLID_FILL, shadowGreen);
-    bar(x + 30, y, x + 40, y + 40);
-
-    setcolor(BLACK);
-    rectangle(x, y - 20, x, y + 40);
-}
 
 void drawCloudBlock(int x, int y)
 {
-    int size = 32;
+    int size = 3;
     setcolor(WHITE);
     setfillstyle(SOLID_FILL, LIGHTGRAY);
     bar(x, y, x + size, y + size * 2 / 3);
@@ -300,18 +252,79 @@ void drawCloudBlock(int x, int y)
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
 
-void drawStar(int x, int y)
-{
-    int radius = 10;
-    int color;
-    for (int i = radius; i > 0; i--)
-    {
-        color = COLOR(255 - (i * 255 / radius), 100, i * 255 / radius);
-        setcolor(color);
-        setfillstyle(SOLID_FILL, color);
-        fillellipse(x, y, i, i);
+void drawPipe(int x, int y) {
+    int pipeWidth = 40;
+    int pipeHeadWidth = 60;
+    int pipeHeight = 70;
+    int pipeGap = 0; // rapat tanpa jarak antar pipa
+
+    int darkGreen = COLOR(0, 128, 0);
+    int lightGreen = COLOR(0, 200, 0);
+    int shadowGreen = COLOR(0, 100, 0);
+
+    for (int i = 0; i < 2; i++) {
+        int offsetX = x + i * (pipeHeadWidth + pipeGap);
+        int headX = offsetX;
+        int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
+
+        // Body
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(bodyX, y, bodyX + pipeWidth, y + pipeHeight);
+
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(bodyX + 5, y, bodyX + 15, y + pipeHeight);
+
+        setcolor(shadowGreen);
+        setfillstyle(SOLID_FILL, shadowGreen);
+        bar(bodyX + 30, y, bodyX + 40, y + pipeHeight);
+
+        // Head
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(headX, y - 20, headX + pipeHeadWidth, y);
+
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(headX + 5, y - 20, headX + 15, y);
+
+        setcolor(BLACK);
+        rectangle(bodyX, y, bodyX, y + 40);
+        rectangle(headX, y - 20, headX + pipeHeadWidth, y);
     }
 }
+
+void drawBodyPipe(int x, int y) {
+    int pipeWidth = 40;
+    int pipeHeadWidth = 60;
+    int pipeGap = 0; // rapat
+
+    int darkGreen = COLOR(0, 128, 0);
+    int lightGreen = COLOR(0, 200, 0);
+    int shadowGreen = COLOR(0, 100, 0);
+
+    for (int i = 0; i < 2; i++) {
+        int offsetX = x + i * (pipeHeadWidth + pipeGap);
+        int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
+
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(bodyX, y, bodyX + pipeWidth, y + 70);
+
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(bodyX + 5, y, bodyX + 15, y + 70);
+
+        setcolor(shadowGreen);
+        setfillstyle(SOLID_FILL, shadowGreen);
+        bar(bodyX + 30, y, bodyX + 40, y + 70);
+
+        setcolor(BLACK);
+        rectangle(bodyX, y - 20, bodyX, y + 70);
+    }
+}
+
 
 void drawBackground()
 {
@@ -366,6 +379,7 @@ void renderLevel(GameState gameState)
         drawNightBackground();
     }
 }
+
 void drawNightBackground()
 {
 
@@ -440,6 +454,7 @@ void drawFlag(int x, int y)
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
+
 void drawVictoryFlag(int x, int y)
 {
     int flagWidth = 50;
@@ -524,7 +539,7 @@ void drawMap()
                 drawGround(x, y);
                 break;
             case 2:
-                drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
+                drawPlatform(x, y);
                 break;
             case 3:
                 drawCoin(x + 20, y + 15);
@@ -542,7 +557,7 @@ void drawMap()
                 drawNextLevel(x + 20, y + 20);
                 break;
             case 8:
-                drawPipe(x + 10, y + 20);
+                drawBodyPipe(x + 10, y + 20);
                 break;
             case 9:
                 drawCloud(x + 20, y + 20);
@@ -557,27 +572,12 @@ void drawMap()
                 drawFlag(x + 20, y + 63);
                 break;
             case 13:
-                drawBodyPipe(x + 10, y + 20);
+                drawPipe(x + 10, y + 20);
                 break;
             case 14:
                 drawVictoryFlag(x + 20, y + 202);
                 break;
             }
         }
-    }
-}
-
-void drawMonsterDebugGrid()
-{
-    setcolor(RED);
-    for (int i = 0; i < monsterCount; i++)
-    {
-        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
-        int screenY = monsters[i].y;
-
-        rectangle(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
-
-        line(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
-        line(screenX + MONSTER_SIZE, screenY, screenX, screenY + MONSTER_SIZE);
     }
 }
