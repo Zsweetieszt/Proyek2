@@ -1,6 +1,7 @@
 #include "game.h"
 #include "collision.h"
 #include <stdbool.h>
+#include "player.h"
 
 void drawHitbox(int left, int top, int right, int bottom, int color)
 {
@@ -27,10 +28,7 @@ bool checkCollisionWithSpike()
                 int spikeLeft = spikeX;
                 int spikeRight = spikeX + spikeWidth;
 
-                int playerLeft = player.x - (COLS / 2) + 20;
-                int playerRight = player.x + (COLS / 2) + 10;
-                int playerTop = player.y - ROWS - 10;
-                int playerBottom = player.y;
+                updatePlayerBounds();
 
                 if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH)
                 {
@@ -61,10 +59,7 @@ int checkCollisionWithMonster()
         int monsterTop = screenMonsterY - 10;
         int monsterBottom = screenMonsterY + monsterSize;
 
-        int playerLeft = player.x - (COLS / 2) + 20;
-        int playerRight = player.x + (COLS / 2) + 10;
-        int playerTop = player.y - ROWS - 10;
-        int playerBottom = player.y;
+        updatePlayerBounds();
 
         if (playerRight > monsterLeft && playerLeft < monsterRight &&
             playerBottom > monsterTop && playerTop < monsterBottom)
@@ -116,10 +111,9 @@ bool checkCollisionWithCoin()
                 int coinTop = coinY;
                 int coinBottom = coinY + coinHeight;
 
-                int playerLeft = player.x - (COLS / 2) + 20;
-                int playerRight = player.x + (COLS / 2) + 10;
-                int playerTop = player.y - ROWS - 10;
-                int playerBottom = player.y;
+                updatePlayerBounds();
+                //setcolor(GREEN);
+                //rectangle(coinLeft, coinTop, coinRight, coinBottom);
 
                 if (playerRight > coinLeft && playerLeft < coinRight &&
                     playerBottom > coinTop && playerTop < coinBottom)
@@ -153,10 +147,7 @@ void checkCollisionWithStar()
                 int starTop = starY;
                 int starBottom = starY + starHeight + 5;
 
-                int playerLeft = player.x - (COLS / 2) + 20;
-                int playerRight = player.x + (COLS / 2) + 10;
-                int playerTop = player.y - ROWS;
-                int playerBottom = player.y;
+                updatePlayerBounds();
 
                 if (playerRight > starLeft && playerLeft < starRight &&
                     playerBottom > starTop && playerTop < starBottom)
@@ -189,10 +180,7 @@ bool checkCollisionWithNextLevel()
                 int nextTop = nextY;
                 int nextBottom = nextY + nextHeight;
 
-                int playerLeft = player.x - (COLS / 2);
-                int playerRight = player.x + (COLS / 2);
-                int playerTop = player.y - ROWS;
-                int playerBottom = player.y;
+                updatePlayerBounds();
 
                 if (playerRight > nextLeft && playerLeft < nextRight &&
                     playerBottom > nextTop && playerTop < nextBottom)
@@ -205,76 +193,64 @@ bool checkCollisionWithNextLevel()
     return false;
 }
 
-void cheakCollisionWithBlock()
-{
-
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == 1 || maps[gameState.level][i][j] == 2 || maps[gameState.level][i][j] == 8 || maps[gameState.level][i][j] == 11 || maps[gameState.level][i][j] == 13)
-            {
+void cheakCollisionWithBlock(){ 
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[gameState.level][i][j] == 1 || maps[gameState.level][i][j] == 2 || 
+                maps[gameState.level][i][j] == 8 || maps[gameState.level][i][j] == 11 || 
+                maps[gameState.level][i][j] == 13) {
+                
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
-                int platformHeight = 40; // Tinggi platform tetap 40
+                int platformHeight = 40;
 
-                int playerLeft = player.x - (COLS / 2) + 10;
-                int playerRight = player.x + (COLS / 2) + 10;
-                int playerTop = player.y - ROWS;
-                int playerBottom = player.y +5;
+                updatePlayerBounds();
 
-                // Sesuaikan agar hitbox benar-benar berada di tengah sprite
-                int hitboxX = player.x - (COLS/ 2) + (ROWS / 4);
+                int hitboxX = player.x - (COLS / 2) + (ROWS / 4);
                 int hitboxY = player.y - COLS;
 
                 int platformLeft = platformX;
                 int platformRight = platformX + platformWidth;
-                int platformTop = platformY;
-                int platformBottom = platformY + platformHeight;
+                int platformTop = platformY - 28;
+                int platformBottom = platformY + platformHeight+20;
 
-                //Gambar hitbox pemain
+                // Debug hitbox
                 setcolor(RED);
-                rectangle(hitboxX, hitboxY, hitboxX + 25, hitboxY + 35+5 );
-
-                // Gambar hitbox platform
+                drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
                 setcolor(GREEN);
                 rectangle(platformLeft, platformTop, platformRight, platformBottom);
 
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
                 bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
 
-                if (collisionX && collisionY)
-                {
-
-                    if (playerBottom > platformTop && playerTop < platformTop + 2 && player.velocityY >= 0)
-                    {
+                if (collisionX && collisionY) {
+                    // Dari atas platform
+                    if (playerBottom > platformTop && playerTop < platformTop + 2 && player.velocityY >= 0) {
                         player.y = platformTop;
                         player.velocityY = 0;
                         player.isJumping = 0;
                         continue;
                     }
-
-                    else if (playerTop < platformBottom && playerBottom > platformBottom && player.velocityY < 0)
-                    {
+                    // Dari bawah platform
+                    else if (playerTop < platformBottom && playerBottom > platformBottom && player.velocityY < 0) {
                         player.y = platformBottom + ROWS;
                         player.velocityY = 0;
                     }
-
-                    else if (collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop)
-                    {
-                        player.x = platformLeft - (COLS / 2) - 12;
+                    // Dari kiri platform (menabrak sisi kiri blok)
+                    else if(collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop) {
+                        player.x = platformLeft-40;
                     }
-
-                    else if (collisionX && playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop)
-                    {
-                        player.x = platformRight + (COLS / 2) - 10;
+                    // Dari kanan platform (menabrak sisi kanan blok)
+                    else if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
+                        player.x = platformRight + (COLS / 2);
                     }
                 }
             }
         }
     }
 }
+
 
 int checkCollisionWithFlag()
 {
@@ -292,16 +268,12 @@ int checkCollisionWithFlag()
                 int poleTop = poleY + 200;
                 int poleBottom = poleY + 500;
 
-                int playerLeft = player.x - (COLS / 2) + 20;
-                int playerRight = player.x + (COLS / 2) + 10;
-                int playerTop = player.y - ROWS - 10;
-                int playerBottom = player.y;
+                updatePlayerBounds();
 
                 // Gambar hitbox untuk debugging
-                drawHitbox(poleLeft, poleTop, poleRight, poleBottom, GREEN);  // Tiang bendera (Hijau)
-                drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); // Mario (Biru)
+                //drawHitbox(poleLeft, poleTop, poleRight, poleBottom, GREEN);
+                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
 
-                // Deteksi tabrakan dengan tiang (bukan kain bendera)
                 if (playerRight > poleLeft && playerLeft < poleRight &&
                     playerBottom > poleTop && playerTop < poleBottom)
                 {
