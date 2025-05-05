@@ -290,7 +290,7 @@ void drawPipe(int x, int y) {
         bar(headX + 5, y - 20, headX + 15, y);
 
         setcolor(BLACK);
-        rectangle(bodyX, y, bodyX, y + 40);
+        rectangle(bodyX, y, bodyX, y + 50);
         rectangle(headX, y - 20, headX + pipeHeadWidth, y);
     }
 }
