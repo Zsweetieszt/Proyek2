@@ -133,7 +133,7 @@ void drawCoin(int x, int y)
 
 void drawStar(int x, int y)
 {
-    int radius = 10;
+    int radius = 15;
     int color;
     for (int i = radius; i > 0; i--)
     {
@@ -244,7 +244,7 @@ void drawBrickBlock(int x, int y)
 
 void drawCloudBlock(int x, int y)
 {
-    int size = 32;
+    int size = 3;
     setcolor(WHITE);
     setfillstyle(SOLID_FILL, LIGHTGRAY);
     bar(x, y, x + size, y + size * 2 / 3);
@@ -252,64 +252,79 @@ void drawCloudBlock(int x, int y)
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
 
-void drawBodyPipe(int x, int y)
-{
+void drawPipe(int x, int y) {
+    int pipeWidth = 40;
+    int pipeHeadWidth = 60;
+    int pipeHeight = 70;
+    int pipeGap = 0; // rapat tanpa jarak antar pipa
 
     int darkGreen = COLOR(0, 128, 0);
-
     int lightGreen = COLOR(0, 200, 0);
-
     int shadowGreen = COLOR(0, 100, 0);
 
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 80, y + 80);
+    for (int i = 0; i < 2; i++) {
+        int offsetX = x + i * (pipeHeadWidth + pipeGap);
+        int headX = offsetX;
+        int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
 
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x + 5, y, x + 15, y + 40);
+        // Body
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(bodyX, y, bodyX + pipeWidth, y + pipeHeight);
 
-    setcolor(shadowGreen);
-    setfillstyle(SOLID_FILL, shadowGreen);
-    bar(x + 30, y, x + 40, y + 40);
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(bodyX + 5, y, bodyX + 15, y + pipeHeight);
 
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x - 10, y - 20, x + 50, y);
+        setcolor(shadowGreen);
+        setfillstyle(SOLID_FILL, shadowGreen);
+        bar(bodyX + 30, y, bodyX + 40, y + pipeHeight);
 
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x - 5, y - 20, x + 10, y);
+        // Head
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(headX, y - 20, headX + pipeHeadWidth, y);
 
-    setcolor(BLACK);
-    rectangle(x, y, x, y + 40);
-    rectangle(x - 10, y - 20, x + 50, y);
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(headX + 5, y - 20, headX + 15, y);
+
+        setcolor(BLACK);
+        rectangle(bodyX, y, bodyX, y + 40);
+        rectangle(headX, y - 20, headX + pipeHeadWidth, y);
+    }
 }
 
-void drawPipe(int x, int y)
-{
+void drawBodyPipe(int x, int y) {
+    int pipeWidth = 40;
+    int pipeHeadWidth = 60;
+    int pipeGap = 0; // rapat
 
     int darkGreen = COLOR(0, 128, 0);
-
     int lightGreen = COLOR(0, 200, 0);
-
     int shadowGreen = COLOR(0, 100, 0);
 
-    setcolor(darkGreen);
-    setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
+    for (int i = 0; i < 2; i++) {
+        int offsetX = x + i * (pipeHeadWidth + pipeGap);
+        int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
 
-    setcolor(lightGreen);
-    setfillstyle(SOLID_FILL, lightGreen);
-    bar(x + 5, y, x + 15, y + 40);
+        setcolor(darkGreen);
+        setfillstyle(SOLID_FILL, darkGreen);
+        bar(bodyX, y, bodyX + pipeWidth, y + 70);
 
-    setcolor(shadowGreen);
-    setfillstyle(SOLID_FILL, shadowGreen);
-    bar(x + 30, y, x + 40, y + 40);
+        setcolor(lightGreen);
+        setfillstyle(SOLID_FILL, lightGreen);
+        bar(bodyX + 5, y, bodyX + 15, y + 70);
 
-    setcolor(BLACK);
-    rectangle(x, y - 20, x, y + 40);
+        setcolor(shadowGreen);
+        setfillstyle(SOLID_FILL, shadowGreen);
+        bar(bodyX + 30, y, bodyX + 40, y + 70);
+
+        setcolor(BLACK);
+        rectangle(bodyX, y - 20, bodyX, y + 70);
+    }
 }
+
 
 void drawBackground()
 {
@@ -542,7 +557,7 @@ void drawMap()
                 drawNextLevel(x + 20, y + 20);
                 break;
             case 8:
-                drawPipe(x + 10, y + 20);
+                drawBodyPipe(x + 10, y + 20);
                 break;
             case 9:
                 drawCloud(x + 20, y + 20);
@@ -557,7 +572,7 @@ void drawMap()
                 drawFlag(x + 20, y + 63);
                 break;
             case 13:
-                drawBodyPipe(x + 10, y + 20);
+                drawPipe(x + 10, y + 20);
                 break;
             case 14:
                 drawVictoryFlag(x + 20, y + 202);
