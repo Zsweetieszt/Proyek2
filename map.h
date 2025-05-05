@@ -13,7 +13,7 @@ void drawCloud(int x, int y);
 void drawGrid();
 void drawStoneBlock(int x, int y);
 void drawBrickBlock(int x, int y);
-void drawCloudBlock(int x, int y)
+void drawCloudBlock(int x, int y);
 void drawBodyPipe(int x, int y);
 void drawPipe(int x, int y);
 void drawBackground();
