@@ -148,20 +148,20 @@ void drawMonster(int x, int y)
 {
 
     setfillstyle(SOLID_FILL, WHITE);
-    fillellipse(x, y, 15, 20);
+    fillellipse(x, y, 22, 30);
 
     int body[] = {
-        x - 15, y + 1, x - 17, y + 16, x - 12, y + 21, x - 7, y + 16,
-        x - 2, y + 21, x + 2, y + 16, x + 7, y + 21, x + 12, y + 16,
-        x + 15, y + 1, x - 15, y + 1};
+        x - 22, y + 2, x - 25, y + 24, x - 18, y + 31, x - 11, y + 24,
+        x - 3, y + 31, x + 3, y + 24, x + 11, y + 31, x + 18, y + 24,
+        x + 22, y + 2, x - 22, y + 2};
     setfillstyle(SOLID_FILL, WHITE);
     fillpoly(10, body);
 
     setfillstyle(SOLID_FILL, BLACK);
-    fillellipse(x - 5, y - 5, 2, 4);
-    fillellipse(x + 5, y - 5, 2, 4);
+    fillellipse(x - 5, y - 5, 3, 6);
+    fillellipse(x + 5, y - 5, 3, 6);
 
-    arc(x, y + 8, 20, 160, 5);
+    arc(x, y + 12, 20, 160, 5);
 }
 
 void animationMonster()
