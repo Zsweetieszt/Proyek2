@@ -9,14 +9,10 @@ void drawHitbox(int left, int top, int right, int bottom, int color)
     rectangle(left, top, right, bottom);
 }
 
-bool checkCollisionWithSpike()
-{
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == SPIKE)
-            {
+bool checkCollisionWithSpike(){
+    for (int i = 0; i < MAP_HEIGHT; i++){
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++){
+            if (maps[gameState.level][i][j] == SPIKE){
                 int spikeX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int spikeY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int spikeWidth = SCREEN_WIDTH / MAP_WIDTH;
@@ -30,11 +26,9 @@ bool checkCollisionWithSpike()
 
                 updatePlayerBounds();
 
-                if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH)
-                {
+                if (spikeX + spikeWidth > 0 && spikeX < SCREEN_WIDTH){
                     if (playerRight > spikeLeft && playerLeft < spikeRight &&
-                        playerBottom > spikeTop && playerTop < spikeBottom)
-                    {
+                        playerBottom > spikeTop && playerTop < spikeBottom){
 
                         return true;
                     }
@@ -45,15 +39,12 @@ bool checkCollisionWithSpike()
     return false;
 }
 
-int checkCollisionWithMonster()
-{
-    for (int i = 0; i < monsterCount; i++)
-    {
+int checkCollisionWithMonster(){
+    for (int i = 0; i < monsterCount; i++){
         int screenMonsterX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
         int screenMonsterY = monsters[i].y;
 
         int monsterSize = MONSTER_SIZE;
-
         int monsterLeft = screenMonsterX - 20;
         int monsterRight = screenMonsterX + monsterSize;
         int monsterTop = screenMonsterY - 10;
@@ -62,45 +53,18 @@ int checkCollisionWithMonster()
         updatePlayerBounds();
 
         if (playerRight > monsterLeft && playerLeft < monsterRight &&
-            playerBottom > monsterTop && playerTop < monsterBottom)
-        {
-
-            if (player.hasStarPower)
-            {
-                monsters[i].x = -999999;
-                point.score += 15;
-            }
-            else
-            {
-                if (gameState.level >= 2)
-                {
-                    player.playerLives--;
-
-                    if (player.playerLives > 0)
-                    {
-                        findMarioStartPosition();
-                    }
-                    else
-                    {
-                        gameState.isAlive = 0;
-                    }
-                }
-                return gameState.isAlive;
-            }
+            playerBottom > monsterTop && playerTop < monsterBottom){
+           return i;
         }
     }
+    return -1;
 }
 
-bool checkCollisionWithCoin()
-{
+bool checkCollisionWithCoin(){
     bool coinCollected = false;
-
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == 3)
-            {
+    for (int i = 0; i < MAP_HEIGHT; i++){
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++){
+            if (maps[gameState.level][i][j] == 3){
                 int coinX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int coinY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int coinWidth = 25;
@@ -116,8 +80,7 @@ bool checkCollisionWithCoin()
                 //rectangle(coinLeft, coinTop, coinRight, coinBottom);
 
                 if (playerRight > coinLeft && playerLeft < coinRight &&
-                    playerBottom > coinTop && playerTop < coinBottom)
-                {
+                    playerBottom > coinTop && playerTop < coinBottom){
 
                     maps[gameState.level][i][j] = 20;
                     coinCollected = true;
@@ -129,14 +92,10 @@ bool checkCollisionWithCoin()
     return coinCollected;
 }
 
-void checkCollisionWithStar()
-{
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == 5)
-            {
+bool checkCollisionWithStar(){
+    for (int i = 0; i < MAP_HEIGHT; i++){
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++){
+            if (maps[gameState.level][i][j] == 5){
                 int starX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int starY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int starWidth = 25;
@@ -150,26 +109,20 @@ void checkCollisionWithStar()
                 updatePlayerBounds();
 
                 if (playerRight > starLeft && playerLeft < starRight &&
-                    playerBottom > starTop && playerTop < starBottom)
-                {
-
-                    player.hasStarPower = 1;
-                    player.starPowerTimer = 150;
-                    maps[gameState.level][i][j] = 21;
+                    playerBottom > starTop && playerTop < starBottom){
+                        maps[gameState.level][i][j] = 21;
+                        return true;
                 }
             }
         }
     }
+    return false;
 }
 
-bool checkCollisionWithNextLevel()
-{
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == 7)
-            {
+bool checkCollisionWithNextLevel(){
+    for (int i = 0; i < MAP_HEIGHT; i++){
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++){
+            if (maps[gameState.level][i][j] == 7){
                 int nextX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int nextY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
                 int nextWidth = SCREEN_WIDTH / MAP_WIDTH;
@@ -183,8 +136,7 @@ bool checkCollisionWithNextLevel()
                 updatePlayerBounds();
 
                 if (playerRight > nextLeft && playerLeft < nextRight &&
-                    playerBottom > nextTop && playerTop < nextBottom)
-                {
+                    playerBottom > nextTop && playerTop < nextBottom){
                     return true;
                 }
             }
@@ -216,10 +168,10 @@ void cheakCollisionWithBlock(){
                 int platformBottom = platformY + platformHeight+20;
 
                 // Debug hitbox
-                setcolor(RED);
-                drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
-                setcolor(GREEN);
-                rectangle(platformLeft, platformTop, platformRight, platformBottom);
+                //setcolor(RED);
+                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
+                //setcolor(GREEN);
+                //rectangle(platformLeft, platformTop, platformRight, platformBottom);
 
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
                 bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
@@ -252,14 +204,10 @@ void cheakCollisionWithBlock(){
 }
 
 
-int checkCollisionWithFlag()
-{
-    for (int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (int j = 0; j < TOTAL_MAP_WIDTH; j++)
-        {
-            if (maps[gameState.level][i][j] == 14)
-            {
+bool checkCollisionWithFlag(){
+    for (int i = 0; i < MAP_HEIGHT; i++){
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++){
+            if (maps[gameState.level][i][j] == 14){
                 int poleX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int poleY = i * (SCREEN_HEIGHT / MAP_HEIGHT) - 300;
 
@@ -275,14 +223,11 @@ int checkCollisionWithFlag()
                 //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
 
                 if (playerRight > poleLeft && playerLeft < poleRight &&
-                    playerBottom > poleTop && playerTop < poleBottom)
-                {
-                    point.score += 100;
-                    gameState.hasWon = 1;
-                    return 1;
+                    playerBottom > poleTop && playerTop < poleBottom){
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
