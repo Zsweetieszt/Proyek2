@@ -1,9 +1,10 @@
 #include "main_menu.h"
 #include "game.h"
 
-void showGuide() {
+void showGuide()
+{
     cleardevice();
-    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2); // Gunakan font triplex
+    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
 
     char guideTitle[] = "Guide:";
     char guideStep1[] = "1. Gunakan A D untuk bergerak.";
@@ -17,60 +18,67 @@ void showGuide() {
     outtextxy(100, 250, guideStep3);
     outtextxy(80, 300, backMsg);
 
-    while (!kbhit() && !ismouseclick(WM_LBUTTONDOWN)); // Tunggu input keyboard atau mouse
-    getch(); // Bersihkan input keyboard
-    clearmouseclick(WM_LBUTTONDOWN); // Bersihkan input mouse
-    cleardevice(); // Bersihkan layar sebelum kembali ke menu utama
+    while (!kbhit() && !ismouseclick(WM_LBUTTONDOWN))
+        ;
+    getch();
+    clearmouseclick(WM_LBUTTONDOWN);
+    cleardevice();
 }
 
-void handleMouseClick(int mouseX, int mouseY) {
-    if (mouseX >= 100 && mouseX <= 300 && mouseY >= 150 && mouseY <= 180) {
-        // Start game
+void handleMouseClick(int mouseX, int mouseY)
+{
+    if (mouseX >= 100 && mouseX <= 300 && mouseY >= 150 && mouseY <= 180)
+    {
+
         cleardevice();
         char startMsg[] = "Game Starting...";
-        outtextxy(100, 350, startMsg);
-        delay(2000); // Simulasi loading game
-    } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230) {
-        // Show guide
+        outtextxy(210, 200, startMsg);
+        delay(2000);
+    }
+    else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230)
+    {
+
         showGuide();
-    } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 250 && mouseY <= 280) {
-        closegraph();  // Tutup mode grafis sebelum keluar
+    }
+    else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 250 && mouseY <= 280)
+    {
+        closegraph();
         exit(0);
     }
 }
 
-// Fungsi untuk menampilkan menu utama
-void showMainMenu() {
-        // Set halaman aktif dan visual ke 0
+void showMainMenu()
+{
+
     setactivepage(0);
     setvisualpage(0);
-        
-    cleardevice();  // Bersihkan layar
+
+    cleardevice();
     setbkcolor(LIGHTBLUE);
     cleardevice();
-
-    // Gambar karakter sederhana
-    setcolor(RED);
-    circle(200, 300, 20);
 
     settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
 
+    char gameName[] = "Mario Bros";
     char startText[] = "Start Game";
     char guideText[] = "Guide";
     char exitText[] = "Exit";
 
+    outtextxy(230, 80, gameName);
     outtextxy(100, 150, startText);
     outtextxy(100, 200, guideText);
     outtextxy(100, 250, exitText);
 
-    while (1) { 
+    while (1)
+    {
         int mouseX, mouseY;
-        if (ismouseclick(WM_LBUTTONDOWN)) {
+        if (ismouseclick(WM_LBUTTONDOWN))
+        {
             getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
             handleMouseClick(mouseX, mouseY);
-            clearmouseclick(WM_LBUTTONDOWN); // Bersihkan klik agar tidak double-click
-            break; // Keluar dari loop agar menu bisa di-refresh
+            clearmouseclick(WM_LBUTTONDOWN);
+            break;
         }
     }
 }

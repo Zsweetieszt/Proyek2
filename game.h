@@ -8,33 +8,31 @@
 #include <time.h>  // Library untuk pengelolaan waktu
 
 // Konstanta game
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define GROUND_HEIGHT 420
-#define GRAVITY 1
-#define JUMP_STRENGTH -16
-#define MOVE_SPEED 9
+#define SCREEN_WIDTH 1550
+#define SCREEN_HEIGHT 840
+#define GROUND_HEIGHT 740
+#define GRAVITY_UP 4
+#define GRAVITY_DOWN 4
+#define JUMP_STRENGTH -45
+#define MOVE_SPEED 18
 #define MAP_WIDTH 16
-#define MAP_HEIGHT 12
+#define MAP_HEIGHT 13
 #define TOTAL_MAP_WIDTH 150
-#define PLAYER_SIZE 1.5
+#define PLAYER_SIZE 2.5
 #define MONSTER_SIZE 17
 #define SPIKE_SIZE 17
 #define SPIKE 6
-#define SCROLL_SPEED 9
+#define SCROLL_SPEED 18
 #define ROWS 35// Jumlah baris dalam array Player
 #define COLS 25// Jumlah kolom dalam array Player
 #define MOVE_DELAY 60 // Tambahkan delay saat berjalan (dalam ms)
-#define STATE_MENU 0
-#define STATE_PLAYING 1
-#define STATE_GAMEOVER 2
 #define MAX_MONSTERS 20
 typedef struct {
     int x;
     int offset;
 } Camera;
 extern Camera camera;
-
+//gicomentar
 typedef struct {
     int x, y;
     int velocityY;
