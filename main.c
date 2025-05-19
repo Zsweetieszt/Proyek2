@@ -5,6 +5,7 @@
 #include "main_menu.h"
 #include <conio.h>  // Untuk getch()
 
+
 // Misal variabel global
  // Status pemain hidup atau mati
 
@@ -18,6 +19,10 @@ int main() {
 
     // Buat window grafik dengan ukuran yang disesuaikan
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
+
+    char playerName[50];
+    printf("Enter your name: ");
+    scanf("%s", playerName);
 
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
@@ -64,7 +69,7 @@ int main() {
             }
             // **Cek apakah pemain menang**
             if (gameState.hasWon) {  
-                displayWinScreen(point, player);  // **Tampilkan layar kemenangan**
+                displayWinScreen(point, playerName);  // **Tampilkan layar kemenangan**
                 while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm') {  

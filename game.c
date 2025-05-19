@@ -1,6 +1,7 @@
 #include "game.h"
 #include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
 #include "map.h"
+#include "leaderboard.h"
 
 // Definisi variabel global
 
@@ -287,7 +288,8 @@ int findMarioStartPosition() {
     return 0;//mario tidak di temukan
 }
 
-void displayWinScreen(Point point, Player player) {
+void displayWinScreen(Point point, const char* playerName) //update untuk playerName
+{
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
@@ -302,6 +304,8 @@ void displayWinScreen(Point point, Player player) {
     outtextxy(centerX, startY, (char*)"  CONGRATULATIONS!");
     outtextxy(centerX + 40, startY + 40, (char*)"    YOU WIN!");
 
+    
+
     // Pastikan waktu akhir hanya dihitung sekali
     if (endClock == 0) {
         endClock = clock();
@@ -314,6 +318,41 @@ void displayWinScreen(Point point, Player player) {
     sprintf(coinText, "COINS      : %d", point.coins);
     sprintf(livesText, "LIVES LEFT : %d", player.playerLives);
     sprintf(timeText, "TIME       : %.2f sec (%.0f ms)", gameDurationMs / 1000, gameDurationMs);
+
+    // Buat nampilin leaderboard
+// char playerName[50] = "";
+// int i = 0;
+// char ch;
+
+// outtextxy(100, 300, "Enter your name:");
+
+// while (1) {
+//     ch = getch();
+
+//     if (ch == '\r') {  // Enter
+//         playerName[i] = '\0';
+//         break;
+//     } else if (ch == '\b' && i > 0) {  // Backspace
+//         i--;
+//         playerName[i] = '\0';
+//     } else if (i < 49 && ch >= 32 && ch <= 126) {  // Printable characters
+//         playerName[i++] = ch;
+//         playerName[i] = '\0';
+//     }
+
+//     // Tampilkan nama yang sedang diketik
+//     setfillstyle(SOLID_FILL, BLACK);  // Hapus tulisan sebelumnya
+//     bar(100, 330, 600, 360);
+//     outtextxy(100, 330, playerName);
+// }
+
+
+    Leaderboard lb;
+    initLeaderboard(&lb);
+    loadLeaderboard(&lb, "leaderboard.txt");
+    addScore(&lb, playerName, point.score);
+    saveLeaderboard(&lb, "leaderboard.txt");
+    freeLeaderboard(&lb);
 
     // **Atur posisi lebih ke kiri & naik sedikit**
     int textX = SCREEN_WIDTH / 2 - 200;  // Geser ke kiri agar lebih ke tengah

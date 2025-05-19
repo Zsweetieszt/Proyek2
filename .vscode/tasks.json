@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c",
+                "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c", "leaderboard.c",
                 "-o", "${fileDirname}/game.exe",
                 "-static", "-lbgi", "-lgdi32", "-lcomdlg32", "-luuid", "-loleaut32", "-lole32"
             ],

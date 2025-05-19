@@ -88,7 +88,7 @@ void displayGameOver();
 void displayPoint();
 int findMarioStartPosition();
 int restartGame();
-void displayWinScreen(Point point, Player player);
+void displayWinScreen(Point point, const char* playerName); // Tambahkan parameter playerName
 void updateMonsters();  // Deklarasi fungsi updateMonsters()
 
 
