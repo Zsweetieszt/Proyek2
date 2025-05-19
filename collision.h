@@ -5,10 +5,10 @@
 bool checkCollisionWithSpike();
 int checkCollisionWithMonster();
 bool checkCollisionWithCoin();
-void checkCollisionWithStar();
+bool checkCollisionWithStar();
 bool checkCollisionWithNextLevel();
 void cheakCollisionWithBlock();
-int checkCollisionWithFlag();
+bool checkCollisionWithFlag();
 
 
 
