@@ -64,7 +64,7 @@ void drawRow24(int x, int y, int gap, int blockSize) {
 // Fungsi untuk menggambar seluruh pola menggunakan ukuran fleksibel
 void drawPlatform(int x, int y, int width, int height) {
     // Parameter pola
-    int blockSize = 10; // Tetapkan ukuran tetap untuk kotak/persegi panjang
+    int blockSize = 25; // Tetapkan ukuran tetap untuk kotak/persegi panjang
     int gap = 1;        // Celah antar objek
     int rowHeight = 2 * (blockSize + gap); // Tinggi total semua baris
 
@@ -89,7 +89,7 @@ void drawPlatform(int x, int y, int width, int height) {
 void drawGround(int x, int y) {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;  
     int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
-    int borderWidth = 3; // Ketebalan border
+    int borderWidth = 1; // Ketebalan border
 
     // Warna utama tanah (oranye)
     int mainColor = COLOR(204, 102, 0); // RGB untuk oranye
@@ -122,19 +122,59 @@ void drawGround(int x, int y) {
 
 
 void drawCoin(int x, int y) {
-    setcolor(YELLOW);
-    setfillstyle(SOLID_FILL, YELLOW);
-    fillellipse(x + 15, y + 15, 10, 10);  // Gambar lingkaran kecil sebagai koin
+    int size = 15;
+    int i;
+    for (i = size; i > 0; i--) {
+        int colorFactor = (255 * i) / size;
+        setcolor(COLOR(255, 215, colorFactor)); // Gradasi warna kuning keemasan
+        setfillstyle(SOLID_FILL, COLOR(255, 215, colorFactor));
+        fillellipse(x, y, i, i);
+    }
+    
+    // Efek pencahayaan
+    setcolor(COLOR(255, 255, 200));
+    setfillstyle(SOLID_FILL, COLOR(255, 255, 200));
+    fillellipse(x - size / 4, y - size / 4, size / 5, size / 5);
+    
+    // Detail garis vertikal di tengah koin
+    setcolor(COLOR(200, 150, 0));
+    setlinestyle(SOLID_LINE, 0, 3);
+    line(x, y - size / 2, x, y + size / 2);
 }
 
-void drawMonster() {
-    int screenX = monsterX - cameraX * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset;
-    setcolor(RED);
-    setfillstyle(SOLID_FILL, RED);
-    fillellipse(screenX, monsterY, MONSTER_SIZE, MONSTER_SIZE);
+void animationMonster() {
+    for (int i = 0; i < monsterCount; i++) {
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;  
+        drawMonster(screenX, screenY);
+    }
+
+    // Debug grid untuk melihat area monster
+    //drawMonsterDebugGrid();
 }
 
+void drawMonster(int x, int y) {
+    // Kepala hantu (lingkaran)
+    setfillstyle(SOLID_FILL, WHITE);
+    fillellipse(x, y, 15, 20);
 
+    // Badan hantu (bagian bawah bergelombang)
+int body[] = {
+    x - 15, y + 1, x - 17, y + 16, x - 12, y + 21, x - 7, y + 16,
+    x - 2, y + 21, x + 2 , y + 16, x + 7, y + 21, x + 12, y + 16,
+    x + 15, y + 1, x - 15, y + 1
+};
+    setfillstyle(SOLID_FILL, WHITE);
+    fillpoly(10, body);
+
+    // Mata hantu
+    setfillstyle(SOLID_FILL, BLACK);
+    fillellipse(x - 5, y - 5, 2, 4);
+    fillellipse(x + 5, y - 5, 2, 4);
+
+    // Mulut hantu
+    arc(x, y + 8, 20, 160, 5); // Mulut berbentuk setengah lingkaran
+}
 
 
 void drawSpike(int x, int y) {
@@ -154,7 +194,7 @@ void drawSpike(int x, int y) {
 
 
 void drawCloud(int x, int y) {
-    int size = 32; // Ukuran piksel 32
+    int size = 64; // Ukuran piksel 32
     setcolor(WHITE);
     setfillstyle(SOLID_FILL, LIGHTGRAY);
     bar(x, y, x + size, y + size * 2 / 3);
@@ -207,7 +247,7 @@ void drawBodyPipe(int x, int y){
     // Menggambar bagian bawah pipa (40x40 pixel)
     setcolor(darkGreen);
     setfillstyle(SOLID_FILL, darkGreen);
-    bar(x, y, x + 40, y + 40);
+    bar(x, y, x + 80, y + 80);
     
     // Efek pencahayaan pada pipa
     setcolor(lightGreen);
@@ -231,7 +271,7 @@ void drawBodyPipe(int x, int y){
     
     // Menambahkan detail garis batas pada pipa
     setcolor(BLACK);
-    rectangle(x, y, x + 40, y + 40);
+    rectangle(x, y, x, y + 40);
     rectangle(x - 10, y - 20, x + 50, y);
 }
 
@@ -258,7 +298,7 @@ void drawPipe(int x,int y){
     bar(x + 30, y, x + 40, y + 40);
     // Menambahkan detail garis batas pada pipa
     setcolor(BLACK);
-    rectangle(x, y, x , y + 40);
+    rectangle(x, y -20 , x , y + 40);
     
 }
 
@@ -272,11 +312,15 @@ void drawCloudBlock(int x, int y) {
 }
 
 void drawStar(int x, int y) {
-    setcolor(WHITE);
-    setfillstyle(SOLID_FILL, YELLOW);
-    fillellipse(x + 15, y + 15, 12, 12);  // Gambar bintang kecil
+    int radius = 10;
+    int color;
+    for (int i = radius; i > 0; i--) {
+        color = COLOR(255 - (i * 255 / radius), 100, i * 255 / radius); // Gradasi RGB
+        setcolor(color);
+        setfillstyle(SOLID_FILL, color);
+        fillellipse(x, y, i, i);
+    }
 }
-
 
 void drawBackground() {
     // Gambar langit biru
@@ -286,7 +330,7 @@ void drawBackground() {
     // Gambar matahari (lingkaran kuning)
     int sunX = SCREEN_WIDTH / 2;  // Posisi X matahari (tengah layar)
     int sunY = 100;               // Posisi Y matahari
-    int sunRadius = 50;           // Radius matahari
+    int sunRadius = 100;           // Radius matahari
 
     // Gambar lingkaran matahari dengan warna kuning
     setcolor(YELLOW);            // Set warna garis
@@ -295,10 +339,64 @@ void drawBackground() {
 }
 
 void drawNextLevel(int x, int y) {
-    setcolor(CYAN);  // Warna biru muda
-    setfillstyle(SOLID_FILL, CYAN);
-    bar(x, y, x + 32, y + 32);  // Kotak 32x32 sebagai blok teleportasi
+    int radius = 10;
+    
+    // Efek pencahayaan
+    for (int i = 0; i < 5; i++) {
+        int color = COLOR(0, 100, 255);
+        setcolor(color);
+        circle(x, y, radius + i * 3);
+    }
+    
+    // Portal utama dengan gradasi warna
+    for (int i = 0; i < radius; i++) {
+        int color = COLOR(50 + i, 50 + 2 * i, 255 - i);
+        setcolor(color);
+        circle(x, y, radius - i);
+    }
+    
+    // Partikel di sekitar portal
+    for (int i = 0; i < 10; i++) {
+        int angle = rand() % 360;
+        int px = x + cos(angle * 3.14 / 180) * (radius + 40);
+        int py = y + sin(angle * 3.14 / 180) * (radius + 40);
+        putpixel(px, py, COLOR(255, 255, 255));
+    }
 }
+
+
+void renderLevel(GameState gameState) {
+    if (gameState.level == 0 || gameState.level == 1) {
+        drawBackground(); // Latar belakang siang
+    } else if (gameState.level == 2) {
+        drawNightBackground(); // Latar belakang malam
+    }
+}
+void drawNightBackground() {
+    // Gambar langit malam (warna biru gelap)
+    int DARKBLUE = COLOR(22,38, 79);
+    setfillstyle(SOLID_FILL, DARKBLUE);
+    bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
+
+    // Gambar bulan (lingkaran putih)
+    int moonX = SCREEN_WIDTH / 2 + 100;  // Posisi X bulan (sedikit di samping)
+    int moonY = 100;                     // Posisi Y bulan
+    int moonRadius = 40;                 // Radius bulan
+
+    // Gambar lingkaran bulan dengan warna putih
+    setcolor(WHITE);                     // Set warna garis
+    setfillstyle(SOLID_FILL, WHITE);     // Set warna isi
+    fillellipse(moonX, moonY, moonRadius, moonRadius);  // Gambar bulan
+
+    // Gambar beberapa bintang kecil
+    setcolor(WHITE);                     // Warna bintang putih
+    for (int i = 0; i < 10; i++) {
+        int starX = rand() % SCREEN_WIDTH;  // Posisi acak X untuk bintang
+        int starY = rand() % (GROUND_HEIGHT + 25);  // Posisi acak Y untuk bintang
+        putpixel(starX, starY, WHITE);  // Gambar bintang kecil
+    }
+}
+
 
 void drawFlag(int x, int y) {
     int flagWidth = 50;  // Ukuran bendera diperbesar
@@ -356,15 +454,85 @@ void drawFlag(int x, int y) {
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
+void drawVictoryFlag(int x, int y) {
+    int flagWidth = 50;
+    int flagHeight = 30;
+    int poleHeight = 300;
+    int poleWidth = 5;
+    
+    int flagColor = COLOR(200, 0, 0);
+    int poleColor = COLOR(100, 100, 100);
+    int shadowColor = COLOR(150, 0, 0);
+    int highlightColor = COLOR(255, 50, 50);
+    int baseColor = COLOR(80, 80, 80);
+    int textureColor = COLOR(120, 120, 120);
+    int flagTextureColor = COLOR(220, 50, 50);
+    int starColor = COLOR(255, 255, 0);
+    
+    // Gambar dasar tiang
+    setcolor(baseColor);
+    setfillstyle(SOLID_FILL, baseColor);
+    bar(x - 3, y, x + poleWidth + 3, y + 7);
+    
+    // Gambar tiang
+    setcolor(poleColor);
+    setfillstyle(SOLID_FILL, poleColor);
+    bar(x, y - poleHeight, x + poleWidth, y);
+    
+    // Tambahkan tekstur pada tiang
+    setcolor(textureColor);
+    for (int i = y - poleHeight; i < y; i += 5) {
+        line(x, i, x + poleWidth, i);
+    }
+    
+    // Efek bayangan pada tiang
+    setcolor(COLOR(60, 60, 60));
+    line(x + poleWidth, y - poleHeight, x + poleWidth, y);
+    
+    // Gambar bayangan bendera
+    setcolor(shadowColor);
+    setfillstyle(SOLID_FILL, shadowColor);
+    int shadowTriangle[6] = {x + poleWidth, y - poleHeight + 2, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2 + 2, x + poleWidth, y - poleHeight + flagHeight + 2};
+    fillpoly(3, shadowTriangle);
+    
+    // Gambar bendera segitiga menghadap kiri
+    setcolor(flagColor);
+    setfillstyle(SOLID_FILL, flagColor);
+    int triangle[6] = {x + poleWidth, y - poleHeight, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2, x + poleWidth, y - poleHeight + flagHeight};
+    fillpoly(3, triangle);
+    
+    // Tambahkan tekstur pada bendera
+    setcolor(flagTextureColor);
+    for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3) {
+        line(x + poleWidth, i, x + poleWidth - flagWidth / 2, i);
+    }
+    
+    // Tambahkan highlight untuk efek pencahayaan
+    setcolor(highlightColor);
+    line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - flagWidth / 2 + 2, y - poleHeight + flagHeight / 4);
+    line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - 2, y - poleHeight + flagHeight - 2);
+    
+    // Gambar tanda kemenangan (bintang di dalam bendera)
+    setcolor(starColor);
+    setfillstyle(SOLID_FILL, starColor);
+    int star[10] = {
+        x + poleWidth - flagWidth / 3, y - poleHeight + flagHeight / 2 - 6,
+        x + poleWidth - flagWidth / 3 + 6, y - poleHeight + flagHeight / 2 + 3,
+        x + poleWidth - flagWidth / 3 - 6, y - poleHeight + flagHeight / 2 - 2,
+        x + poleWidth - flagWidth / 3 + 6, y - poleHeight + flagHeight / 2 - 2,
+        x + poleWidth - flagWidth / 3 - 6, y - poleHeight + flagHeight / 2 + 3
+    };
+    fillpoly(5, star);
+}
 
 void drawMap() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            int actualX = j + cameraX; // Ambil posisi asli di peta besar
+            int actualX = j + camera.x; // Ambil posisi asli di peta besar
             if (actualX >= TOTAL_MAP_WIDTH) continue; // Hindari menggambar di luar batas
 
-            int tile = maps[level][i][actualX];
-            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - cameraOffset; // Sesuaikan dengan offset kamera
+            int tile = maps[gameState.level][i][actualX];
+            int x = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset; // Sesuaikan dengan offset kamera
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
             
             switch (tile) {
@@ -375,10 +543,10 @@ void drawMap() {
                     drawPlatform(x, y, SCREEN_WIDTH / MAP_WIDTH, 10);
                     break;
                 case 3:
-                    drawCoin(x, y);  // Sekarang menggambar koin
+                    drawCoin(x+20, y+15);  // Sekarang menggambar koin
                     break;                
                 case 4:
-                    drawMonster();
+                    animationMonster();
                     break;
                 case 5:
                     drawStar(x + 20, y + 20);
@@ -387,7 +555,7 @@ void drawMap() {
                     drawSpike(x, y +20);
                     break;                                
                 case 7:
-                    drawNextLevel(x, y);
+                    drawNextLevel(x+20, y+20);
                     break;
                 case 8:
                     drawPipe(x + 10, y + 20);
@@ -402,13 +570,31 @@ void drawMap() {
                     drawStoneBlock(x + 20, y + 20);
                     break;
                 case 12:
-                    drawFlag(x +20, y +30);
+                    drawFlag(x +20, y +63);
                     break;
                 case 13:
                     drawBodyPipe(x + 10, y + 20);
                     break;
+                case 14:
+                    drawVictoryFlag(x +20, y +202);
+                    break;
 
             }
         }
+    }
+}
+
+void drawMonsterDebugGrid() {
+    setcolor(RED);  // Warna merah untuk grid
+    for (int i = 0; i < monsterCount; i++) {
+        int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenY = monsters[i].y;
+
+        // Gambar kotak hitbox monster
+        rectangle(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+        
+        // Gambar garis silang (X) di dalam grid
+        line(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
+        line(screenX + MONSTER_SIZE, screenY, screenX, screenY + MONSTER_SIZE);
     }
 }

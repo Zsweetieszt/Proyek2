@@ -9,8 +9,15 @@
  // Status pemain hidup atau mati
 
 int main() {
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*)"");  // Inisialisasi mode grafik
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
+
+    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
+    int windowWidth = screenWidth;
+    int windowHeight = screenHeight; 
+
+    // Buat window grafik dengan ukuran yang disesuaikan
+    initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
     while (1) {  
         // **Bersihkan layar sebelum menampilkan menu utama**
@@ -21,27 +28,25 @@ int main() {
 
         // **Jika pemain memilih Start Game, reset permainan**
         restartGame();     
-        isRunning = 1;     
+        gameState.isRunning = 1;     
 
         int buffer = 0;
         
         // **Loop permainan utama**
-        while (isRunning) {  
+        while (gameState.isRunning) {  
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-
-            drawBackground();
+            
+            renderLevel(gameState);
             drawMap();
-            drawCharacter(currentCharacter, playerX, playerY, hasStarPower);
+            drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
-            if (isAlive) { 
+            drawGrid();
+            if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
-                checkCollisionWithMonster();
-                checkCollisionWithSpike();
-                displayScore();
+                displayPoint();
             } else {  
                 // **Tampilan Game Over**
                 displayGameOver();
@@ -53,14 +58,31 @@ int main() {
                 } else if (key == 'M' || key == 'm') {  
                     // **Bersihkan layar sebelum kembali ke menu**
                     cleardevice();
-                    isRunning = 0;  
+                    gameState.isRunning = 0;  
                     break;  // **Keluar dari loop permainan, kembali ke menu utama**
                 }
             }
+            // **Cek apakah pemain menang**
+            if (gameState.hasWon) {  
+                displayWinScreen(point, player);  // **Tampilkan layar kemenangan**
+                while (1) {  
+                    char key = getch();
+                    if (key == 'M' || key == 'm') {  
+                        cleardevice();  // **Bersihkan layar**
+                        gameState.hasWon = 0;  // **Reset kemenangan**
+                        break;
+                    } else if (key == 'Q' || key == 'q') {  
+                        closegraph();
+                        return 0;  // **Keluar dari game sepenuhnya**
+                    }
+                }
+                break;  // **Keluar dari loop permainan, kembali ke menu utama**
+            }
+            
 
             // **Jika tombol Escape ditekan, keluar dari permainan sepenuhnya**
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {  
-                isRunning = 0;
+                gameState.isRunning = 0;
                 closegraph();
                 return 0;
             }

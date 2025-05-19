@@ -1,12 +1,14 @@
 #ifndef COLLISION_H
 #define COLLISION_H
+#include <stdbool.h>
 
-void checkCollisionWithSpike();
-void checkCollisionWithMonster();
-void checkCollisionWithCoin();
+bool checkCollisionWithSpike();
+int checkCollisionWithMonster();
+bool checkCollisionWithCoin();
 void checkCollisionWithStar();
-void checkCollisionWithNextLevel();
+bool checkCollisionWithNextLevel();
 void cheakCollisionWithBlock();
+int checkCollisionWithFlag();
 
 
 
