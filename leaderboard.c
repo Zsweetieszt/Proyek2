@@ -30,7 +30,8 @@ void addScore(Leaderboard* lb, const char* name, int score) {
 void displayLeaderboard(Leaderboard* lb, int x, int y) {
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
-    outtextxy(x, y, "Leaderboard:");
+    char message[] = "Leaderboard:";
+    outtextxy(x, y, message);
 
     LeaderboardNode* current = lb->head;
     int offset = 30;

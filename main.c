@@ -44,7 +44,6 @@ int main() {
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-            drawGrid();
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
@@ -98,8 +97,7 @@ int main() {
             buffer = 1 - buffer;
             delay(10);
         }
+        
+        closegraph();
+        return 0;
     }
-
-    closegraph();
-    return 0;
-}
