@@ -11,7 +11,8 @@ void askPlayerNameGraphics() {
     cleardevice();
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
-    outtextxy(200, 150, "Enter your name:");
+    char message[] = "Enter your name:";
+    outtextxy(200, 150, message);
 
     int i = 0;
     char ch;
