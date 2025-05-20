@@ -333,4 +333,5 @@ int handleInput() {
             currentCharacter = isFacingLeft ? player_standing_mirrored : player_standing;
         }
     }
+    return -1;
 }
