@@ -1,6 +1,7 @@
 #include "game.h"
 #include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
 #include "map.h"
+#include "leaderboard.h"
 
 // Definisi variabel global
 
@@ -294,7 +295,7 @@ void displayGameOver() {
 
     outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, gameOverText);
     outtextxy(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 50, retryText);
-    outtextxy(SCREEN_WIDTH / 2 - 220, SCREEN_HEIGHT / 2 + 100, menuText);
+    outtextxy(SCREEN_WIDTH / 2 - 260, SCREEN_HEIGHT / 2 + 100, menuText);
 }
 
 
@@ -320,7 +321,8 @@ int findMarioStartPosition() {
     return 0;//mario tidak di temukan
 }
 
-void displayWinScreen(Point point, Player player) {
+void displayWinScreen(Point point, const char* playerName) //update untuk playerName
+{
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
@@ -334,6 +336,8 @@ void displayWinScreen(Point point, Player player) {
 
     outtextxy(centerX, startY, (char*)"  CONGRATULATIONS!");
     outtextxy(centerX + 40, startY + 40, (char*)"    YOU WIN!");
+
+    
 
     // Pastikan waktu akhir hanya dihitung sekali
     if (endClock == 0) {

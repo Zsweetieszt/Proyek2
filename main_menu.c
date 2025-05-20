@@ -1,5 +1,41 @@
 #include "main_menu.h"
 #include "game.h"
+#include "leaderboard.h"
+
+char playerName[50] = "";
+
+Leaderboard leaderboard;
+
+
+void askPlayerNameGraphics() {
+    cleardevice();
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+    setcolor(WHITE);
+    outtextxy(200, 150, "Enter your name:");
+
+    int i = 0;
+    char ch;
+    playerName[0] = '\0';
+
+    while (1) {
+        ch = getch();
+
+        if (ch == '\r') {
+            playerName[i] = '\0';
+            break;
+        } else if (ch == '\b' && i > 0) {
+            i--;
+            playerName[i] = '\0';
+        } else if (i < 49 && ch >= 32 && ch <= 126) {
+            playerName[i++] = ch;
+            playerName[i] = '\0';
+        }
+
+        setfillstyle(SOLID_FILL, BLACK);
+        bar(200, 200, 600, 230);
+        outtextxy(200, 200, playerName);
+    }
+}
 
 void showGuide()
 {
@@ -18,11 +54,10 @@ void showGuide()
     outtextxy(100, 250, guideStep3);
     outtextxy(80, 300, backMsg);
 
-    while (!kbhit() && !ismouseclick(WM_LBUTTONDOWN))
-        ;
-    getch();
-    clearmouseclick(WM_LBUTTONDOWN);
-    cleardevice();
+    while (!kbhit() && !ismouseclick(WM_LBUTTONDOWN)); 
+    getch(); 
+    clearmouseclick(WM_LBUTTONDOWN); 
+    cleardevice(); 
 }
 
 void handleMouseClick(int mouseX, int mouseY)
@@ -31,25 +66,19 @@ void handleMouseClick(int mouseX, int mouseY)
     {
 
         cleardevice();
+        askPlayerNameGraphics();
         char startMsg[] = "Game Starting...";
         outtextxy(210, 200, startMsg);
-        delay(2000);
-    }
-    else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230)
-    {
-
+        delay(2000); 
+    } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230) {
         showGuide();
-    }
-    else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 250 && mouseY <= 280)
-    {
-        closegraph();
+    } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 250 && mouseY <= 280) {
+        closegraph();  
         exit(0);
     }
 }
 
-void showMainMenu()
-{
-
+void showMainMenu() {
     setactivepage(0);
     setvisualpage(0);
 
@@ -70,14 +99,19 @@ void showMainMenu()
     outtextxy(100, 200, guideText);
     outtextxy(100, 250, exitText);
 
-    while (1)
-    {
+    initLeaderboard(&leaderboard);
+    loadLeaderboard(&leaderboard, "leaderboard.txt");
+    displayLeaderboard(&leaderboard, 1000, 100); 
+
+    while (1) {
         int mouseX, mouseY;
         if (ismouseclick(WM_LBUTTONDOWN))
         {
             getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
             handleMouseClick(mouseX, mouseY);
             clearmouseclick(WM_LBUTTONDOWN);
+
+            freeLeaderboard(&leaderboard);
             break;
         }
     }

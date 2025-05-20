@@ -5,18 +5,24 @@
 #include "main_menu.h"
 #include <conio.h>
 
-int main()
-{
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
+// Misal variabel global
+ // Status pemain hidup atau mati
+
+int main() {
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
+
+    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
     int windowWidth = screenWidth;
-    int windowHeight = screenHeight;
+    int windowHeight = screenHeight; 
 
-    initwindow(windowWidth, windowHeight, "Mario Bros phase 2");
+    // Buat window grafik dengan ukuran yang disesuaikan
+    initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
-    while (1)
-    {
+    char playerName[50];
+    printf("Enter your name: ");
+    scanf("%s", playerName);
 
         showMainMenu();
 
@@ -33,12 +39,12 @@ int main()
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-
+            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
+            drawGrid();
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
@@ -62,12 +68,10 @@ int main()
                     break;
                 }
             }
-
-            if (gameState.hasWon)
-            {
-                displayWinScreen(point, player);
-                while (1)
-                {
+            // **Cek apakah pemain menang**
+            if (gameState.hasWon) {  
+                displayWinScreen(point, playerName);  // **Tampilkan layar kemenangan**
+                while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm')
                     {
