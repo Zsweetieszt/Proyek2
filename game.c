@@ -1,6 +1,7 @@
 #include "game.h"
 #include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
 #include "map.h"
+#include "leaderboard.h"
 
 // Definisi variabel global
 
@@ -89,6 +90,7 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 1, 1, 0, 0, 0, 0, 0 },
         {0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 6, 6, 1, 1, 6, 6, 1, 1, 0, 6, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 1, 1, 0, 0, 0, 0, 0 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     },
     {
@@ -105,6 +107,8 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {0, 12, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 6, 6, 8, 8, 6, 6, 8, 8, 6, 6, 8, 8, 0, 6, 6, 0, 0, 0, 6, 6, 6, 6, 6, 0, 6, 3, 6, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 , 1, 1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     },
     {
         {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
@@ -117,6 +121,9 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 3, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        {2, 0, 0, 12, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 2, 0, 2, 6, 2, 6, 2, 6, 6, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
         {2, 0, 0, 12, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 2, 0, 2, 6, 2, 6, 2, 6, 6, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
@@ -137,19 +144,72 @@ void updateGame() {
     // Cek apakah Mario menyentuh tanah
     if (player.y >= GROUND_HEIGHT - 30) {
         player.y = GROUND_HEIGHT - 30;
+    int monsterHit = checkCollisionWithMonster();
+    // Cek apakah Mario sedang naik atau jatuh
+    if (player.velocityY < 0) {
+        player.velocityY += GRAVITY_UP;   // Jika naik, gravitasi lebih kecil
+    } else {
+        player.velocityY += GRAVITY_DOWN; // Jika jatuh, gravitasi lebih besar
+    }
+
+    player.y += player.velocityY; // Update posisi berdasarkan kecepatan
+
+    // Cek apakah Mario menyentuh tanah
+    if (player.y >= GROUND_HEIGHT - 30) {
+        player.y = GROUND_HEIGHT - 30;
         player.isJumping = 0;
         player.velocityY = 0; // Reset kecepatan saat menyentuh tanah
     }
     
     // Cek tabrakan dengan musuh, duri, koin, starpower, nextLevel, block
+        player.velocityY = 0; // Reset kecepatan saat menyentuh tanah
+    }
+
+    if (monsterHit != -1){
+        int screenMonsterX = monsters[monsterHit].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+        int screenMonsterY = monsters[monsterHit].y;
+         if (player.hasStarPower){
+                monsters[monsterHit].x = -999999;
+                point.score += 15;
+            }
+            else{
+                if (gameState.level >= 2){
+                    player.playerLives--;
+
+                    if (player.playerLives > 0){
+                        findMarioStartPosition();
+                    }
+                    else{
+                        gameState.isAlive = 0;
+                    }
+                }
+            }
+    }
+
+    if (checkCollisionWithStar()){
+        player.hasStarPower = 1;
+        player.starPowerTimer = 150;
+    }
+
+    if (checkCollisionWithFlag()){
+        point.score += 100;
+        gameState.hasWon = 1;
+    }
+    // Cek tabrakan dengan musuh, duri, koin, starpower, nextLevel, block
     if (checkCollisionWithCoin()) {
+        point.coins++;
+        point.score += 10;
         point.coins++;
         point.score += 10;
     }
 
     if (checkCollisionWithSpike()) {
         player.playerLives--;
+
+    if (checkCollisionWithSpike()) {
+        player.playerLives--;
         if (player.playerLives <= 0) {
+            gameState.isAlive = 0;
             gameState.isAlive = 0;
         } else {
             findMarioStartPosition();
@@ -157,10 +217,14 @@ void updateGame() {
     }
 
     if (!gameState.hasWon) {
+    if (!gameState.hasWon) {
         checkCollisionWithFlag();
     }
 
     if (checkCollisionWithNextLevel()) {
+        gameState.level++;
+        if (gameState.level >= 3) {
+            gameState.level = 0;
         gameState.level++;
         if (gameState.level >= 3) {
             gameState.level = 0;
@@ -170,19 +234,23 @@ void updateGame() {
 
     checkCollisionWithStar();
     cheakCollisionWithBlock();
-    checkCollisionWithMonster();
 
     // Update musuh
     updateMonsters();
+    // Update musuh
+    updateMonsters();
 
+    // Star Power Timer
     // Star Power Timer
     if (player.hasStarPower) {
         player.starPowerTimer--;
         if (player.starPowerTimer <= 0) {
             player.hasStarPower = 0;
+            player.hasStarPower = 0;
         }
     }
 }
+
 
 int restartGame() {
     player.playerLives = 3;  
@@ -217,6 +285,7 @@ int restartGame() {
 
     monsterCount = 0;
     memset(monsters, 0, sizeof(monsters));
+    memset(monsters, 0, sizeof(monsters));
     monsterCount = levelMonsterCounts[gameState.level];
 
     for (int i = 0; i < monsterCount; i++) {
@@ -225,7 +294,6 @@ int restartGame() {
     gameState.isRunning = 1;
     return gameState.isRunning;
 }
-
 
 
 
@@ -242,12 +310,12 @@ void displayPoint() {
     sprintf(coinText, "Coins: %d", point.coins);
     sprintf(livesText, "Lives: %d", player.playerLives);
 
-    // **Tampilkan teks di layar**
+    // *Tampilkan teks di layar*
     outtextxy(10, 10, scoreText);   // Skor di kiri atas
     outtextxy(10, 30, coinText);    // Koin di bawah skor
     outtextxy(10, 50, livesText);   // Nyawa di bawah koin
 
-    // **Waktu di tengah atas layar**
+    // *Waktu di tengah atas layar*
     int textWidth = textwidth(timeText);
     int screenCenterX = (SCREEN_WIDTH / 2) - (textWidth / 2);
     outtextxy(screenCenterX, 10, timeText);  // Menempatkan teks waktu di tengah atas
@@ -267,7 +335,7 @@ void displayGameOver() {
 
     outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, gameOverText);
     outtextxy(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 50, retryText);
-    outtextxy(SCREEN_WIDTH / 2 - 220, SCREEN_HEIGHT / 2 + 100, menuText);
+    outtextxy(SCREEN_WIDTH / 2 - 260, SCREEN_HEIGHT / 2 + 100, menuText);
 }
 
 
@@ -293,7 +361,8 @@ int findMarioStartPosition() {
     return 0;//mario tidak di temukan
 }
 
-void displayWinScreen(Point point, Player player) {
+void displayWinScreen(Point point, const char* playerName) //update untuk playerName
+{
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
@@ -301,12 +370,14 @@ void displayWinScreen(Point point, Player player) {
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
 
-    // **Tampilkan pesan kemenangan lebih ke atas tengah**
+    // *Tampilkan pesan kemenangan lebih ke atas tengah*
     int centerX = SCREEN_WIDTH / 2 - 250;  // Agar lebih ke tengah
     int startY = 80;  // Naik sedikit ke atas
 
     outtextxy(centerX, startY, (char*)"  CONGRATULATIONS!");
     outtextxy(centerX + 40, startY + 40, (char*)"    YOU WIN!");
+
+    
 
     // Pastikan waktu akhir hanya dihitung sekali
     if (endClock == 0) {
@@ -314,14 +385,14 @@ void displayWinScreen(Point point, Player player) {
         gameDurationMs = ((double)(endClock - startClock) / CLOCKS_PER_SEC) * 1000;
     }
 
-    // **Buat string untuk skor, koin, nyawa, dan waktu**
+    // *Buat string untuk skor, koin, nyawa, dan waktu*
     char scoreText[50], coinText[50], livesText[50], timeText[50];
     sprintf(scoreText, "SCORE      : %d", point.score);
     sprintf(coinText, "COINS      : %d", point.coins);
     sprintf(livesText, "LIVES LEFT : %d", player.playerLives);
     sprintf(timeText, "TIME       : %.2f sec (%.0f ms)", gameDurationMs / 1000, gameDurationMs);
 
-    // **Atur posisi lebih ke kiri & naik sedikit**
+    // *Atur posisi lebih ke kiri & naik sedikit*
     int textX = SCREEN_WIDTH / 2 - 200;  // Geser ke kiri agar lebih ke tengah
     int textY = startY + 100;  // Geser sedikit ke bawah dari "YOU WIN!"
     int gap = 30;
@@ -331,7 +402,7 @@ void displayWinScreen(Point point, Player player) {
     outtextxy(textX, textY + (gap * 2), livesText);
     outtextxy(textX, textY + (gap * 3), timeText);
 
-    // **Instruksi untuk kembali ke menu atau keluar dari permainan**
+    // *Instruksi untuk kembali ke menu atau keluar dari permainan*
     int menuX = SCREEN_WIDTH / 2 - 260;  // Geser ke kiri agar lebih tengah
     int menuY = textY + (gap * 5);
 
@@ -354,6 +425,3 @@ void updateMonsters() {
         }
     }
 }
-
-
-

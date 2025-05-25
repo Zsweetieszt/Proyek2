@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {
     "version": "2.0.0",
     "tasks": [
@@ -6,7 +8,7 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c",
+                "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c", "leaderboard.c",
                 "-o", "${fileDirname}/game.exe",
                 "-static", "-lbgi", "-lgdi32", "-lcomdlg32", "-luuid", "-loleaut32", "-lole32"
             ],
@@ -18,4 +20,13 @@
             "detail": "Compile multiple C files with graphics.h in VS Code"
         }
     ]
+<<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b905eb6000124a52dc39dae75c03d410391155ec
+>>>>>>> ef796a87e23bf0bacc5d7224b666173f809bb192
+=======
+}
+>>>>>>> mahesa
