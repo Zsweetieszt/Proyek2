@@ -14,6 +14,9 @@ int main() {
     int windowWidth = screenWidth;
     int windowHeight = screenHeight; 
 
+    SCREEN_WIDTH = screenWidth;
+    SCREEN_HEIGHT = screenHeight;
+
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
     char playerName[50];

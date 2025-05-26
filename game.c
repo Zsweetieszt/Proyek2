@@ -7,6 +7,8 @@
 
 Monster monsters[MAX_MONSTERS];
 int monsterCount = 0;
+int SCREEN_WIDTH = 1550;
+int SCREEN_HEIGHT = 840;
 
 Monster levelMonsters[1][MAX_MONSTERS] = {
     {

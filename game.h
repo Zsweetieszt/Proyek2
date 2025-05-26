@@ -8,8 +8,8 @@
 #include <time.h>  // Library untuk pengelolaan waktu
 
 // Konstanta game
-#define SCREEN_WIDTH 1550
-#define SCREEN_HEIGHT 840
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
 #define GROUND_HEIGHT 740
 #define GRAVITY_UP 4
 #define GRAVITY_DOWN 4
