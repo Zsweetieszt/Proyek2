@@ -11,7 +11,8 @@ void askPlayerNameGraphics() {
     cleardevice();
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
-    outtextxy(200, 150, "Enter your name:");
+    char message[] = "Enter your name:";
+    outtextxy(200, 150, message);
 
     int i = 0;
     char ch;
@@ -37,9 +38,10 @@ void askPlayerNameGraphics() {
     }
 }
 
-void showGuide() {
+void showGuide()
+{
     cleardevice();
-    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2); // Gunakan font triplex
+    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 2);
 
     char guideTitle[] = "Guide:";
     char guideStep1[] = "1. Gunakan A D untuk bergerak.";
@@ -59,9 +61,11 @@ void showGuide() {
     cleardevice(); 
 }
 
-void handleMouseClick(int mouseX, int mouseY) {
-    if (mouseX >= 100 && mouseX <= 300 && mouseY >= 150 && mouseY <= 180) {
-        // Start game
+void handleMouseClick(int mouseX, int mouseY)
+{
+    if (mouseX >= 100 && mouseX <= 300 && mouseY >= 150 && mouseY <= 180)
+    {
+
         cleardevice();
         askPlayerNameGraphics();
         char startMsg[] = "Game Starting...";
@@ -102,7 +106,8 @@ void showMainMenu() {
 
     while (1) {
         int mouseX, mouseY;
-        if (ismouseclick(WM_LBUTTONDOWN)) {
+        if (ismouseclick(WM_LBUTTONDOWN))
+        {
             getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
             handleMouseClick(mouseX, mouseY);
             clearmouseclick(WM_LBUTTONDOWN);

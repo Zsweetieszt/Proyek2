@@ -8,13 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-<<<<<<< HEAD
-      "cwd": "f:/APL/GitHub/Proyek2",
-      "program": "f:/APL/GitHub/Proyek2/build/Debug/outDebug",
-=======
-      "cwd": "c:/Users/hp/Downloads/Proyek2-idham",
-      "program": "c:/Users/hp/Downloads/Proyek2-idham/build/Debug/outDebug",
->>>>>>> 1471438204836d6532dc367e823f7d4fa1679dcf
+      "cwd": "f:/APL/GitHub/Proyek 2/Proyek2",
+      "program": "f:/APL/GitHub/Proyek 2/Proyek2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
