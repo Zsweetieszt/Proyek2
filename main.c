@@ -4,20 +4,16 @@
 #include "collision.h"
 #include "main_menu.h"
 #include <conio.h>
+#include <graphics.h>
 
-
-// Misal variabel global
- // Status pemain hidup atau mati
 
 int main() {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN); 
 
-    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
     int windowWidth = screenWidth;
     int windowHeight = screenHeight; 
 
-    // Buat window grafik dengan ukuran yang disesuaikan
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
     char playerName[50];
@@ -67,9 +63,9 @@ int main() {
                     break;
                 }
             }
-            // **Cek apakah pemain menang**
+
             if (gameState.hasWon) {  
-                displayWinScreen(point, playerName);  // **Tampilkan layar kemenangan**
+                displayWinScreen(point, playerName); 
                 while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm')
