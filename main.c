@@ -53,6 +53,7 @@ int main() {
             {
 
                 displayGameOver();
+                void playGameOverMusic();
 
                 char key = getch();
                 if (key == 'R' || key == 'r')

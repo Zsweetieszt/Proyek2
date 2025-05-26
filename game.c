@@ -378,3 +378,6 @@ void playBackgroundMusic() {
 void playWinMusic() {
     PlaySound("win.wav", NULL, SND_ASYNC);
 }
+void playGameOverMusic() {
+    PlaySound("gameover.wav", NULL, SND_ASYNC);
+}

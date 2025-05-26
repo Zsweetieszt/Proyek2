@@ -94,6 +94,8 @@ void updateMonsters();  // Deklarasi fungsi updateMonsters()
 
 void playBackgroundMusic();
 void playWinMusic();
+void playGameOverMusic();
+
 
 
 
