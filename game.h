@@ -78,6 +78,9 @@ extern clock_t startClock;
 extern clock_t endClock;
 extern double gameDurationMs;  // Durasi dalam milidetik
 
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
 
 
 

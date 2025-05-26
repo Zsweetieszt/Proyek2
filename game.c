@@ -1,9 +1,11 @@
 #include "game.h"
 #include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
-#include "map.h"
 #include "leaderboard.h"
 
 // Definisi variabel global
+
+int SCREEN_WIDTH = 1550;
+int SCREEN_HEIGHT = 840;
 
 Monster monsters[MAX_MONSTERS];  // Array monster
 int monsterCount = 0;  // Jumlah monster dalam level saat ini

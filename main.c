@@ -7,15 +7,19 @@
 
 
 // Misal variabel global
- // Status pemain hidup atau mati
+
+// Status pemain hidup atau mati
 
 int main() {
     int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
     int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
-
+    
     // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
     int windowWidth = screenWidth;
     int windowHeight = screenHeight; 
+    
+    SCREEN_WIDTH = screenWidth;
+        SCREEN_HEIGHT = screenHeight;
 
     // Buat window grafik dengan ukuran yang disesuaikan
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
