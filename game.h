@@ -93,6 +93,8 @@ void displayWinScreen(Point point, const char* playerName); // Tambahkan paramet
 void updateMonsters();  // Deklarasi fungsi updateMonsters()
 
 void playBackgroundMusic();
+void playWinMusic();
+
 
 
 

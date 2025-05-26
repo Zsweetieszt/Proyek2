@@ -70,6 +70,7 @@ int main() {
 
             if (gameState.hasWon) {  
                 displayWinScreen(point, playerName); 
+                void playWinMusic();
                 while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm')
