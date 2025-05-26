@@ -18,6 +18,7 @@ int main() {
     SCREEN_HEIGHT = screenHeight;
 
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
+    playBackgroundMusic();
 
     char playerName[50];
     printf("Enter your name: ");

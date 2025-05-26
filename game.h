@@ -5,7 +5,8 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>  // Library untuk pengelolaan waktu
+#include <time.h>
+#include <mmsystem.h>
 
 // Konstanta game
 extern int SCREEN_WIDTH;
@@ -90,6 +91,9 @@ int findMarioStartPosition();
 int restartGame();
 void displayWinScreen(Point point, const char* playerName); // Tambahkan parameter playerName
 void updateMonsters();  // Deklarasi fungsi updateMonsters()
+
+void playBackgroundMusic();
+
 
 
 

@@ -370,3 +370,7 @@ void updateMonsters() {
         }
     }
 }
+
+void playBackgroundMusic() {
+    PlaySound("bgm.wav", NULL, SND_ASYNC);
+}
