@@ -7,7 +7,7 @@
 #include <conio.h>
 #include <graphics.h>
 
-
+// Deklarasi global leaderboard
 Leaderboard gameLeaderboard;
 
 int main() {
@@ -23,15 +23,15 @@ int main() {
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
     playBackgroundMusic();
 
-    // inisialisasi leaderboard
+    // Inisialisasi leaderboard
     initLeaderboard(&gameLeaderboard);
     loadLeaderboard(&gameLeaderboard, "leaderboard.txt");
 
-
-    while(1) {
-
+    // MAIN PROGRAM LOOP - Tambahkan loop utama untuk menangani menu dan game
+    while (1) {
+        // Reset player name untuk game baru
         memset(playerName, 0, sizeof(playerName));
-
+        
         showMainMenu();
 
         // Jika player name kosong, artinya user keluar dari menu
@@ -47,7 +47,7 @@ int main() {
 
         int buffer = 0;
 
-
+        // GAME LOOP
         while (gameState.isRunning)
         {
             setactivepage(buffer);
@@ -58,7 +58,7 @@ int main() {
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
+            
             if (gameState.isAlive) { 
                 updateGame();
                 handleInput();
@@ -67,66 +67,63 @@ int main() {
             else
             {
                 displayGameOver();
-                void playGameOverMusic();
+                playGameOverMusic();
 
                 char key = getch();
                 if (key == 'R' || key == 'r')
                 {
                     restartGame();
-                    playBackgroundMusic();
                 }
                 else if (key == 'M' || key == 'm')
                 {
                     cleardevice();
-                    playBackgroundMusic();
-                    gameState.isRunning = 0;
-                    break;
+                    gameState.isRunning = 0; // Keluar dari game loop
+                    break; // Kembali ke menu
                 }
             }
 
             if (gameState.hasWon) {  
-
-                playWinMusic();
+                // Tambahkan skor ke leaderboard saat menang
                 addScore(&gameLeaderboard, playerName, point.score);
                 saveLeaderboard(&gameLeaderboard, "leaderboard.txt");
-
+                
                 displayWinScreen(point, playerName); 
-
+                playWinMusic();
+                
                 while (1) {  
                     char key = getch();
                     if (key == 'M' || key == 'm')
                     {
                         cleardevice();
-                        playBackgroundMusic();
                         gameState.hasWon = 0;
-                        gameState.isRunning = 0;
-                        break;
+                        gameState.isRunning = 0; // Keluar dari game loop
+                        break; // Kembali ke menu
                     }
                     else if (key == 'Q' || key == 'q')
                     {
                         freeLeaderboard(&gameLeaderboard);
                         closegraph();
-                        return 0;
+                        return 0; // Keluar dari program
                     }
                 }
-                break;
+                break; // Keluar dari game loop, kembali ke menu
             }
 
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
             {
                 freeLeaderboard(&gameLeaderboard);
                 closegraph();
-                return 0;
+                return 0; // Keluar dari program
             }
 
             buffer = 1 - buffer;
             delay(10);
         }
+        // End of GAME LOOP - akan kembali ke MAIN PROGRAM LOOP
     }
-
+    
     // Cleanup sebelum keluar
     freeLeaderboard(&gameLeaderboard);
     closegraph();
     return 0;
-    }
-    
+}

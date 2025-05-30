@@ -11,6 +11,7 @@ typedef struct {
     LeaderboardNode* head;
 } Leaderboard;
 
+// Core leaderboard functions
 void initLeaderboard(Leaderboard* lb);
 void addScore(Leaderboard* lb, const char* name, int score);
 void displayLeaderboard(Leaderboard* lb, int startX, int startY);
@@ -18,5 +19,11 @@ void saveLeaderboard(Leaderboard* lb, const char* filename);
 void loadLeaderboard(Leaderboard* lb, const char* filename);
 void freeLeaderboard(Leaderboard* lb);
 
+// Additional utility functions
+int getLeaderboardCount(Leaderboard* lb);
+int getPlayerRank(Leaderboard* lb, const char* name);
+
+// Helper function (internal use)
+void insertNodeSorted(Leaderboard* lb, LeaderboardNode* node);
 
 #endif
