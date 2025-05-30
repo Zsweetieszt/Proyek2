@@ -341,6 +341,13 @@ void displayWinScreen(Point point, const char* playerName) //update untuk player
     sprintf(livesText, "LIVES LEFT : %d", player.playerLives);
     sprintf(timeText, "TIME       : %.2f sec (%.0f ms)", gameDurationMs / 1000, gameDurationMs);
 
+    Leaderboard lb;
+    initLeaderboard(&lb);
+    loadLeaderboard(&lb, "leaderboard.txt");
+    addScore(&lb, playerName, point.score);
+    saveLeaderboard(&lb, "leaderboard.txt");
+    freeLeaderboard(&lb);
+
     int textX = SCREEN_WIDTH / 2 - 200;
     int textY = startY + 100;
     int gap = 30;

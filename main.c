@@ -19,9 +19,9 @@ int main() {
 
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
 
-    char playerName[50];
-    printf("Enter your name: ");
-    scanf("%s", playerName);
+    // char playerName[50];
+    // printf("Enter your name: ");
+    // scanf("%s", playerName);
 
         showMainMenu();
 

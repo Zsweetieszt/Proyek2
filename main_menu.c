@@ -70,7 +70,10 @@ void handleMouseClick(int mouseX, int mouseY)
         askPlayerNameGraphics();
         char startMsg[] = "Game Starting...";
         outtextxy(210, 200, startMsg);
-        delay(2000); 
+        delay(2000);
+
+        startGame(playerName); 
+
     } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 230) {
         showGuide();
     } else if (mouseX >= 100 && mouseX <= 300 && mouseY >= 250 && mouseY <= 280) {
