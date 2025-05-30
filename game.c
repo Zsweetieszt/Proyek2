@@ -319,6 +319,7 @@ void displayWinScreen(Point point, const char* playerName) //update untuk player
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
+    readimagefile("background_fixed.bmp", 0, 0, getmaxwidth(), getmaxheight());
 
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
@@ -378,4 +379,15 @@ void updateMonsters() {
             }
         }
     }
+}
+
+void playBackgroundMusic() {
+    PlaySound("bgm.wav", NULL, SND_ASYNC);
+}
+
+void playWinMusic() {
+    PlaySound("win.wav", NULL, SND_ASYNC);
+}
+void playGameOverMusic() {
+    PlaySound("gameover.wav", NULL, SND_ASYNC);
 }

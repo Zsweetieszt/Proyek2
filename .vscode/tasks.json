@@ -10,7 +10,7 @@
             "args": [
                 "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c", "leaderboard.c",
                 "-o", "${fileDirname}/game.exe",
-                "-static", "-lbgi", "-lgdi32", "-lcomdlg32", "-luuid", "-loleaut32", "-lole32"
+                "-static", "-lbgi", "-lgdi32", "-lcomdlg32", "-luuid", "-loleaut32", "-lole32", "-lwinmm"
             ],
             "group": {
                 "kind": "build",
@@ -29,4 +29,4 @@
 >>>>>>> ef796a87e23bf0bacc5d7224b666173f809bb192
 =======
 }
->>>>>>> mahesa
+>>>>>>>
