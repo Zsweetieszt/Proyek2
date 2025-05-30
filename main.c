@@ -73,10 +73,12 @@ int main() {
                 if (key == 'R' || key == 'r')
                 {
                     restartGame();
+                    playBackgroundMusic();
                 }
                 else if (key == 'M' || key == 'm')
                 {
                     cleardevice();
+                    playBackgroundMusic();
                     gameState.isRunning = 0;
                     break;
                 }
@@ -84,7 +86,7 @@ int main() {
 
             if (gameState.hasWon) {  
 
-                void playWinMusic();
+                playWinMusic();
                 addScore(&gameLeaderboard, playerName, point.score);
                 saveLeaderboard(&gameLeaderboard, "leaderboard.txt");
 
@@ -95,6 +97,7 @@ int main() {
                     if (key == 'M' || key == 'm')
                     {
                         cleardevice();
+                        playBackgroundMusic();
                         gameState.hasWon = 0;
                         gameState.isRunning = 0;
                         break;
