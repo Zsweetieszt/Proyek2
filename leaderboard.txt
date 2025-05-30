@@ -5,4 +5,6 @@ Yoshi 4000
 Bowser 3500
 Mariono 405
 dinan 160
+dinan 140
 revan 100
+dinan 100
