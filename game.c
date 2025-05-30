@@ -312,12 +312,11 @@ int findMarioStartPosition() {
     return 0;
 }
 
-void displayWinScreen(Point point, const char* playerName) //update untuk playerName
-{
+void displayWinScreen(Point point, const char* playerName) {
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
-    readimagefile("background_fixed.bmp", 0, 0, getmaxwidth(), getmaxheight());
+    readimagefile("leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
 
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);

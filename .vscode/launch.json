@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/hp/Downloads/Proyek2-idham",
-      "program": "c:/Users/hp/Downloads/Proyek2-idham/build/Debug/outDebug",
+      "cwd": "f:/APL/GitHub/Proyek 2/Proyek2",
+      "program": "f:/APL/GitHub/Proyek 2/Proyek2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

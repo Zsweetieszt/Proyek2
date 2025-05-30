@@ -4,6 +4,7 @@ Peach 4200
 Yoshi 4000
 Bowser 3500
 Mariono 405
+dinan 320
 dinan 160
 dinan 140
 kkk 140
