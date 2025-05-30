@@ -317,6 +317,7 @@ void displayWinScreen(Point point, const char* playerName) //update untuk player
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
+    readimagefile("background_fixed.bmp", 0, 0, getmaxwidth(), getmaxheight());
 
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
