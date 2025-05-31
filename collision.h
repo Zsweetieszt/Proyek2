@@ -21,5 +21,6 @@ bool checkCollisionWithStar();
 bool checkCollisionWithNextLevel();
 void cheakCollisionWithBlock();
 bool checkCollisionWithFlag();
+void checkcollsionwithpipe();
 
 #endif // COLLISION_H

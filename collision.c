@@ -15,8 +15,7 @@
 #include <stdbool.h>
 #include "player.h"
 
-void drawHitbox(int left, int top, int right, int bottom, int color)
-{
+void drawHitbox(int left, int top, int right, int bottom, int color){
     setcolor(color);
     rectangle(left, top, right, bottom);
 }
@@ -56,14 +55,15 @@ int checkCollisionWithMonster(){
         int screenMonsterX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
         int screenMonsterY = monsters[i].y;
 
-        int monsterSize = MONSTER_SIZE;
-        int monsterLeft = screenMonsterX - 20;
-        int monsterRight = screenMonsterX + monsterSize;
-        int monsterTop = screenMonsterY - 10;
-        int monsterBottom = screenMonsterY + monsterSize;
+        int monsterLeft = screenMonsterX - 30;
+        int monsterRight = screenMonsterX +30;
+        int monsterTop = screenMonsterY - 30;
+        int monsterBottom = screenMonsterY+30;
 
         updatePlayerBounds();
-
+        /*fungsi debugging*/
+        //drawHitbox(monsterLeft, monsterTop, monsterRight, monsterBottom, 4);
+        //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, 2);
         if (playerRight > monsterLeft && playerLeft < monsterRight &&
             playerBottom > monsterTop && playerTop < monsterBottom){
            return i;
@@ -82,15 +82,15 @@ bool checkCollisionWithCoin(){
                 int coinWidth = 25;
                 int coinHeight = 25;
 
-                int coinLeft = coinX + 10;
-                int coinRight = coinX + coinWidth;
-                int coinTop = coinY;
-                int coinBottom = coinY + coinHeight;
+                int coinLeft = coinX -5;
+                int coinRight = coinX + coinWidth+20;
+                int coinTop = coinY-10;
+                int coinBottom = coinY + coinHeight+10;
 
                 updatePlayerBounds();
-                
-                
-
+                /*fungsi debugging*/
+                //drawHitbox(coinLeft, coinTop, coinRight, coinBottom, 4);
+                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, 2);
                 if (playerRight > coinLeft && playerLeft < coinRight &&
                     playerBottom > coinTop && playerTop < coinBottom){
 
@@ -161,8 +161,7 @@ void cheakCollisionWithBlock(){
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[gameState.level][i][j] == 1 || maps[gameState.level][i][j] == 2 || 
-                maps[gameState.level][i][j] == 8 || maps[gameState.level][i][j] == 11 || 
-                maps[gameState.level][i][j] == 13) {
+                maps[gameState.level][i][j] == 11) {
                 
                 int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
                 int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
@@ -179,15 +178,12 @@ void cheakCollisionWithBlock(){
                 int platformTop = platformY - 28;
                 int platformBottom = platformY + platformHeight+20;
 
-                
-                
-                
-                
-                
-
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
                 bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
 
+                /*fungsi debugging*/
+                //drawHitbox(platformLeft, platformTop, platformRight, platformBottom, 4);
+                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, 2);
                 if (collisionX && collisionY) {
                     
                     if (playerBottom > platformTop && playerTop < platformTop + 2 && player.velocityY >= 0) {
@@ -215,6 +211,58 @@ void cheakCollisionWithBlock(){
     }
 }
 
+void checkcollsionwithpipe(){ 
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
+            if (maps[gameState.level][i][j] == 8 || maps[gameState.level][i][j] == 13) {
+                
+                int platformX = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
+                int platformY = i * (SCREEN_HEIGHT / MAP_HEIGHT);
+                int platformWidth = SCREEN_WIDTH / MAP_WIDTH;
+                int platformHeight = 40;
+
+                updatePlayerBounds();
+
+                int hitboxX = player.x - (COLS / 2) + (ROWS / 4);
+                int hitboxY = player.y - COLS;
+
+                int platformLeft = platformX+10;
+                int platformRight = platformX + platformWidth+33;
+                int platformTop = platformY - 28;
+                int platformBottom = platformY + platformHeight+20;
+
+                bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
+                bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
+
+                /*fungsi debugging*/
+                //drawHitbox(platformLeft, platformTop, platformRight, platformBottom, 4);
+                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, 2);
+                if (collisionX && collisionY) {
+                    
+                    if (playerBottom > platformTop && playerTop < platformTop + 2 && player.velocityY >= 0) {
+                        player.y = platformTop;
+                        player.velocityY = 0;
+                        player.isJumping = 0;
+                        continue;
+                    }
+                    
+                    else if (playerTop < platformBottom && playerBottom > platformBottom && player.velocityY < 0) {
+                        player.y = platformBottom + ROWS;
+                        player.velocityY = 0;
+                    }
+                    
+                    else if(collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop) {
+                        player.x = platformLeft-40;
+                    }
+                    
+                    else if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
+                        player.x = platformRight + (COLS / 2);
+                    }
+                }
+            }
+        }
+    }
+}
 
 bool checkCollisionWithFlag(){
     for (int i = 0; i < MAP_HEIGHT; i++){
@@ -229,10 +277,6 @@ bool checkCollisionWithFlag(){
                 int poleBottom = poleY + 500;
 
                 updatePlayerBounds();
-
-                
-                
-                
 
                 if (playerRight > poleLeft && playerLeft < poleRight &&
                     playerBottom > poleTop && playerTop < poleBottom){

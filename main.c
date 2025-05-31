@@ -33,6 +33,7 @@ int main()
         gameState.isRunning = 1;
         int buffer = 0;
 
+
         while (gameState.isRunning)
         {
             setactivepage(buffer);
@@ -56,10 +57,12 @@ int main()
                 if (key == 'R' || key == 'r')
                 {
                     restartGame();
+                    playBackgroundMusic();
                 }
                 else if (key == 'M' || key == 'm')
                 {
                     cleardevice();
+                    playBackgroundMusic();
                     gameState.isRunning = 0;
                     break;
                 }
@@ -76,6 +79,7 @@ int main()
                     if (key == 'M' || key == 'm')
                     {
                         cleardevice();
+                        playBackgroundMusic();
                         gameState.hasWon = 0;
                         gameState.isRunning = 0;
                         break;

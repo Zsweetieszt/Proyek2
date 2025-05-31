@@ -187,6 +187,7 @@ void updateGame() {
         }
         findMarioStartPosition();
     }
+    checkcollsionwithpipe();
     cheakCollisionWithBlock();
     updateMonsters();
     if (player.hasStarPower) {
