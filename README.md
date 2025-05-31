@@ -47,12 +47,12 @@ Tujuan utama pemain adalah mencapai bendera akhir level atau portal untuk melanj
        
 ## 📁 STRUKTUR FILE
 
-  -  `Collision`
-  -  `Game`
-  -  `Leaderboard`
-  -  `Main menu`
-  -  `Map`
-  -  `Player`
+  -  Collision `Pengelola: Revan Ramdani Permana`
+  -  Game `Pengelola: Dinanda Khayra Utama`
+  -  Leaderboard `Pengelola: Mahesa Fazrie`
+  -  Main menu `Pengelola: Mahesa Fazrie`
+  -  Map `Pengelola: Ahmad Riyadh Almaliki`
+  -  Player `Pengelola: Idham Khalid`
 
 ## 🧩 TO DO
 
