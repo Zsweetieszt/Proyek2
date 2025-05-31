@@ -60,7 +60,8 @@ Tujuan utama pemain adalah mencapai bendera akhir level atau portal untuk melanj
     [✅]  Menambahkan fitur leaderboard
     [✅]  Memperindah tampilan main menu
     [✅]  Menambahkan backsound
-
+## 📸 Cuplikan Game
+![Logo Game](assets/pratinjau.jpg)
 
 # 📦 Instalasi & Menjalankan Game
 <details> <summary><strong>Klik untuk melihat panduan lengkap 📖</strong></summary>
