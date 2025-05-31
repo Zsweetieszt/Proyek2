@@ -73,8 +73,8 @@ Tujuan utama pemain adalah mencapai bendera akhir level atau portal untuk melanj
 
 1. **Clone repositori:**
 
-       git clone https://github.com/username/repo.git
-       cd repo
+       https://github.com/Zsweetieszt/Proyek2.git
+       cd Proyek2
 
 
  2. Pasang `graphics.h`
