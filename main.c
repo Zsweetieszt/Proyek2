@@ -97,12 +97,11 @@ int main()
             {
                 freeLeaderboard(&gameLeaderboard);
                 closegraph();
-                return 0; // Keluar dari program
+                return 0;
             }
             buffer = 1 - buffer;
             delay(10);
         }
-        // End of GAME LOOP - akan kembali ke MAIN PROGRAM LOOP
     }
     freeLeaderboard(&gameLeaderboard);
     closegraph();

@@ -85,9 +85,6 @@ void addScore(Leaderboard* lb, const char* name, int score) {
         newNode->next = current->next;
         current->next = newNode;
     }
-    
-    node->next = current->next;
-    current->next = node;
 }
 
 void displayLeaderboard(Leaderboard* lb, int x, int y) {

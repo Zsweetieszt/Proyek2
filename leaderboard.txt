@@ -3,6 +3,7 @@ Luigi 4500
 Peach 4200
 Yoshi 4000
 Bowser 3500
+DINANDA 520
 Mariono 405
 dinan 320
 kkk 140
