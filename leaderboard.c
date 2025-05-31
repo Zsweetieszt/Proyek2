@@ -1,3 +1,15 @@
+/**
+ * Nama file: leaderboard.c
+ * 
+ * File ini mengelola sistem leaderboard (papan skor) untuk game.
+ * Fungsionalitas yang disediakan meliputi:
+ * File ini menggunakan struktur data linked list untuk menyimpan
+ * dan mengelola entri leaderboard secara dinamis.
+ * 
+ * Penulis: Mahesa Fazrie 
+ * Tanggal: Jumat, 30 Mei 2025
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,29 +27,37 @@ void addScore(Leaderboard* lb, const char* name, int score) {
         return;
     }
     
-    // Cek apakah nama sudah ada
+    // Cek apakah nama sudah ada, jika ya dan skor baru lebih tinggi, update
     LeaderboardNode* current = lb->head;
     LeaderboardNode* prev = NULL;
     
     while (current != NULL) {
         if (strcmp(current->name, name) == 0) {
-            // Nama sudah ada, update score jika lebih tinggi
             if (score > current->score) {
-                // Update score
+                // Update score dan reposisi
                 current->score = score;
                 
-                // Remove node dari posisi saat ini
+                // Remove from current position
                 if (prev != NULL) {
                     prev->next = current->next;
                 } else {
                     lb->head = current->next;
                 }
                 
-                // Insert kembali ke posisi yang tepat
-                insertNodeSorted(lb, current);
+                // Find new position and insert
+                if (lb->head == NULL || score > lb->head->score) {
+                    current->next = lb->head;
+                    lb->head = current;
+                } else {
+                    LeaderboardNode* temp = lb->head;
+                    while (temp->next != NULL && temp->next->score >= score) {
+                        temp = temp->next;
+                    }
+                    current->next = temp->next;
+                    temp->next = current;
+                }
             }
-            // Jika score baru lebih rendah atau sama, tidak perlu update
-            return;
+            return; // Nama sudah ada, tidak perlu menambahkan node baru
         }
         prev = current;
         current = current->next;
@@ -54,27 +74,16 @@ void addScore(Leaderboard* lb, const char* name, int score) {
     newNode->score = score;
     newNode->next = NULL;
 
-    // Insert dalam urutan terurut
-    insertNodeSorted(lb, newNode);
-}
-
-// Helper function untuk insert node dalam urutan terurut (score tertinggi dulu)
-void insertNodeSorted(Leaderboard* lb, LeaderboardNode* node) {
-    if (lb == NULL || node == NULL) {
-        return;
-    }
-    
-    // Jika list kosong atau score node lebih tinggi dari head
-    if (lb->head == NULL || node->score > lb->head->score) {
-        node->next = lb->head;
-        lb->head = node;
-        return;
-    }
-    
-    // Cari posisi yang tepat untuk insert
-    LeaderboardNode* current = lb->head;
-    while (current->next != NULL && current->next->score >= node->score) {
-        current = current->next;
+    if (lb->head == NULL || score > lb->head->score) {
+        newNode->next = lb->head;
+        lb->head = newNode;
+    } else {
+        current = lb->head;
+        while (current->next != NULL && current->next->score >= score) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
     }
     
     node->next = current->next;
@@ -86,7 +95,7 @@ void displayLeaderboard(Leaderboard* lb, int x, int y) {
         return;
     }
     
-    settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 5);
     setcolor(YELLOW);
     char message[] = "LEADERBOARD";
     outtextxy(x, y, message);
@@ -96,7 +105,7 @@ void displayLeaderboard(Leaderboard* lb, int x, int y) {
     int rank = 1;
     char buffer[100];
 
-    settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     setcolor(WHITE);
     
     while (current != NULL && rank <= 10) {

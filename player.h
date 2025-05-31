@@ -1,3 +1,10 @@
+/**
+ * Nama file: player.h
+ * 
+ * Penulis: Idham Khalid
+ * Tanggal: Senin, 12 Mei 2025
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <stdbool.h>

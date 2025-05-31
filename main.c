@@ -6,60 +6,45 @@
 #include "leaderboard.h"
 #include <conio.h>
 #include <graphics.h>
-
-// Deklarasi global leaderboard
 Leaderboard gameLeaderboard;
-
-int main() {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN); 
-
+int main()
+{
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
     int windowWidth = screenWidth;
-    int windowHeight = screenHeight; 
-
+    int windowHeight = screenHeight;
     SCREEN_WIDTH = screenWidth;
     SCREEN_HEIGHT = screenHeight;
-
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
     playBackgroundMusic();
-
-    // Inisialisasi leaderboard
     initLeaderboard(&gameLeaderboard);
     loadLeaderboard(&gameLeaderboard, "leaderboard.txt");
-
-    // MAIN PROGRAM LOOP - Tambahkan loop utama untuk menangani menu dan game
-    while (1) {
-        // Reset player name untuk game baru
+    while (1)
+    {
         memset(playerName, 0, sizeof(playerName));
-        
         showMainMenu();
-
-        // Jika player name kosong, artinya user keluar dari menu
-        if (strlen(playerName) == 0) {
-            break; // Keluar dari program
+        if (strlen(playerName) == 0)
+        {
+            break;
         }
-
         while (kbhit())
             getch();
-
         restartGame();
         gameState.isRunning = 1;
-
         int buffer = 0;
 
-        // GAME LOOP
+
         while (gameState.isRunning)
         {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-            
-            if (gameState.isAlive) { 
+            if (gameState.isAlive)
+            {
                 updateGame();
                 handleInput();
                 displayPoint();
@@ -68,61 +53,57 @@ int main() {
             {
                 displayGameOver();
                 playGameOverMusic();
-
                 char key = getch();
                 if (key == 'R' || key == 'r')
                 {
                     restartGame();
+                    playBackgroundMusic();
                 }
                 else if (key == 'M' || key == 'm')
                 {
                     cleardevice();
-                    gameState.isRunning = 0; // Keluar dari game loop
-                    break; // Kembali ke menu
+                    playBackgroundMusic();
+                    gameState.isRunning = 0;
+                    break;
                 }
             }
-
-            if (gameState.hasWon) {  
-                // Tambahkan skor ke leaderboard saat menang
+            if (gameState.hasWon)
+            {
                 addScore(&gameLeaderboard, playerName, point.score);
                 saveLeaderboard(&gameLeaderboard, "leaderboard.txt");
-                
-                displayWinScreen(point, playerName); 
+                displayWinScreen(point, playerName);
                 playWinMusic();
-                
-                while (1) {  
+                while (1)
+                {
                     char key = getch();
                     if (key == 'M' || key == 'm')
                     {
                         cleardevice();
+                        playBackgroundMusic();
                         gameState.hasWon = 0;
-                        gameState.isRunning = 0; // Keluar dari game loop
-                        break; // Kembali ke menu
+                        gameState.isRunning = 0;
+                        break;
                     }
                     else if (key == 'Q' || key == 'q')
                     {
                         freeLeaderboard(&gameLeaderboard);
                         closegraph();
-                        return 0; // Keluar dari program
+                        return 0;
                     }
                 }
-                break; // Keluar dari game loop, kembali ke menu
+                break;
             }
-
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
             {
                 freeLeaderboard(&gameLeaderboard);
                 closegraph();
                 return 0; // Keluar dari program
             }
-
             buffer = 1 - buffer;
             delay(10);
         }
         // End of GAME LOOP - akan kembali ke MAIN PROGRAM LOOP
     }
-    
-    // Cleanup sebelum keluar
     freeLeaderboard(&gameLeaderboard);
     closegraph();
     return 0;

@@ -1,3 +1,11 @@
+/**
+ * Nama file: main_menu.c
+ *
+ * Modul ini berisi implementasi tampilan dan logika menu utama untuk game "Mario Bros".
+ *
+ * Penulis: Mahesa Fazrie
+ * Tanggal: Jumat, 30 Mei 2025
+ */
 #include "main_menu.h"
 #include "game.h"
 #include "leaderboard.h"
@@ -7,8 +15,7 @@ Leaderboard menuLeaderboard;
 
 void askPlayerNameGraphics() {
     cleardevice();
-    setbkcolor(BLACK);
-    cleardevice();
+    readimagefile("assets/leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
     
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     setcolor(YELLOW);
@@ -20,7 +27,7 @@ void askPlayerNameGraphics() {
     char message[] = "Enter your name:";
     outtextxy(SCREEN_WIDTH/2 - 100, 250, message);
     
-    // Gambar box untuk input
+    
     setcolor(WHITE);
     rectangle(SCREEN_WIDTH/2 - 150, 300, SCREEN_WIDTH/2 + 150, 340);
     
@@ -32,26 +39,26 @@ void askPlayerNameGraphics() {
         if (kbhit()) {
             ch = getch();
             
-            if (ch == '\r' || ch == '\n') { // Enter key
-                if (i > 0) { // Pastikan nama tidak kosong
+            if (ch == '\r' || ch == '\n') { 
+                if (i > 0) { 
                     playerName[i] = '\0';
                     break;
                 }
             } 
-            else if (ch == '\b' && i > 0) { // Backspace
+            else if (ch == '\b' && i > 0) { 
                 i--;
                 playerName[i] = '\0';
                 
-                // Clear area input
+                
                 setfillstyle(SOLID_FILL, BLACK);
                 bar(SCREEN_WIDTH/2 - 145, 305, SCREEN_WIDTH/2 + 145, 335);
             } 
-            else if (i < 49 && ch >= 32 && ch <= 126 && ch != ' ') { // Karakter valid (tanpa spasi)
+            else if (i < 49 && ch >= 32 && ch <= 126 && ch != ' ') { 
                 playerName[i++] = ch;
                 playerName[i] = '\0';
             }
             
-            // Clear area input dan tampilkan nama
+            
             setfillstyle(SOLID_FILL, BLACK);
             bar(SCREEN_WIDTH/2 - 145, 305, SCREEN_WIDTH/2 + 145, 335);
             
@@ -59,17 +66,17 @@ void askPlayerNameGraphics() {
             settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
             outtextxy(SCREEN_WIDTH/2 - 140, 310, playerName);
             
-            // Cursor sederhana
+            
             char cursor[] = "_";
             outtextxy(SCREEN_WIDTH/2 - 140 + (i * 10), 310, cursor);
         }
         
-        delay(50); // Prevent high CPU usage
+        delay(50); 
     }
     
-    // Konfirmasi nama
+    
     cleardevice();
-    setcolor(GREEN);
+    readimagefile("assets/leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     char welcome[100];
     sprintf(welcome, "Welcome, %s!", playerName);
@@ -82,8 +89,7 @@ void askPlayerNameGraphics() {
 
 void showGuide() {
     cleardevice();
-    setbkcolor(BLUE);
-    cleardevice();
+    readimagefile("assets/leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
     
     settextstyle(TRIPLEX_FONT, HORIZ_DIR, 3);
     setcolor(YELLOW);
@@ -108,27 +114,27 @@ void showGuide() {
     setcolor(YELLOW);
     outtextxy(SCREEN_WIDTH/2 - 180, 450, backMsg);
 
-    getch(); // Wait for any key
+    getch(); 
     cleardevice();
 }
 
 void handleMouseClick(int mouseX, int mouseY) {
-    // Start Game button
+    
     if (mouseX >= SCREEN_WIDTH/2 - 100 && mouseX <= SCREEN_WIDTH/2 + 100 && 
         mouseY >= 200 && mouseY <= 240) {
         askPlayerNameGraphics();
     } 
-    // Guide button
+    
     else if (mouseX >= SCREEN_WIDTH/2 - 100 && mouseX <= SCREEN_WIDTH/2 + 100 && 
              mouseY >= 260 && mouseY <= 300) {
         showGuide();
     } 
-    // Leaderboard button
+    
     else if (mouseX >= SCREEN_WIDTH/2 - 100 && mouseX <= SCREEN_WIDTH/2 + 100 && 
              mouseY >= 320 && mouseY <= 360) {
         showLeaderboardScreen();
     }
-    // Exit button
+    
     else if (mouseX >= SCREEN_WIDTH/2 - 100 && mouseX <= SCREEN_WIDTH/2 + 100 && 
              mouseY >= 380 && mouseY <= 420) {
         freeLeaderboard(&menuLeaderboard);
@@ -139,106 +145,65 @@ void handleMouseClick(int mouseX, int mouseY) {
 
 void showLeaderboardScreen() {
     cleardevice();
-    setbkcolor(DARKGRAY);
-    cleardevice();
+    readimagefile("assets/leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
     
-    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 3);
+    settextstyle(TRIPLEX_FONT, HORIZ_DIR, 7);
     setcolor(YELLOW);
     char title[] = "Top Scores";
-    outtextxy(SCREEN_WIDTH/2 - 100, 50, title);
+    outtextxy(SCREEN_WIDTH/2 - 200, 50, title);
     
-    // Display leaderboard
-    displayLeaderboard(&menuLeaderboard, SCREEN_WIDTH/2 - 150, 150);
+    
+    displayLeaderboard(&menuLeaderboard, SCREEN_WIDTH/2 - 300, 150);
     
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     setcolor(WHITE);
     char backMsg[] = "Press any key to return to main menu";
-    outtextxy(SCREEN_WIDTH/2 - 180, SCREEN_HEIGHT - 100, backMsg);
+    outtextxy(SCREEN_WIDTH/2 - 270, SCREEN_HEIGHT - 100, backMsg);
     
     getch();
     cleardevice();
 }
 
 void showMainMenu() {
-    setactivepage(0);
-    setvisualpage(0);
+int leftX = SCREEN_WIDTH / 2 - 100;
+    int rightX = SCREEN_WIDTH / 2 + 100;
+    int nameWidth = 300;
+    int nameHeight = 60;
+    int nameX = SCREEN_WIDTH / 2 - nameWidth / 2;
+    int nameY = 20;
+    int activePage = 0;
 
-    // Initialize leaderboard
     initLeaderboard(&menuLeaderboard);
     loadLeaderboard(&menuLeaderboard, "leaderboard.txt");
 
     while (1) {
-  readimagefile("c:\\Proyek2\\background.bmp", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        // Game title
-        settextstyle(TRIPLEX_FONT, HORIZ_DIR, 4);
-        setcolor(RED);
-        char gameName[] = "MARIO BROS";
-        outtextxy(SCREEN_WIDTH/2 - 150, 80, gameName);
-
-        // Menu buttons
-        settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
-        setcolor(WHITE);
+        setactivepage(activePage);
+        cleardevice(); 
         
-        // Draw button backgrounds
-        setfillstyle(SOLID_FILL, DARKGRAY);
-        bar(SCREEN_WIDTH/2 - 100, 200, SCREEN_WIDTH/2 + 100, 240); // Start Game
-        bar(SCREEN_WIDTH/2 - 100, 260, SCREEN_WIDTH/2 + 100, 300); // Guide
-        bar(SCREEN_WIDTH/2 - 100, 320, SCREEN_WIDTH/2 + 100, 360); // Leaderboard
-        bar(SCREEN_WIDTH/2 - 100, 380, SCREEN_WIDTH/2 + 100, 420); // Exit
+        readimagefile("assets/background_fixed.bmp", 0, 0, getmaxwidth(), getmaxheight());
+        readimagefile("assets/name_fixed.bmp", nameX, nameY, nameX + nameWidth, nameY + nameHeight);
+        readimagefile("assets/start_button_final.bmp", leftX, 200, rightX, 240);
+        readimagefile("assets/exit_button_final.bmp", leftX, 380, rightX, 420);
+        readimagefile("assets/leaderboard.bmp", leftX, 320, rightX, 360); 
+        readimagefile("assets/guide_final_fixed.bmp", leftX, 260, rightX, 300);
         
-        // Button borders
-        setcolor(WHITE);
-        rectangle(SCREEN_WIDTH/2 - 100, 200, SCREEN_WIDTH/2 + 100, 240);
-        rectangle(SCREEN_WIDTH/2 - 100, 260, SCREEN_WIDTH/2 + 100, 300);
-        rectangle(SCREEN_WIDTH/2 - 100, 320, SCREEN_WIDTH/2 + 100, 360);
-        rectangle(SCREEN_WIDTH/2 - 100, 380, SCREEN_WIDTH/2 + 100, 420);
-        
-        // Button text
-        char startText[] = "Start Game";
-        char guideText[] = "Guide";
-        char leaderText[] = "Leaderboard";
-        char exitText[] = "Exit";
+        setvisualpage(activePage); 
+        activePage = 1 - activePage; 
 
-        outtextxy(SCREEN_WIDTH/2 - 50, 215, startText);
-        outtextxy(SCREEN_WIDTH/2 - 25, 275, guideText);
-        outtextxy(SCREEN_WIDTH/2 - 60, 335, leaderText);
-        outtextxy(SCREEN_WIDTH/2 - 20, 395, exitText);
-
-        // Mini leaderboard preview
-        settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
-        setcolor(YELLOW);
-        char previewTitle[] = "Top 5 Scores:";
-        outtextxy(50, 200, previewTitle);
         
-        LeaderboardNode* current = menuLeaderboard.head;
-        int yOffset = 220;
-        int rank = 1;
-        char buffer[60];
-        
-        setcolor(WHITE);
-        while (current != NULL && rank <= 5) {
-            sprintf(buffer, "%d. %s - %d", rank, current->name, current->score);
-            outtextxy(50, yOffset, buffer);
-            yOffset += 20;
-            current = current->next;
-            rank++;
-        }
-
-        // Handle mouse clicks
         int mouseX, mouseY;
         if (ismouseclick(WM_LBUTTONDOWN)) {
             getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
             handleMouseClick(mouseX, mouseY);
             clearmouseclick(WM_LBUTTONDOWN);
             
-            // If start game was clicked, break out of menu loop
+            
             if (strlen(playerName) > 0) {
                 break;
             }
         }
         
-        // Handle keyboard input
+        
         if (kbhit()) {
             char key = getch();
             switch (key) {
@@ -256,7 +221,7 @@ void showMainMenu() {
                     showLeaderboardScreen();
                     break;
                 case '4':
-                case 27: // ESC key
+                case 27: 
                     freeLeaderboard(&menuLeaderboard);
                     closegraph();
                     exit(0);
@@ -264,7 +229,7 @@ void showMainMenu() {
             }
         }
         
-        delay(50); // Prevent high CPU usage
+        delay(50); 
     }
     
     freeLeaderboard(&menuLeaderboard);

@@ -1,3 +1,10 @@
+/**
+ * Nama file: main_menu.h
+ * 
+ * Penulis: Mahesa Fazrie 
+ * Tanggal: Senin, 26 Mei 2025
+ */
+
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
