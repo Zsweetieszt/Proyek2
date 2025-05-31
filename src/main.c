@@ -1,3 +1,15 @@
+/* 
+* Nama file: main.c
+*
+*   File ini berfungsi adalah entry point yang menjalankan loop utama game, 
+*   menyiapkan tampilan grafis, menampilkan menu, menggambar level dan karakter, 
+*   menangani input, memperbarui status permainan, serta mengatur transisi saat 
+*   pemain menang, kalah, atau keluar dari permainan.
+
+*  Penulis: Dinanda Khayra Hutama
+*  Tanggal: Sabtu, 31 Mei 2025
+*/
+
 #include "game.h"
 #include "player.h"
 #include "map.h"
@@ -50,7 +62,7 @@ int main()
                 displayPoint();
             }
             else
-            {
+            {                
                 displayGameOver();
                 playGameOverMusic();
                 char key = getch();

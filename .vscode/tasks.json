@@ -8,9 +8,24 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "main.c", "game.c", "player.c", "map.c", "collision.c", "main_menu.c", "leaderboard.c",
-                "-o", "${fileDirname}/game.exe",
-                "-static", "-lbgi", "-lgdi32", "-lcomdlg32", "-luuid", "-loleaut32", "-lole32", "-lwinmm"
+                "src/main.c",
+                "src/game.c",
+                "src/player.c",
+                "src/map.c",
+                "src/collision.c",
+                "src/main_menu.c",
+                "src/leaderboard.c",
+                "-Iinclude",
+                "-o",
+                "${workspaceFolder}/MarioBros.exe",
+                "-static",
+                "-lbgi",
+                "-lgdi32",
+                "-lcomdlg32",
+                "-luuid",
+                "-loleaut32",
+                "-lole32",
+                "-lwinmm"
             ],
             "group": {
                 "kind": "build",

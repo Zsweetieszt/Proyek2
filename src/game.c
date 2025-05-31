@@ -9,8 +9,8 @@
 *   - Struktur peta (maps) yang menyimpan layout setiap level
 *   - Status permainan (nyawa, level, poin, dsb)
 *
-*  Penulis: Dinanda Khayra Utama
-*  Tanggal: Jumat, 30 Mei 2025
+*  Penulis: Dinanda Khayra Hutama
+*  Tanggal: Sabtu, 31 Mei 2025
 */
 
 #include "game.h"

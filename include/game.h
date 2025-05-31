@@ -1,8 +1,15 @@
 /* 
 * Nama file: game.h
+* Fungsi: 
+* - Mendeklarasikan seluruh struktur data inti yang digunakan dalam game: seperti Camera, Player, Monster, Point, 
+* GameState.
+* - Menyimpan seluruh definisi konstanta penting: ukuran layar, kecepatan, jumlah level, ukuran peta, 
+* dan lain-lain.
+* - Mendeklarasikan fungsi-fungsi logika utama: seperti updateGame(), restartGame(), displayGameOver(), 
+* playGameOverMusic() dan lain-lain.
 *
-*  Penulis: Dinanda Khayra Utama
-*  Tanggal: Senin, 26 Mei 2025
+*  Penulis: Dinanda Khayra Hutama
+*  Tanggal: Sabtu, 31 Mei 2025
 */
 
 #ifndef GAME_H
