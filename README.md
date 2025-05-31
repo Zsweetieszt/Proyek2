@@ -79,12 +79,12 @@ Tujuan utama pemain adalah mencapai bendera akhir level atau portal untuk melanj
 
  2. Pasang `graphics.h`
   - Unduh library dari [winbgim.codecutter.org](http://winbgim.codecutter.org/) dan ikuti petunjuk instalasinya.
-        Simpan:
-        `graphics.h` → `MinGW/include`
-        `libbgi.a` → `MinGW/lib`
+  - Simpan:
+    <br>`graphics.h` → `MinGW/include`</br>
+    <br>`libbgi.a` → `MinGW/lib`</br>
  3. Kompilasi
 
-        gcc main.c -o game.exe -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 -lwinmm
+        gcc main.c collision.c game.c map.c main_menu.c leaderboard.c player.c -o game.exe -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 -lwinmm
  4. Jalankan game
 
         ./game.exe
