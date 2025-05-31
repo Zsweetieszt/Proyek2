@@ -3,35 +3,34 @@
 #include "map.h"
 #include "collision.h"
 #include "main_menu.h"
+#include "leaderboard.h"
 #include <conio.h>
-
-
-// Misal variabel global
- // Status pemain hidup atau mati
-
-int main() {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  // Lebar layar
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Tinggi layar
-
-    // Misalnya ambil 80% dari ukuran layar biar gak fullscreen total
+#include <graphics.h>
+Leaderboard gameLeaderboard;
+int main()
+{
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
     int windowWidth = screenWidth;
-    int windowHeight = screenHeight; 
-
-    // Buat window grafik dengan ukuran yang disesuaikan
+    int windowHeight = screenHeight;
+    SCREEN_WIDTH = screenWidth;
+    SCREEN_HEIGHT = screenHeight;
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
-
-    char playerName[50];
-    printf("Enter your name: ");
-    scanf("%s", playerName);
-
+    playBackgroundMusic();
+    initLeaderboard(&gameLeaderboard);
+    loadLeaderboard(&gameLeaderboard, "leaderboard.txt");
+    while (1)
+    {
+        memset(playerName, 0, sizeof(playerName));
         showMainMenu();
-
+        if (strlen(playerName) == 0)
+        {
+            break;
+        }
         while (kbhit())
             getch();
-
         restartGame();
         gameState.isRunning = 1;
-
         int buffer = 0;
 
         while (gameState.isRunning)
@@ -39,21 +38,20 @@ int main() {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-            if (gameState.isAlive) { 
+            if (gameState.isAlive)
+            {
                 updateGame();
                 handleInput();
                 displayPoint();
             }
             else
             {
-
                 displayGameOver();
-
+                playGameOverMusic();
                 char key = getch();
                 if (key == 'R' || key == 'r')
                 {
@@ -61,43 +59,47 @@ int main() {
                 }
                 else if (key == 'M' || key == 'm')
                 {
-
                     cleardevice();
                     gameState.isRunning = 0;
                     break;
                 }
             }
-            // **Cek apakah pemain menang**
-            if (gameState.hasWon) {  
-                displayWinScreen(point, playerName);  // **Tampilkan layar kemenangan**
-                while (1) {  
+            if (gameState.hasWon)
+            {
+                addScore(&gameLeaderboard, playerName, point.score);
+                saveLeaderboard(&gameLeaderboard, "leaderboard.txt");
+                displayWinScreen(point, playerName);
+                playWinMusic();
+                while (1)
+                {
                     char key = getch();
                     if (key == 'M' || key == 'm')
                     {
                         cleardevice();
                         gameState.hasWon = 0;
+                        gameState.isRunning = 0;
                         break;
                     }
                     else if (key == 'Q' || key == 'q')
                     {
+                        freeLeaderboard(&gameLeaderboard);
                         closegraph();
                         return 0;
                     }
                 }
                 break;
             }
-
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
             {
-                gameState.isRunning = 0;
+                freeLeaderboard(&gameLeaderboard);
                 closegraph();
                 return 0;
             }
-
             buffer = 1 - buffer;
             delay(10);
         }
-        
-        closegraph();
-        return 0;
     }
+    freeLeaderboard(&gameLeaderboard);
+    closegraph();
+    return 0;
+}

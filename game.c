@@ -1,13 +1,29 @@
+/* 
+* Nama file: game.c
+*
+*   File ini bertanggung jawab untuk mendefinisikan dan menginisialisasi
+*   berbagai komponen utama dari game, termasuk:
+*   - Monster dan jumlahnya 
+*   - Kamera dan pemain
+*   - Posisi dan properti setiap monster di level tertentu
+*   - Struktur peta (maps) yang menyimpan layout setiap level
+*   - Status permainan (nyawa, level, poin, dsb)
+*
+*  Penulis: Dinanda Khayra Utama
+*  Tanggal: Jumat, 30 Mei 2025
+*/
+
 #include "game.h"
-#include "collision.h"  // Tambahkan ini untuk akses fungsi tabrakan
+#include "collision.h"
 #include "map.h"
 #include "leaderboard.h"
+#include <windows.h>
+#include <mmsystem.h>
 
-// Definisi variabel global
-
-Monster monsters[MAX_MONSTERS];  // Array monster
-int monsterCount = 0;  // Jumlah monster dalam level saat ini
-
+Monster monsters[MAX_MONSTERS];
+int monsterCount = 0;
+int SCREEN_WIDTH = 1550;
+int SCREEN_HEIGHT = 840;
 Monster levelMonsters[1][MAX_MONSTERS] = {
     {
         {320,  GROUND_HEIGHT - 50,  1,  320,  130},
@@ -32,50 +48,34 @@ Monster levelMonsters[1][MAX_MONSTERS] = {
         {3350, GROUND_HEIGHT - 90, -1, 3350, 230},
     }
 };
-
-
-
-
-int levelMonsterCounts[1] = {20};  // Jumlah monster di tiap level
-
-
-//inisiasi camera
+int levelMonsterCounts[1] = {20};
 Camera camera = {
-    0, //camera.x
-    0  //camera.offside
+    0, 
+    0  
 }; 
-
-// Inisialisasi Player
 Player player = { 
-    80,                  // x (posisi awal)
-    GROUND_HEIGHT - 30,   // y (posisi awal)
-    0,                    // player.velocity
-    0,                    // player.isJumping (tidak lompat)
-    0,                    // hasStarPower
-    0,                    // starPowerTimer
-    3                     // lives (nyawa awal)
+    80,                   
+    GROUND_HEIGHT - 30,   
+    0,                    
+    0,                    
+    0,                    
+    0,                    
+    3                     
 };
-
-// Inisialisasi Point (score & coins)
 Point point = { 
-    0,  // score awal
-    0   // coins awal
+    0,  
+    0   
 };
-
 GameState gameState = { 
-    1,   // isRunning (game dimulai)
-    1,   // gameState.isAlive (pemain masih hidup)
-    0,   // level (mulai dari level 0)
-    0,   // kemenangan
-    0,   //level game
+    1,   
+    1,   
+    0,   
+    0,   
+    0,   
 };
-
 clock_t startClock = 0;
 clock_t endClock = 0;
 double gameDurationMs = 0;
-
-
-// Peta level
 int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
@@ -123,26 +123,21 @@ int maps[3][MAP_HEIGHT][TOTAL_MAP_WIDTH] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 },
     },
 };
-
-// Fungsi untuk memperbarui status game
 void updateGame() {
     int monsterHit = checkCollisionWithMonster();
-    // Cek apakah Mario sedang naik atau jatuh
+    
     if (player.velocityY < 0) {
-        player.velocityY += GRAVITY_UP;   // Jika naik, gravitasi lebih kecil
+        player.velocityY += GRAVITY_UP;
     } else {
-        player.velocityY += GRAVITY_DOWN; // Jika jatuh, gravitasi lebih besar
+        player.velocityY += GRAVITY_DOWN;
     }
-
-    player.y += player.velocityY; // Update posisi berdasarkan kecepatan
-
-    // Cek apakah Mario menyentuh tanah
+    player.y += player.velocityY;
+    
     if (player.y >= GROUND_HEIGHT - 30) {
         player.y = GROUND_HEIGHT - 30;
         player.isJumping = 0;
-        player.velocityY = 0; // Reset kecepatan saat menyentuh tanah
+        player.velocityY = 0;
     }
-
     if (monsterHit != -1){
         int screenMonsterX = monsters[monsterHit].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
         int screenMonsterY = monsters[monsterHit].y;
@@ -153,7 +148,6 @@ void updateGame() {
             else{
                 if (gameState.level >= 2){
                     player.playerLives--;
-
                     if (player.playerLives > 0){
                         findMarioStartPosition();
                     }
@@ -163,22 +157,18 @@ void updateGame() {
                 }
             }
     }
-
     if (checkCollisionWithStar()){
         player.hasStarPower = 1;
         player.starPowerTimer = 150;
     }
-
     if (checkCollisionWithFlag()){
         point.score += 100;
         gameState.hasWon = 1;
     }
-    // Cek tabrakan dengan musuh, duri, koin, starpower, nextLevel, block
     if (checkCollisionWithCoin()) {
         point.coins++;
         point.score += 10;
     }
-
     if (checkCollisionWithSpike()) {
         player.playerLives--;
         if (player.playerLives <= 0) {
@@ -187,11 +177,9 @@ void updateGame() {
             findMarioStartPosition();
         }
     }
-
     if (!gameState.hasWon) {
         checkCollisionWithFlag();
     }
-
     if (checkCollisionWithNextLevel()) {
         gameState.level++;
         if (gameState.level >= 3) {
@@ -200,11 +188,7 @@ void updateGame() {
         findMarioStartPosition();
     }
     cheakCollisionWithBlock();
-
-    // Update musuh
     updateMonsters();
-
-    // Star Power Timer
     if (player.hasStarPower) {
         player.starPowerTimer--;
         if (player.starPowerTimer <= 0) {
@@ -212,18 +196,15 @@ void updateGame() {
         }
     }
 }
-
 int restartGame() {
     player.playerLives = 3;  
     gameState.isAlive = 1;  
     gameState.playing = 1;  
     point.score = 0; 
     point.coins = 0;
-    startClock = clock();  // Simpan waktu mulai dalam clock ticks
-    gameDurationMs = 0;    // Reset durasi ke 0
-
+    startClock = clock();
+    gameDurationMs = 0;
     findMarioStartPosition();  
-
     gameState.level = 0;
     for (int lvl = 0; lvl <= 3; lvl++) {  
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -243,145 +224,108 @@ int restartGame() {
             }
         }
     }
-
     monsterCount = 0;
     memset(monsters, 0, sizeof(monsters));
     monsterCount = levelMonsterCounts[gameState.level];
-
     for (int i = 0; i < monsterCount; i++) {
         monsters[i] = levelMonsters[gameState.level][i];
     }
     gameState.isRunning = 1;
     return gameState.isRunning;
 }
-
-
-
 void displayPoint() {
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
-
     char scoreText[20], coinText[20], livesText[20], timeText[30];
-
     double currentTimeMs = ((double)(clock() - startClock) / CLOCKS_PER_SEC) * 1000;
     sprintf(timeText, "%.2f sec", currentTimeMs / 1000);
-
     sprintf(scoreText, "Score: %d", point.score);
     sprintf(coinText, "Coins: %d", point.coins);
     sprintf(livesText, "Lives: %d", player.playerLives);
-
-    // *Tampilkan teks di layar*
-    outtextxy(10, 10, scoreText);   // Skor di kiri atas
-    outtextxy(10, 30, coinText);    // Koin di bawah skor
-    outtextxy(10, 50, livesText);   // Nyawa di bawah koin
-
-    // *Waktu di tengah atas layar*
+    outtextxy(10, 10, scoreText);
+    outtextxy(10, 30, coinText);   
+    outtextxy(10, 50, livesText);   
     int textWidth = textwidth(timeText);
     int screenCenterX = (SCREEN_WIDTH / 2) - (textWidth / 2);
-    outtextxy(screenCenterX, 10, timeText);  // Menempatkan teks waktu di tengah atas
+    outtextxy(screenCenterX, 10, timeText); 
 }
-
-
-
-
-// Fungsi untuk menampilkan layar Game Over
 void displayGameOver() {
     setcolor(RED);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
-
     char gameOverText[] = "GAME OVER";
     char retryText[] = "Press R to Retry";
     char menuText[] = "Press M for Main Menu";
-
     outtextxy(SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, gameOverText);
     outtextxy(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 50, retryText);
     outtextxy(SCREEN_WIDTH / 2 - 260, SCREEN_HEIGHT / 2 + 100, menuText);
 }
-
-
 int findMarioStartPosition() {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < TOTAL_MAP_WIDTH; j++) {
             if (maps[gameState.level][i][j] == 12) {
                 player.x = j * (SCREEN_WIDTH / MAP_WIDTH);
                 player.y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
-
-                // Atur kamera agar langsung melihat Mario
                 camera.x = player.x - (SCREEN_WIDTH / 2);
-
-                // Pastikan kamera tidak keluar batas level
                 if (camera.x < 0) camera.x = 0;
                 if (camera.x > TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH)
                     camera.x = TOTAL_MAP_WIDTH * (SCREEN_WIDTH / MAP_WIDTH) - SCREEN_WIDTH;
-
-                return 1; //mario di temukan
+                return 1;
             }
         }
     }
-    return 0;//mario tidak di temukan
+    return 0;
 }
-
-void displayWinScreen(Point point, const char* playerName) //update untuk playerName
-{
+void displayWinScreen(Point point, const char* playerName) {
     setactivepage(0);
     setvisualpage(0);
     cleardevice();
-
+    readimagefile("assets/leaderboard_background_24bit.bmp", 0, 0, getmaxwidth(), getmaxheight());
     setcolor(WHITE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
-
-    // *Tampilkan pesan kemenangan lebih ke atas tengah*
-    int centerX = SCREEN_WIDTH / 2 - 250;  // Agar lebih ke tengah
-    int startY = 80;  // Naik sedikit ke atas
-
+    int centerX = SCREEN_WIDTH / 2 - 250; 
+    int startY = 80;
     outtextxy(centerX, startY, (char*)"  CONGRATULATIONS!");
     outtextxy(centerX + 40, startY + 40, (char*)"    YOU WIN!");
-
     
-
-    // Pastikan waktu akhir hanya dihitung sekali
     if (endClock == 0) {
         endClock = clock();
         gameDurationMs = ((double)(endClock - startClock) / CLOCKS_PER_SEC) * 1000;
     }
-
-    // *Buat string untuk skor, koin, nyawa, dan waktu*
     char scoreText[50], coinText[50], livesText[50], timeText[50];
     sprintf(scoreText, "SCORE      : %d", point.score);
     sprintf(coinText, "COINS      : %d", point.coins);
     sprintf(livesText, "LIVES LEFT : %d", player.playerLives);
     sprintf(timeText, "TIME       : %.2f sec (%.0f ms)", gameDurationMs / 1000, gameDurationMs);
-
-    // *Atur posisi lebih ke kiri & naik sedikit*
-    int textX = SCREEN_WIDTH / 2 - 200;  // Geser ke kiri agar lebih ke tengah
-    int textY = startY + 100;  // Geser sedikit ke bawah dari "YOU WIN!"
+    int textX = SCREEN_WIDTH / 2 - 200;
+    int textY = startY + 100;
     int gap = 30;
-
     outtextxy(textX, textY, scoreText);
     outtextxy(textX, textY + gap, coinText);
     outtextxy(textX, textY + (gap * 2), livesText);
     outtextxy(textX, textY + (gap * 3), timeText);
-
-    // *Instruksi untuk kembali ke menu atau keluar dari permainan*
-    int menuX = SCREEN_WIDTH / 2 - 260;  // Geser ke kiri agar lebih tengah
+    int menuX = SCREEN_WIDTH / 2 - 260;
     int menuY = textY + (gap * 5);
-
     outtextxy(menuX, menuY, (char*)"Press 'M' to Menu");
     outtextxy(menuX, menuY + 30, (char*)"Press 'Q' to Quit Game");
 }
-
-
-
 void updateMonsters() {
     for (int i = 0; i < monsterCount; i++) {  
-        if (monsters[i].x != -999999) { // 🔥 Cek apakah monster masih ada di level
+        if (monsters[i].x != -999999) { 
             monsters[i].x += monsters[i].direction * 2;
-
-            // Batasi gerakan monster sesuai batas maxDistance
+            
             if (monsters[i].x < monsters[i].startX - monsters[i].maxDistance || 
                 monsters[i].x > monsters[i].startX + monsters[i].maxDistance) {
                 monsters[i].direction *= -1;
             }
         }
     }
+}
+void playBackgroundMusic() {
+    PlaySound("assets/audio/bgm.wav", NULL, SND_ASYNC);
+}
+void playWinMusic() {
+    PlaySound("assets/audio/win.wav", NULL, SND_ASYNC);
+}
+void playGameOverMusic() {
+    PlaySound("assets/audio/gameover.wav", NULL, SND_ASYNC);
 }

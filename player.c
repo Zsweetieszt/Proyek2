@@ -1,3 +1,13 @@
+/**
+ * Nama file: player.c
+ * 
+ * Modul ini berisi definisi sprite dan fungsi terkait pemain (player)
+ * dalam game 2D platform
+ * 
+ * Penulis: Idham Khalid
+ * Tanggal: Senin, 12 Mei 2025
+ */
+
 #include "game.h"
 #include "player.h"
 #include <stdbool.h>
@@ -11,7 +21,6 @@ void updatePlayerBounds() {
     playerTop = player.y - ROWS - 10;
     playerBottom = player.y;
 }
-
 
 int player_standing[ROWS][COLS] = {
     {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, RED, RED, RED, RED, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},

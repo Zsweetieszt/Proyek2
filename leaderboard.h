@@ -1,3 +1,10 @@
+/**
+ * Nama file: leaderboard.h
+ * 
+ * Penulis: Mahesa Fazrie 
+ * Tanggal: Jumat, 30 Mei 2025
+ */
+
 #ifndef LEADERBOARD_H
 #define LEADERBOARD_H
 
@@ -6,7 +13,6 @@ typedef struct LeaderboardNode {
     int score;
     struct LeaderboardNode* next;
 } LeaderboardNode;
-
 typedef struct {
     LeaderboardNode* head;
 } Leaderboard;
@@ -17,6 +23,8 @@ void displayLeaderboard(Leaderboard* lb, int startX, int startY);
 void saveLeaderboard(Leaderboard* lb, const char* filename);
 void loadLeaderboard(Leaderboard* lb, const char* filename);
 void freeLeaderboard(Leaderboard* lb);
-
+int getLeaderboardCount(Leaderboard* lb);
+int getPlayerRank(Leaderboard* lb, const char* name);
+void insertNodeSorted(Leaderboard* lb, LeaderboardNode* node);
 
 #endif
