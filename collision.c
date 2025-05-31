@@ -1,3 +1,15 @@
+/*
+ * Nama file: collision.c
+ * 
+ * File ini menangani berbagai logika deteksi tumbukan (collision detection) dalam permainan.
+ * termasuk interaksi antara pemain dengan elemen-elemen seperti duri, monster, koin, bintang, blok/platform,
+ * bendera (flag), dan titik perpindahan ke level berikutnya.
+ * 
+ * Penulis: Revan Ramdani Permana
+ * Tanggal: Jumat, 30 Mei 2025
+ * 
+*/
+
 #include "game.h"
 #include "collision.h"
 #include <stdbool.h>
@@ -76,8 +88,8 @@ bool checkCollisionWithCoin(){
                 int coinBottom = coinY + coinHeight;
 
                 updatePlayerBounds();
-                //setcolor(GREEN);
-                //rectangle(coinLeft, coinTop, coinRight, coinBottom);
+                
+                
 
                 if (playerRight > coinLeft && playerLeft < coinRight &&
                     playerBottom > coinTop && playerTop < coinBottom){
@@ -167,33 +179,33 @@ void cheakCollisionWithBlock(){
                 int platformTop = platformY - 28;
                 int platformBottom = platformY + platformHeight+20;
 
-                // Debug hitbox
-                //setcolor(RED);
-                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
-                //setcolor(GREEN);
-                //rectangle(platformLeft, platformTop, platformRight, platformBottom);
+                
+                
+                
+                
+                
 
                 bool collisionX = playerRight > platformLeft && playerLeft < platformRight;
                 bool collisionY = playerBottom > platformTop && playerTop < platformBottom;
 
                 if (collisionX && collisionY) {
-                    // Dari atas platform
+                    
                     if (playerBottom > platformTop && playerTop < platformTop + 2 && player.velocityY >= 0) {
                         player.y = platformTop;
                         player.velocityY = 0;
                         player.isJumping = 0;
                         continue;
                     }
-                    // Dari bawah platform
+                    
                     else if (playerTop < platformBottom && playerBottom > platformBottom && player.velocityY < 0) {
                         player.y = platformBottom + ROWS;
                         player.velocityY = 0;
                     }
-                    // Dari kiri platform (menabrak sisi kiri blok)
+                    
                     else if(collisionX && playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop) {
                         player.x = platformLeft-40;
                     }
-                    // Dari kanan platform (menabrak sisi kanan blok)
+                    
                     else if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop) {
                         player.x = platformRight + (COLS / 2);
                     }
@@ -218,9 +230,9 @@ bool checkCollisionWithFlag(){
 
                 updatePlayerBounds();
 
-                // Gambar hitbox untuk debugging
-                //drawHitbox(poleLeft, poleTop, poleRight, poleBottom, GREEN);
-                //drawHitbox(playerLeft, playerTop, playerRight, playerBottom, BLUE); 
+                
+                
+                
 
                 if (playerRight > poleLeft && playerLeft < poleRight &&
                     playerBottom > poleTop && playerTop < poleBottom){

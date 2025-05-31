@@ -1,3 +1,10 @@
+/*
+ * Nama file: map.h
+ *
+ * Penulis: Ahmad Riyadh Almaliki
+ * Tanggal: Senin, 21 April 2025
+ */
+
 #ifndef MAP_H
 #define MAP_H
 

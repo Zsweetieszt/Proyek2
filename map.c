@@ -1,3 +1,14 @@
+/*
+ * Nama file: map.c
+ *
+ * Deskripsi:
+ * File ini berisi sekumpulan fungsi untuk menggambar berbagai elemen dalam permainan
+ * 2D platformer, seperti monster, platform, tanah, koin, bintang, pipa, dan latar belakang.
+ * 
+ * Penulis: Ahmad Riyadh Almaliki
+ * Tanggal: Senin, 26 Mei 2025
+ */
+
 #include "game.h"
 #include "map.h"
 
@@ -8,51 +19,51 @@ void drawMonsterDebugGrid()
     {
         int screenX = monsters[i].x - camera.x * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
         int screenY = monsters[i].y;
-
         rectangle(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
-
         line(screenX, screenY, screenX + MONSTER_SIZE, screenY + MONSTER_SIZE);
         line(screenX + MONSTER_SIZE, screenY, screenX, screenY + MONSTER_SIZE);
     }
 }
-
 void drawPlatform(int x, int y)
 {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
     int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
     int platformColor = COLOR(204, 102, 0);
     int gapColor = COLOR(0, 0, 0);
-
     int rowCount = 4;
     int gap = tileSizeY / (rowCount * 10);
-    int blockHeight = (tileSizeY - (rowCount - 1) * gap) / rowCount;
 
+    if (gap < 1)
+        gap = 1;
+    int blockHeight = (tileSizeY - (rowCount - 1) * gap) / rowCount;
     int yPos = y;
     for (int i = 0; i < rowCount; i++)
     {
         int left = x;
         int top = yPos;
         int bottom = top + blockHeight;
-
         if (i % 2 == 0)
         {
+            int totalGapWidth = 2 * gap;
+            int totalBlockWidth = tileSizeX - totalGapWidth;
+            int boxW = totalBlockWidth / 4;
+            int rectW_base = 2 * boxW;
+            int remainder = totalBlockWidth % 4;
 
-            int totalGap = 2 * gap;
-            int boxW = (tileSizeX - totalGap) / 4;
-            int rectW = 2 * boxW;
+            int rectW = rectW_base + remainder;
 
             setfillstyle(SOLID_FILL, gapColor);
             bar(left - gap, top - gap, left + boxW + gap, bottom + gap);
             setfillstyle(SOLID_FILL, platformColor);
             bar(left, top, left + boxW, bottom);
-
             left += boxW + gap;
+
             setfillstyle(SOLID_FILL, gapColor);
             bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
             setfillstyle(SOLID_FILL, platformColor);
             bar(left, top, left + rectW, bottom);
-
             left += rectW + gap;
+
             setfillstyle(SOLID_FILL, gapColor);
             bar(left - gap, top - gap, left + boxW + gap, bottom + gap);
             setfillstyle(SOLID_FILL, platformColor);
@@ -60,56 +71,51 @@ void drawPlatform(int x, int y)
         }
         else
         {
+            int totalGapWidth = gap;
+            int totalBlockWidth = tileSizeX - totalGapWidth;
+            int rectW1 = totalBlockWidth / 2;
+            int remainder = totalBlockWidth % 2;
 
-            int rectW = (tileSizeX - gap) / 2;
+            int rectW2 = rectW1 + remainder;
 
             setfillstyle(SOLID_FILL, gapColor);
-            bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
+            bar(left - gap, top - gap, left + rectW1 + gap, bottom + gap);
             setfillstyle(SOLID_FILL, platformColor);
-            bar(left, top, left + rectW, bottom);
+            bar(left, top, left + rectW1, bottom);
+            left += rectW1 + gap;
 
-            left += rectW + gap;
             setfillstyle(SOLID_FILL, gapColor);
-            bar(left - gap, top - gap, left + rectW + gap, bottom + gap);
+            bar(left - gap, top - gap, left + rectW2 + gap, bottom + gap);
             setfillstyle(SOLID_FILL, platformColor);
-            bar(left, top, left + rectW, bottom);
+            bar(left, top, left + rectW2, bottom);
         }
-
         yPos += blockHeight + gap;
     }
 }
-
 void drawGround(int x, int y)
 {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
     int tileSizeY = SCREEN_HEIGHT / MAP_HEIGHT;
     int borderWidth = 1;
-
     int mainColor = COLOR(204, 102, 0);
     int borderColor = BLACK;
     int dotColor = BLACK;
-
     setfillstyle(SOLID_FILL, mainColor);
     bar(x, y, x + tileSizeX, y + tileSizeY);
-
     setcolor(borderColor);
     for (int i = 0; i < borderWidth; i++)
     {
         rectangle(x - i, y - i, x + tileSizeX + i, y + tileSizeY + i);
     }
-
     int dotDistance = 10;
     int dotRadius = 3;
-
     setcolor(dotColor);
     setfillstyle(SOLID_FILL, dotColor);
-
     fillellipse(x + dotDistance, y + dotDistance, dotRadius, dotRadius);
     fillellipse(x + tileSizeX - dotDistance, y + dotDistance, dotRadius, dotRadius);
     fillellipse(x + dotDistance, y + tileSizeY - dotDistance, dotRadius, dotRadius);
     fillellipse(x + tileSizeX - dotDistance, y + tileSizeY - dotDistance, dotRadius, dotRadius);
 }
-
 void drawCoin(int x, int y)
 {
     int size = 15;
@@ -121,16 +127,13 @@ void drawCoin(int x, int y)
         setfillstyle(SOLID_FILL, COLOR(255, 215, colorFactor));
         fillellipse(x, y, i, i);
     }
-
     setcolor(COLOR(255, 255, 200));
     setfillstyle(SOLID_FILL, COLOR(255, 255, 200));
     fillellipse(x - size / 4, y - size / 4, size / 5, size / 5);
-
     setcolor(COLOR(200, 150, 0));
     setlinestyle(SOLID_LINE, 0, 3);
     line(x, y - size / 2, x, y + size / 2);
 }
-
 void drawStar(int x, int y)
 {
     int radius = 15;
@@ -143,27 +146,21 @@ void drawStar(int x, int y)
         fillellipse(x, y, i, i);
     }
 }
-
 void drawMonster(int x, int y)
 {
-
     setfillstyle(SOLID_FILL, WHITE);
     fillellipse(x, y, 22, 30);
-
     int body[] = {
         x - 22, y + 2, x - 25, y + 24, x - 18, y + 31, x - 11, y + 24,
         x - 3, y + 31, x + 3, y + 24, x + 11, y + 31, x + 18, y + 24,
         x + 22, y + 2, x - 22, y + 2};
     setfillstyle(SOLID_FILL, WHITE);
     fillpoly(10, body);
-
     setfillstyle(SOLID_FILL, BLACK);
     fillellipse(x - 5, y - 5, 3, 6);
     fillellipse(x + 5, y - 5, 3, 6);
-
     arc(x, y + 12, 20, 160, 5);
 }
-
 void animationMonster()
 {
     for (int i = 0; i < monsterCount; i++)
@@ -173,22 +170,18 @@ void animationMonster()
         drawMonster(screenX, screenY);
     }
 }
-
 void drawSpike(int x, int y)
 {
     int tileSizeX = SCREEN_WIDTH / MAP_WIDTH;
     int spikeHeight = tileSizeX / 2;
-
     setcolor(DARKGRAY);
     setfillstyle(SOLID_FILL, DARKGRAY);
-
     int points[] = {
         x, y + spikeHeight,
         x + tileSizeX / 2, y,
         x + tileSizeX, y + spikeHeight};
     fillpoly(3, points);
 }
-
 void drawCloud(int x, int y)
 {
     int size = 64;
@@ -198,7 +191,6 @@ void drawCloud(int x, int y)
     bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
-
 void drawGrid()
 {
     setcolor(WHITE);
@@ -213,12 +205,10 @@ void drawGrid()
         line(0, y, SCREEN_WIDTH, y);
     }
 }
-
 void drawStoneBlock(int x, int y)
 {
     setfillstyle(SOLID_FILL, DARKGRAY);
     bar(x, y, x + 32, y + 32);
-
     setcolor(LIGHTGRAY);
     for (int i = 5; i < 32; i += 10)
     {
@@ -229,19 +219,16 @@ void drawStoneBlock(int x, int y)
         line(x, y + i, x + 32, y + i);
     }
 }
-
 void drawBrickBlock(int x, int y)
 {
     setfillstyle(SOLID_FILL, BROWN);
     bar(x, y, x + 32, y + 32);
-
     setcolor(DARKGRAY);
     for (int i = 5; i < 32; i += 10)
     {
         line(x, y + i, x + 32, y + i);
     }
 }
-
 void drawCloudBlock(int x, int y)
 {
     int size = 3;
@@ -251,114 +238,93 @@ void drawCloudBlock(int x, int y)
     bar(x + size * 2 / 3, y - size / 3, x + size * 5 / 3, y + size / 3);
     bar(x + size * 4 / 3, y, x + size * 7 / 3, y + size * 2 / 3);
 }
-
-void drawPipe(int x, int y) {
+void drawPipe(int x, int y)
+{
     int pipeWidth = 40;
     int pipeHeadWidth = 60;
     int pipeHeight = 70;
-    int pipeGap = 0; // rapat tanpa jarak antar pipa
-
+    int pipeGap = 0;
     int darkGreen = COLOR(0, 128, 0);
     int lightGreen = COLOR(0, 200, 0);
     int shadowGreen = COLOR(0, 100, 0);
-
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         int offsetX = x + i * (pipeHeadWidth + pipeGap);
         int headX = offsetX;
         int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
 
-        // Body
         setcolor(darkGreen);
         setfillstyle(SOLID_FILL, darkGreen);
         bar(bodyX, y, bodyX + pipeWidth, y + pipeHeight);
-
         setcolor(lightGreen);
         setfillstyle(SOLID_FILL, lightGreen);
         bar(bodyX + 5, y, bodyX + 15, y + pipeHeight);
-
         setcolor(shadowGreen);
         setfillstyle(SOLID_FILL, shadowGreen);
         bar(bodyX + 30, y, bodyX + 40, y + pipeHeight);
 
-        // Head
         setcolor(darkGreen);
         setfillstyle(SOLID_FILL, darkGreen);
         bar(headX, y - 20, headX + pipeHeadWidth, y);
-
         setcolor(lightGreen);
         setfillstyle(SOLID_FILL, lightGreen);
         bar(headX + 5, y - 20, headX + 15, y);
-
         setcolor(BLACK);
         rectangle(bodyX, y, bodyX, y + 50);
         rectangle(headX, y - 20, headX + pipeHeadWidth, y);
     }
 }
-
-void drawBodyPipe(int x, int y) {
+void drawBodyPipe(int x, int y)
+{
     int pipeWidth = 40;
     int pipeHeadWidth = 60;
-    int pipeGap = 0; // rapat
-
+    int pipeGap = 0;
     int darkGreen = COLOR(0, 128, 0);
     int lightGreen = COLOR(0, 200, 0);
     int shadowGreen = COLOR(0, 100, 0);
-
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         int offsetX = x + i * (pipeHeadWidth + pipeGap);
         int bodyX = offsetX + (pipeHeadWidth - pipeWidth) / 2;
-
         setcolor(darkGreen);
         setfillstyle(SOLID_FILL, darkGreen);
         bar(bodyX, y, bodyX + pipeWidth, y + 70);
-
         setcolor(lightGreen);
         setfillstyle(SOLID_FILL, lightGreen);
         bar(bodyX + 5, y, bodyX + 15, y + 70);
-
         setcolor(shadowGreen);
         setfillstyle(SOLID_FILL, shadowGreen);
         bar(bodyX + 30, y, bodyX + 40, y + 70);
-
         setcolor(BLACK);
         rectangle(bodyX, y - 20, bodyX, y + 70);
     }
 }
-
-
 void drawBackground()
 {
-
     setfillstyle(SOLID_FILL, LIGHTBLUE);
     bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
-
     int sunX = SCREEN_WIDTH / 2;
     int sunY = 100;
     int sunRadius = 100;
-
     setcolor(YELLOW);
     setfillstyle(SOLID_FILL, YELLOW);
     fillellipse(sunX, sunY, sunRadius, sunRadius);
 }
-
 void drawNextLevel(int x, int y)
 {
     int radius = 10;
-
     for (int i = 0; i < 5; i++)
     {
         int color = COLOR(0, 100, 255);
         setcolor(color);
         circle(x, y, radius + i * 3);
     }
-
     for (int i = 0; i < radius; i++)
     {
         int color = COLOR(50 + i, 50 + 2 * i, 255 - i);
         setcolor(color);
         circle(x, y, radius - i);
     }
-
     for (int i = 0; i < 10; i++)
     {
         int angle = rand() % 360;
@@ -367,7 +333,6 @@ void drawNextLevel(int x, int y)
         putpixel(px, py, COLOR(255, 255, 255));
     }
 }
-
 void renderLevel(GameState gameState)
 {
     if (gameState.level == 0 || gameState.level == 1)
@@ -379,22 +344,17 @@ void renderLevel(GameState gameState)
         drawNightBackground();
     }
 }
-
 void drawNightBackground()
 {
-
     int DARKBLUE = COLOR(22, 38, 79);
     setfillstyle(SOLID_FILL, DARKBLUE);
     bar(0, 0, SCREEN_WIDTH, GROUND_HEIGHT + 25);
-
     int moonX = SCREEN_WIDTH / 2 + 100;
     int moonY = 100;
     int moonRadius = 40;
-
     setcolor(WHITE);
     setfillstyle(SOLID_FILL, WHITE);
     fillellipse(moonX, moonY, moonRadius, moonRadius);
-
     setcolor(WHITE);
     for (int i = 0; i < 10; i++)
     {
@@ -403,14 +363,12 @@ void drawNightBackground()
         putpixel(starX, starY, WHITE);
     }
 }
-
 void drawFlag(int x, int y)
 {
     int flagWidth = 50;
     int flagHeight = 30;
     int poleHeight = 80;
     int poleWidth = 5;
-
     int flagColor = COLOR(200, 0, 0);
     int poleColor = COLOR(100, 100, 100);
     int shadowColor = COLOR(150, 0, 0);
@@ -418,50 +376,40 @@ void drawFlag(int x, int y)
     int baseColor = COLOR(80, 80, 80);
     int textureColor = COLOR(120, 120, 120);
     int flagTextureColor = COLOR(220, 50, 50);
-
     setcolor(baseColor);
     setfillstyle(SOLID_FILL, baseColor);
     bar(x - 3, y, x + poleWidth + 3, y + 7);
-
     setcolor(poleColor);
     setfillstyle(SOLID_FILL, poleColor);
     bar(x, y - poleHeight, x + poleWidth, y);
-
     setcolor(textureColor);
     for (int i = y - poleHeight; i < y; i += 5)
     {
         line(x, i, x + poleWidth, i);
     }
-
     setcolor(COLOR(60, 60, 60));
     line(x + poleWidth, y - poleHeight, x + poleWidth, y);
-
     setcolor(shadowColor);
     setfillstyle(SOLID_FILL, shadowColor);
     bar(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth + 2, y - poleHeight + flagHeight + 2);
-
     setcolor(flagColor);
     setfillstyle(SOLID_FILL, flagColor);
     bar(x + poleWidth, y - poleHeight, x + poleWidth + flagWidth, y - poleHeight + flagHeight);
-
     setcolor(flagTextureColor);
     for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3)
     {
         line(x + poleWidth, i, x + poleWidth + flagWidth, i);
     }
-
     setcolor(highlightColor);
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + flagWidth - 2, y - poleHeight + 2);
     line(x + poleWidth + 2, y - poleHeight + 2, x + poleWidth + 2, y - poleHeight + flagHeight - 2);
 }
-
 void drawVictoryFlag(int x, int y)
 {
     int flagWidth = 50;
     int flagHeight = 30;
     int poleHeight = 300;
     int poleWidth = 5;
-
     int flagColor = COLOR(200, 0, 0);
     int poleColor = COLOR(100, 100, 100);
     int shadowColor = COLOR(150, 0, 0);
@@ -470,44 +418,35 @@ void drawVictoryFlag(int x, int y)
     int textureColor = COLOR(120, 120, 120);
     int flagTextureColor = COLOR(220, 50, 50);
     int starColor = COLOR(255, 255, 0);
-
     setcolor(baseColor);
     setfillstyle(SOLID_FILL, baseColor);
     bar(x - 3, y, x + poleWidth + 3, y + 7);
-
     setcolor(poleColor);
     setfillstyle(SOLID_FILL, poleColor);
     bar(x, y - poleHeight, x + poleWidth, y);
-
     setcolor(textureColor);
     for (int i = y - poleHeight; i < y; i += 5)
     {
         line(x, i, x + poleWidth, i);
     }
-
     setcolor(COLOR(60, 60, 60));
     line(x + poleWidth, y - poleHeight, x + poleWidth, y);
-
     setcolor(shadowColor);
     setfillstyle(SOLID_FILL, shadowColor);
     int shadowTriangle[6] = {x + poleWidth, y - poleHeight + 2, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2 + 2, x + poleWidth, y - poleHeight + flagHeight + 2};
     fillpoly(3, shadowTriangle);
-
     setcolor(flagColor);
     setfillstyle(SOLID_FILL, flagColor);
     int triangle[6] = {x + poleWidth, y - poleHeight, x + poleWidth - flagWidth, y - poleHeight + flagHeight / 2, x + poleWidth, y - poleHeight + flagHeight};
     fillpoly(3, triangle);
-
     setcolor(flagTextureColor);
     for (int i = y - poleHeight; i < y - poleHeight + flagHeight; i += 3)
     {
         line(x + poleWidth, i, x + poleWidth - flagWidth / 2, i);
     }
-
     setcolor(highlightColor);
     line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - flagWidth / 2 + 2, y - poleHeight + flagHeight / 4);
     line(x + poleWidth - 2, y - poleHeight + 2, x + poleWidth - 2, y - poleHeight + flagHeight - 2);
-
     setcolor(starColor);
     setfillstyle(SOLID_FILL, starColor);
     int star[10] = {
@@ -518,7 +457,6 @@ void drawVictoryFlag(int x, int y)
         x + poleWidth - flagWidth / 3 - 6, y - poleHeight + flagHeight / 2 + 3};
     fillpoly(5, star);
 }
-
 void drawMap()
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
@@ -528,11 +466,9 @@ void drawMap()
             int actualX = j + camera.x;
             if (actualX >= TOTAL_MAP_WIDTH)
                 continue;
-
             int tile = maps[gameState.level][i][actualX];
             int x = j * (SCREEN_WIDTH / MAP_WIDTH) - camera.offset;
             int y = i * (SCREEN_HEIGHT / MAP_HEIGHT);
-
             switch (tile)
             {
             case 1:

@@ -4,13 +4,22 @@ Peach 4200
 Yoshi 4000
 Bowser 3500
 Mariono 405
+<<<<<<< HEAD
 dinan 160
 dinan 140
+=======
+dinan 320
+>>>>>>> 2c5e7e5d71c77b682b538a00524b4edb4a80b77d
 kkk 140
 dkasdkljas 120
 dasda 110
 revan 100
+<<<<<<< HEAD
 dinan 100
 aksdkadk 100
 dasda 100
 dasda 100
+=======
+aksdkadk 100
+am 100
+>>>>>>> 2c5e7e5d71c77b682b538a00524b4edb4a80b77d

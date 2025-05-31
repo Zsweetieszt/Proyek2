@@ -6,45 +6,31 @@
 #include "leaderboard.h"
 #include <conio.h>
 #include <graphics.h>
-
-
 Leaderboard gameLeaderboard;
-
-int main() {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);  
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN); 
-
+int main()
+{
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
     int windowWidth = screenWidth;
-    int windowHeight = screenHeight; 
-
+    int windowHeight = screenHeight;
     SCREEN_WIDTH = screenWidth;
     SCREEN_HEIGHT = screenHeight;
-
     initwindow(windowWidth, windowHeight, "Mario Bros Adaptif");
     playBackgroundMusic();
-
-    // inisialisasi leaderboard
     initLeaderboard(&gameLeaderboard);
     loadLeaderboard(&gameLeaderboard, "leaderboard.txt");
-
-
-    while(1) {
-
+    while (1)
+    {
         memset(playerName, 0, sizeof(playerName));
-
         showMainMenu();
-
-        // Jika player name kosong, artinya user keluar dari menu
-        if (strlen(playerName) == 0) {
-            break; // Keluar dari program
+        if (strlen(playerName) == 0)
+        {
+            break;
         }
-
         while (kbhit())
             getch();
-
         restartGame();
         gameState.isRunning = 1;
-
         int buffer = 0;
 
 
@@ -53,13 +39,12 @@ int main() {
             setactivepage(buffer);
             setvisualpage(1 - buffer);
             cleardevice();
-            
             renderLevel(gameState);
             drawMap();
             drawCharacter(currentCharacter, player.x, player.y, player.hasStarPower);
             initializeMirrorSprites();
-
-            if (gameState.isAlive) { 
+            if (gameState.isAlive)
+            {
                 updateGame();
                 handleInput();
                 displayPoint();
@@ -67,8 +52,7 @@ int main() {
             else
             {
                 displayGameOver();
-                void playGameOverMusic();
-
+                playGameOverMusic();
                 char key = getch();
                 if (key == 'R' || key == 'r')
                 {
@@ -83,16 +67,14 @@ int main() {
                     break;
                 }
             }
-
-            if (gameState.hasWon) {  
-
-                playWinMusic();
+            if (gameState.hasWon)
+            {
                 addScore(&gameLeaderboard, playerName, point.score);
                 saveLeaderboard(&gameLeaderboard, "leaderboard.txt");
-
-                displayWinScreen(point, playerName); 
-
-                while (1) {  
+                displayWinScreen(point, playerName);
+                playWinMusic();
+                while (1)
+                {
                     char key = getch();
                     if (key == 'M' || key == 'm')
                     {
@@ -111,22 +93,17 @@ int main() {
                 }
                 break;
             }
-
             if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
             {
                 freeLeaderboard(&gameLeaderboard);
                 closegraph();
                 return 0;
             }
-
             buffer = 1 - buffer;
             delay(10);
         }
     }
-
-    // Cleanup sebelum keluar
     freeLeaderboard(&gameLeaderboard);
     closegraph();
     return 0;
-    }
-    
+}
