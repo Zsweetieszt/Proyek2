@@ -17,6 +17,8 @@
 #include "collision.h"
 #include "map.h"
 #include "leaderboard.h"
+#include <windows.h>
+#include <mmsystem.h>
 
 Monster monsters[MAX_MONSTERS];
 int monsterCount = 0;
